@@ -2,23 +2,23 @@ import type { SkillGroup } from "@/types/portfolio";
 
 export const skillGroups: SkillGroup[] = [
   {
-    title: "Frontend Architecture",
-    description: "서비스가 커져도 읽히는 화면 구조와 상태 흐름을 설계합니다.",
-    skills: ["Next.js", "React", "TypeScript", "App Router", "Component APIs"]
+    title: "Python & Data",
+    description: "데이터를 불러오고, 정리하고, 분석하는 기본 흐름을 학습하고 있습니다.",
+    skills: ["Python", "Pandas", "NumPy", "Data Cleaning", "EDA"]
   },
   {
-    title: "Product UI",
-    description: "작업 흐름이 많은 제품 화면을 촘촘하고 안정적으로 만듭니다.",
-    skills: ["Tailwind CSS", "Design Systems", "Accessibility", "Responsive UI"]
+    title: "Machine Learning",
+    description: "예측 모델을 만들고 성능을 비교하며 개선하는 과정을 실습하고 있습니다.",
+    skills: ["Scikit-learn", "LightGBM", "CatBoost", "Model Evaluation", "AUC"]
   },
   {
-    title: "Interaction",
-    description: "사용자를 방해하지 않는 수준의 모션과 피드백을 구현합니다.",
-    skills: ["Framer Motion", "Canvas", "Micro-interactions", "Prototyping"]
+    title: "Project Workflow",
+    description: "실험 결과를 기록하고, 제출 파일을 비교하며 더 나은 방향을 찾는 연습을 하고 있습니다.",
+    skills: ["Feature Engineering", "Ensemble", "Validation", "Experiment Tracking"]
   },
   {
-    title: "Delivery",
-    description: "배포, 측정, 유지보수까지 고려한 개발 사이클을 운영합니다.",
-    skills: ["Vercel", "Performance", "Code Review", "Documentation"]
+    title: "Web & Deployment",
+    description: "개인 홈페이지를 직접 만들고 GitHub와 Vercel을 통해 배포했습니다.",
+    skills: ["Next.js", "TypeScript", "Git", "GitHub", "Vercel"]
   }
 ];
