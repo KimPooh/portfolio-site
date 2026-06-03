@@ -1,0 +1,41 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+  background: #101012;
+  color: #f7f4ee;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  background:
+    linear-gradient(180deg, rgba(16, 16, 18, 0.92) 0%, rgba(16, 16, 18, 1) 42%),
+    #101012;
+  color: #f7f4ee;
+}
+
+::selection {
+  background: rgba(67, 217, 173, 0.35);
+  color: #ffffff;
+}
+
+@layer utilities {
+  .section-shell {
+    @apply mx-auto w-full max-w-6xl px-5 sm:px-8;
+  }
+
+  .glass-panel {
+    @apply border border-white/10 bg-white/[0.045] shadow-lift backdrop-blur;
+  }
+}
