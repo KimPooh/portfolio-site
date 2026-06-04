@@ -15,6 +15,14 @@ export default function InfertilityPredictionProjectPage() {
     return null;
   }
 
+  const sectionLinks = [
+    { label: "Project Overview", href: "#project-overview" },
+    { label: "Modeling Process", href: "#modeling-process" },
+    { label: "Award", href: "#award" },
+    { label: "Tech Stack", href: "#tech-stack" },
+    { label: "Key Lessons", href: "#key-lessons" }
+  ];
+
   const caseStudySections = [
     { title: "문제 정의", body: detail.problem },
     { title: "데이터 이해", body: detail.dataUnderstanding },
@@ -34,7 +42,7 @@ export default function InfertilityPredictionProjectPage() {
 
   return (
     <main className="min-h-screen bg-background text-foreground">
-      <section className="section-shell pb-16 pt-10 sm:pb-24 sm:pt-14">
+      <section className="section-shell pb-10 pt-10 sm:pb-14 sm:pt-14">
         <div className="flex items-center justify-between gap-4">
           <Link
             href="/"
@@ -65,37 +73,48 @@ export default function InfertilityPredictionProjectPage() {
                 </span>
               ))}
             </div>
-
-            <div className="mt-8 border-l-2 border-success bg-success/5 px-5 py-4">
-              <p className="text-sm font-semibold text-success">성과</p>
-              <p className="mt-2 text-2xl font-semibold text-foreground">{detail.award}</p>
-            </div>
           </div>
 
           <aside className="glass-panel rounded-lg p-5">
             <p className="text-sm font-semibold uppercase tracking-normal text-accent">
-              프로젝트 공개 범위
+              Case Study Focus
             </p>
-            <p className="mt-3 text-sm leading-6 text-muted">{detail.disclosure}</p>
-            <div className="mt-5 rounded-lg border border-border bg-background/85 p-4">
-              <p className="text-[11px] font-semibold uppercase tracking-normal text-accent">
-                Modeling Console
-              </p>
-              <div className="mt-3 space-y-2 font-mono text-xs leading-5 text-muted">
-                {consoleLines.map((line) => (
-                  <p key={line}>{line}</p>
-                ))}
-              </div>
+            <p className="mt-3 text-sm leading-6 text-muted">
+              코드 공개형 포트폴리오가 아니라 문제 정의, 전처리 방향, 모델링 흐름,
+              검증 방식, 결과와 배운 점을 중심으로 정리한 실전 프로젝트 기록입니다.
+            </p>
+            <div className="mt-5 border-l-2 border-success bg-success/5 px-4 py-3">
+              <p className="text-sm font-semibold text-success">Award</p>
+              <p className="mt-2 text-2xl font-semibold text-foreground">{detail.award}</p>
             </div>
           </aside>
         </div>
       </section>
 
-      <section className="section-shell py-12">
+      <div className="section-shell pb-8">
+        <nav
+          aria-label="프로젝트 상세 섹션"
+          className="overflow-x-auto border-y border-border bg-background/90 py-3 backdrop-blur"
+        >
+          <div className="flex min-w-max gap-2">
+            {sectionLinks.map((link) => (
+              <a
+                key={link.href}
+                href={link.href}
+                className="border border-border bg-surface px-3 py-2 text-sm font-semibold text-muted transition hover:border-accent hover:text-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+              >
+                {link.label}
+              </a>
+            ))}
+          </div>
+        </nav>
+      </div>
+
+      <section id="project-overview" className="section-shell scroll-mt-24 py-12">
         <div className="grid gap-6 lg:grid-cols-[0.78fr_1.22fr]">
           <div>
             <p className="text-sm font-semibold uppercase tracking-normal text-accent">
-              Case Study Notes
+              Project Overview
             </p>
             <h2 className="mt-3 text-3xl font-semibold text-foreground">
               문제부터 검증까지의 기록
@@ -112,18 +131,69 @@ export default function InfertilityPredictionProjectPage() {
         </div>
       </section>
 
-      <section className="section-shell py-8">
+      <section id="modeling-process" className="section-shell scroll-mt-24 py-12">
+        <div className="grid gap-8 lg:grid-cols-[0.78fr_1.22fr]">
+          <div>
+            <p className="text-sm font-semibold uppercase tracking-normal text-accent">
+              Modeling Process
+            </p>
+            <h2 className="mt-3 text-3xl font-semibold text-foreground">
+              모델링 타임라인
+            </h2>
+            <div className="mt-6 rounded-lg border border-border bg-surface p-4">
+              <p className="text-[11px] font-semibold uppercase tracking-normal text-accent">
+                Modeling Console
+              </p>
+              <div className="mt-3 space-y-2 font-mono text-xs leading-5 text-muted">
+                {consoleLines.map((line) => (
+                  <p key={line}>{line}</p>
+                ))}
+              </div>
+            </div>
+          </div>
+          <div className="space-y-5">
+            <ol className="grid gap-4">
+              {detail.timeline.map((item, index) => (
+                <li
+                  key={item.title}
+                  className="glass-panel rounded-lg p-5 sm:grid sm:grid-cols-[8rem_1fr] sm:gap-5"
+                >
+                  <span className="text-xs font-semibold uppercase tracking-normal text-accent">
+                    Step {String(index + 1).padStart(2, "0")}
+                  </span>
+                  <div>
+                    <h3 className="text-lg font-semibold text-foreground">{item.title}</h3>
+                    <p className="mt-2 text-sm leading-6 text-muted">{item.description}</p>
+                  </div>
+                </li>
+              ))}
+            </ol>
+            <div className="grid gap-3 sm:grid-cols-2">
+              {detail.modelingFlow.map((step, index) => (
+                <div key={step} className="glass-panel rounded-lg p-4">
+                  <span className="text-xs font-semibold text-accent">
+                    Flow {String(index + 1).padStart(2, "0")}
+                  </span>
+                  <p className="mt-2 text-base font-semibold text-foreground">{step}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="validation-leakage" className="section-shell scroll-mt-24 py-8">
         <div className="rounded-lg border border-warning/35 bg-warning/10 px-5 py-4">
-          <p className="text-sm font-semibold text-warning">검증 신뢰성</p>
+          <p className="text-sm font-semibold text-warning">Validation / Leakage Check</p>
           <p className="mt-2 text-sm leading-7 text-muted">{detail.leakageNote}</p>
         </div>
       </section>
 
-      <section className="section-shell py-12">
+      <section id="performance-improvement" className="section-shell scroll-mt-24 py-12">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <p className="text-sm font-semibold uppercase tracking-normal text-accent">
-              Experiment Log
+              Performance Improvement
             </p>
             <h2 className="mt-3 text-3xl font-semibold text-foreground">
               성능 개선 과정
@@ -143,48 +213,32 @@ export default function InfertilityPredictionProjectPage() {
         </div>
       </section>
 
-      <section className="section-shell py-12">
+      <section id="award" className="section-shell scroll-mt-24 py-12">
         <div className="grid gap-6 lg:grid-cols-[0.78fr_1.22fr]">
           <div>
             <p className="text-sm font-semibold uppercase tracking-normal text-accent">
-              Modeling Timeline
+              Award
             </p>
-            <h2 className="mt-3 text-3xl font-semibold text-foreground">
-              모델링 타임라인
-            </h2>
+            <h2 className="mt-3 text-3xl font-semibold text-foreground">{detail.award}</h2>
           </div>
-          <ol className="grid gap-4">
-            {detail.timeline.map((item, index) => (
-              <li key={item.title} className="glass-panel rounded-lg p-5 sm:grid sm:grid-cols-[8rem_1fr] sm:gap-5">
-                <span className="text-xs font-semibold uppercase tracking-normal text-accent">
-                  Step {String(index + 1).padStart(2, "0")}
-                </span>
-                <div>
-                  <h3 className="text-lg font-semibold text-foreground">{item.title}</h3>
-                  <p className="mt-2 text-sm leading-6 text-muted">{item.description}</p>
-                </div>
-              </li>
-            ))}
-          </ol>
-        </div>
-      </section>
-
-      <section className="section-shell py-12">
-        <div className="grid gap-6 lg:grid-cols-[0.78fr_1.22fr]">
-          <h2 className="text-2xl font-semibold text-foreground">실제로 고민했던 부분</h2>
-          <div className="grid gap-3 sm:grid-cols-2">
-            {detail.considerations.map((item) => (
-              <div key={item} className="glass-panel rounded-lg px-4 py-3">
-                <p className="text-sm font-medium text-muted">{item}</p>
+          <div className="space-y-3">
+            {detail.results.map((result) => (
+              <div key={result} className="border-l-2 border-success bg-success/5 px-4 py-3">
+                <p className="text-sm leading-6 text-muted">{result}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="section-shell py-12">
+      <section id="tech-stack" className="section-shell scroll-mt-24 py-12">
         <div className="grid gap-6 lg:grid-cols-[0.78fr_1.22fr]">
-          <h2 className="text-2xl font-semibold text-foreground">사용 기술</h2>
+          <div>
+            <p className="text-sm font-semibold uppercase tracking-normal text-accent">
+              Tech Stack
+            </p>
+            <h2 className="mt-3 text-3xl font-semibold text-foreground">사용 기술</h2>
+          </div>
           <div className="flex flex-wrap gap-2">
             {detail.techStack.map((tech) => (
               <span key={tech} className="border border-border bg-surface px-3 py-2 text-sm text-muted">
@@ -195,45 +249,34 @@ export default function InfertilityPredictionProjectPage() {
         </div>
       </section>
 
-      <section className="section-shell py-12">
-        <div className="grid gap-6 lg:grid-cols-[0.78fr_1.22fr]">
-          <h2 className="text-2xl font-semibold text-foreground">모델링 흐름</h2>
-          <ol className="grid gap-3 sm:grid-cols-2">
-            {detail.modelingFlow.map((step, index) => (
-              <li key={step} className="glass-panel rounded-lg p-4">
-                <span className="text-xs font-semibold text-accent">
-                  Step {String(index + 1).padStart(2, "0")}
-                </span>
-                <p className="mt-2 text-base font-semibold text-foreground">{step}</p>
-              </li>
+      <section id="key-lessons" className="section-shell scroll-mt-24 py-12">
+        <div className="grid gap-8 lg:grid-cols-[0.78fr_1.22fr]">
+          <div>
+            <p className="text-sm font-semibold uppercase tracking-normal text-accent">
+              Key Lessons
+            </p>
+            <h2 className="mt-3 text-3xl font-semibold text-foreground">배운 점</h2>
+          </div>
+          <div className="grid gap-3">
+            {detail.lessons.map((lesson) => (
+              <div key={lesson} className="glass-panel rounded-lg px-4 py-3">
+                <p className="text-sm leading-6 text-muted">{lesson}</p>
+              </div>
             ))}
-          </ol>
+          </div>
         </div>
       </section>
 
-      <section className="section-shell pb-20 pt-12 sm:pb-28">
+      <section id="project-disclosure" className="section-shell scroll-mt-24 pb-20 pt-12 sm:pb-28">
         <div className="grid gap-8 lg:grid-cols-[0.78fr_1.22fr]">
           <div>
-            <h2 className="text-2xl font-semibold text-foreground">결과와 배운 점</h2>
-            <p className="mt-3 text-sm leading-6 text-muted">
-              코드 공개보다 프로젝트 과정과 판단 근거가 잘 보이도록 정리했습니다.
+            <p className="text-sm font-semibold uppercase tracking-normal text-accent">
+              Project Disclosure Scope
             </p>
+            <h2 className="mt-3 text-3xl font-semibold text-foreground">프로젝트 공개 범위</h2>
           </div>
-          <div className="space-y-6">
-            <div className="space-y-3">
-              {detail.results.map((result) => (
-                <div key={result} className="border-l-2 border-accent bg-accent/5 px-4 py-3">
-                  <p className="text-sm leading-6 text-muted">{result}</p>
-                </div>
-              ))}
-            </div>
-            <div className="grid gap-3">
-              {detail.lessons.map((lesson) => (
-                <div key={lesson} className="glass-panel rounded-lg px-4 py-3">
-                  <p className="text-sm leading-6 text-muted">{lesson}</p>
-                </div>
-              ))}
-            </div>
+          <div className="glass-panel rounded-lg p-5">
+            <p className="text-sm leading-7 text-muted">{detail.disclosure}</p>
           </div>
         </div>
       </section>

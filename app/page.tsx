@@ -14,8 +14,8 @@ export default function Home() {
   return (
     <main className="relative min-h-screen overflow-hidden">
       <div className="relative z-10">
-        <SiteHeader navigation={siteContent.navigation} profileName={profile.name} />
-        <Hero content={siteContent.hero} featuredProject={featuredProject} profile={profile} />
+        <SiteHeader profileName={profile.name} />
+        <Hero profile={profile} />
         <About content={siteContent.about} profile={profile} />
         <Skills content={siteContent.skills} skillGroups={skillGroups} />
         <Projects content={siteContent.projects} featuredProject={featuredProject} projects={projects} />

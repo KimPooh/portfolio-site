@@ -23,10 +23,11 @@ export function ThemeToggle() {
     <button
       type="button"
       onClick={toggleTheme}
-      className="border border-border bg-surface px-3 py-2 text-xs font-semibold text-foreground transition hover:border-accent hover:text-accent"
-      aria-label="라이트 모드와 다크 모드 전환"
+      className="fixed bottom-5 right-5 z-50 flex h-12 w-12 items-center justify-center rounded-full border border-border bg-surface text-lg text-foreground shadow-lift transition hover:scale-105 hover:border-accent hover:shadow-[0_18px_45px_rgb(15_23_42/0.18)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent sm:bottom-6 sm:right-6"
+      aria-label="Toggle theme"
+      aria-pressed={theme === "dark"}
     >
-      {theme === "dark" ? "Light" : "Dark"}
+      <span aria-hidden="true">{theme === "dark" ? "☀️" : "🌙"}</span>
     </button>
   );
 }
