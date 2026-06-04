@@ -3,9 +3,31 @@
 @tailwind utilities;
 
 :root {
+  color-scheme: light;
+  --color-background: 246 248 251;
+  --color-foreground: 19 27 41;
+  --color-surface: 255 255 255;
+  --color-muted: 92 105 124;
+  --color-border: 214 222 235;
+  --color-accent: 37 99 235;
+  --color-accent-2: 14 165 233;
+  --color-success: 5 150 105;
+  --color-warning: 180 83 9;
+  background: rgb(var(--color-background));
+  color: rgb(var(--color-foreground));
+}
+
+:root[data-theme="dark"] {
   color-scheme: dark;
-  background: #101012;
-  color: #f7f4ee;
+  --color-background: 10 15 26;
+  --color-foreground: 239 246 255;
+  --color-surface: 17 24 39;
+  --color-muted: 148 163 184;
+  --color-border: 51 65 85;
+  --color-accent: 96 165 250;
+  --color-accent-2: 45 212 191;
+  --color-success: 52 211 153;
+  --color-warning: 251 191 36;
 }
 
 * {
@@ -20,13 +42,14 @@ body {
   min-height: 100vh;
   margin: 0;
   background:
-    linear-gradient(180deg, rgba(16, 16, 18, 0.92) 0%, rgba(16, 16, 18, 1) 42%),
-    #101012;
-  color: #f7f4ee;
+    radial-gradient(circle at 18% 12%, rgb(var(--color-accent) / 0.14), transparent 28rem),
+    radial-gradient(circle at 82% 8%, rgb(var(--color-accent-2) / 0.12), transparent 24rem),
+    linear-gradient(180deg, rgb(var(--color-background)) 0%, rgb(var(--color-background)) 100%);
+  color: rgb(var(--color-foreground));
 }
 
 ::selection {
-  background: rgba(67, 217, 173, 0.35);
+  background: rgb(var(--color-accent) / 0.22);
   color: #ffffff;
 }
 
@@ -36,6 +59,6 @@ body {
   }
 
   .glass-panel {
-    @apply border border-white/10 bg-white/[0.045] shadow-lift backdrop-blur;
+    @apply border border-border/80 bg-surface/80 shadow-lift backdrop-blur;
   }
 }

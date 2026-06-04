@@ -2,23 +2,23 @@ import type { SkillGroup } from "@/types/portfolio";
 
 export const skillGroups: SkillGroup[] = [
   {
-    title: "Python & Data",
-    description: "데이터를 불러오고, 정리하고, 분석하는 기본 흐름을 학습하고 있습니다.",
-    skills: ["Python", "Pandas", "NumPy", "Data Cleaning", "EDA"]
+    title: "Data Analysis",
+    description: "데이터 구조를 파악하고 모델링에 필요한 전처리 기준을 세웁니다.",
+    skills: ["Python", "Pandas", "NumPy", "EDA", "Matplotlib"]
   },
   {
     title: "Machine Learning",
-    description: "예측 모델을 만들고 성능을 비교하며 개선하는 과정을 실습하고 있습니다.",
-    skills: ["Scikit-learn", "LightGBM", "CatBoost", "Model Evaluation", "AUC"]
+    description: "분류 모델 학습, 검증, 제출 결과 분석까지 모델링 흐름을 다룹니다.",
+    skills: ["Scikit-learn", "CatBoost", "LightGBM", "Cross Validation", "AUC"]
   },
   {
-    title: "Project Workflow",
-    description: "실험 결과를 기록하고, 제출 파일을 비교하며 더 나은 방향을 찾는 연습을 하고 있습니다.",
-    skills: ["Feature Engineering", "Ensemble", "Validation", "Experiment Tracking"]
+    title: "Model Strategy",
+    description: "데이터 누수 방지와 점수 안정성을 고려하며 실험을 설계합니다.",
+    skills: ["OOF", "Feature Engineering", "Ensemble", "Stacking", "Blending"]
   },
   {
-    title: "Web & Deployment",
-    description: "개인 홈페이지를 직접 만들고 GitHub와 Vercel을 통해 배포했습니다.",
-    skills: ["Next.js", "TypeScript", "Git", "GitHub", "Vercel"]
+    title: "Portfolio Engineering",
+    description: "분석 결과와 프로젝트 과정을 웹 포트폴리오로 명확하게 전달합니다.",
+    skills: ["Next.js", "TypeScript", "Tailwind CSS", "GitHub", "Responsive UI"]
   }
 ];

@@ -17,18 +17,18 @@ export function Contact({ content, profile }: ContactProps) {
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, amount: 0.35 }}
-        className="border-y border-white/12 py-12"
+        className="border-y border-border py-12"
       >
-        <motion.p variants={fadeInUp} className="text-sm font-semibold uppercase tracking-normal text-ember">
+        <motion.p variants={fadeInUp} className="text-sm font-semibold uppercase tracking-normal text-accent">
           {content.eyebrow}
         </motion.p>
         <motion.div variants={fadeInUp} className="mt-4 grid gap-8 lg:grid-cols-[1fr_0.7fr] lg:items-end">
           <div>
-            <h2 className="text-3xl font-semibold text-paper sm:text-5xl">
+            <h2 className="text-3xl font-semibold text-foreground sm:text-5xl">
               {content.title}
             </h2>
             {content.description ? (
-              <p className="mt-5 max-w-2xl text-base leading-7 text-paper/68">
+              <p className="mt-5 max-w-2xl text-base leading-7 text-muted">
                 {content.description}
               </p>
             ) : null}
@@ -38,7 +38,7 @@ export function Contact({ content, profile }: ContactProps) {
               <a
                 key={social.label}
                 href={social.href}
-                className="border border-white/15 px-4 py-3 text-center text-sm font-semibold text-paper/80 transition hover:border-mint hover:text-mint"
+                className="border border-border bg-surface px-4 py-3 text-center text-sm font-semibold text-foreground transition hover:border-accent hover:text-accent"
               >
                 {social.label}
               </a>

@@ -1,23 +1,31 @@
 import type { Profile, SiteContent } from "@/types/portfolio";
 
 export const profile: Profile = {
-  name: "PoohFolio",
-  role: "AI와 데이터로 성장하는 예비 개발자",
+  name: "김지현",
+  role: "AI/Data Portfolio",
   location: "Seoul, Korea",
-  email: "",
-  tagline: "나만의 성장 기록을 담은 푸폴리오입니다.",
+  email: "jihyun@example.com",
+  tagline: "헬스케어 데이터 분석과 머신러닝 모델링 경험을 정리한 실전형 포트폴리오입니다.",
   summary:
-    "Python, 데이터 분석, 머신러닝 프로젝트를 중심으로 배우고 만든 것들을 정리하는 개인 홈페이지입니다. 아직 완성형 개발자라기보다, 문제를 직접 풀어보고 기록하며 실력을 쌓아가는 과정에 있습니다.",
-  availability: "새로운 프로젝트와 학습 기회를 환영합니다.",
+    "Python 기반 데이터 분석, 머신러닝 분류 모델링, 교차검증, 앙상블 실험을 중심으로 실제 문제를 모델링한 경험을 정리했습니다. 특히 난임 임신 성공 예측 모델 프로젝트를 통해 데이터 누수 방지와 제출 점수 안정성을 함께 고려한 실전형 모델링 과정을 경험했습니다.",
+  availability: "Kim Ji-hyun AI/Data Portfolio",
   highlights: [
-    "Python과 데이터 분석을 기반으로 문제를 해결합니다.",
-    "머신러닝 모델링과 성능 개선 과정을 기록합니다.",
-    "복잡한 내용을 이해하기 쉽게 정리하는 것을 중요하게 생각합니다."
+    "헬스케어 데이터를 기반으로 임신 성공 가능성을 예측하는 분류 모델을 설계했습니다.",
+    "OOF AUC와 Public LB 차이를 비교하며 검증 전략과 제출 안정성을 점검했습니다.",
+    "CatBoost, LightGBM, 스태킹/블렌딩 실험을 통해 모델 성능 개선을 시도했습니다."
   ],
   socials: [
     {
       label: "GitHub",
-      href: "https://github.com/KimPooh"
+      href: "https://github.com/"
+    },
+    {
+      label: "Email",
+      href: "mailto:jihyun@example.com"
+    },
+    {
+      label: "Project Code",
+      href: "https://github.com/your-username/infertility-pregnancy-prediction"
     }
   ]
 };
@@ -26,38 +34,34 @@ export const siteContent: SiteContent = {
   navigation: [
     { label: "소개", href: "#about" },
     { label: "기술", href: "#skills" },
-    { label: "프로젝트", href: "#projects" },
-    { label: "랩", href: "#labs" },
-    { label: "연락", href: "#contact" }
+    { label: "대표 프로젝트", href: "#featured-project" },
+    { label: "추가 기록", href: "#labs" },
+    { label: "링크", href: "#contact" }
   ],
   hero: {
-    primaryCtaLabel: "프로젝트 보기",
-    secondaryCtaLabel: "소개 보기"
+    primaryCtaLabel: "대표 프로젝트 보기",
+    secondaryCtaLabel: "GitHub 보기"
   },
   about: {
-    eyebrow: "About PoohFolio",
-    title: "배우고, 만들고, 기록하며 성장합니다.",
-    description:
-      "PoohFolio는 제가 배우는 기술과 직접 만든 프로젝트를 정리하는 공간입니다. Python, 데이터 분석, 머신러닝을 중심으로 공부하고 있으며, 단순히 결과만 남기기보다 어떤 문제를 어떻게 해결했는지 기록하는 것을 중요하게 생각합니다."
+    eyebrow: "About",
+    title: "데이터 분석부터 모델 제출 안정성까지 고민한 AI/Data 포트폴리오"
   },
   skills: {
     eyebrow: "Skills",
-    title: "현재 집중하고 있는 기술 스택"
+    title: "머신러닝 프로젝트 수행에 사용한 기술"
   },
   projects: {
-    eyebrow: "Projects",
-    title: "문제를 작게 나누고 결과로 검증한 작업들",
-    ctaLabel: "새 프로젝트 문의",
-    ctaHref: "#contact"
+    eyebrow: "Featured Project",
+    title: "난임 임신 성공 예측 모델을 중심으로 정리한 실전 기록"
   },
   labs: {
-    eyebrow: "Labs",
-    title: "다음 성장을 위한 작은 실험들"
+    eyebrow: "Further Growth",
+    title: "머신러닝 경험을 기반으로 확장 중인 영역"
   },
   contact: {
-    eyebrow: "Contact",
-    title: "함께 만들 프로젝트가 있다면 이야기해 주세요.",
+    eyebrow: "Links",
+    title: "코드와 포트폴리오를 확인할 수 있는 링크",
     description:
-      "프로젝트 제안, 협업, 피드백, 학습 관련 이야기를 환영합니다. GitHub를 통해 제가 작업한 내용을 확인할 수 있습니다."
+      "GitHub 저장소와 이메일 링크를 통해 프로젝트 코드와 포트폴리오 정보를 확인할 수 있습니다."
   }
 };

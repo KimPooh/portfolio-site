@@ -2,24 +2,24 @@ import type { LabIdea } from "@/types/portfolio";
 
 export const labIdeas: LabIdea[] = [
   {
-    title: "머신러닝 모델 성능 개선 실험",
+    title: "Deep Learning Expansion",
     status: "Exploring",
     description:
-      "같은 데이터라도 전처리, 파생변수, 검증 방식, 앙상블 조합에 따라 성능이 어떻게 달라지는지 실험하고 기록할 예정입니다.",
-    stack: ["Python", "LightGBM", "CatBoost", "Validation"]
+      "현재 머신러닝 기반 모델링 경험을 바탕으로 딥러닝과 신경망 기반 모델 학습으로 역량을 확장하고 있습니다. Currently expanding from machine learning into deep learning and neural network-based modeling.",
+    stack: ["Neural Networks", "Deep Learning", "Model Training"]
   },
   {
-    title: "데이터 분석 리포트 만들기",
+    title: "Healthcare Data Modeling",
+    status: "Exploring",
+    description:
+      "헬스케어 데이터의 변수 구조, 누수 위험, 검증 전략을 더 깊게 이해하는 방향으로 학습을 이어가고 있습니다.",
+    stack: ["Healthcare Data", "Validation", "Feature Design"]
+  },
+  {
+    title: "Project Documentation",
     status: "Backlog",
     description:
-      "분석 결과를 단순한 표나 그래프로 끝내지 않고, 문제 정의부터 결론까지 읽기 쉬운 리포트 형태로 정리하는 연습을 할 예정입니다.",
-    stack: ["Pandas", "Matplotlib", "EDA", "Report"]
-  },
-  {
-    title: "PoohFolio 콘텐츠 업데이트",
-    status: "Prototype",
-    description:
-      "학습한 내용과 진행한 프로젝트를 꾸준히 추가하면서, 이 홈페이지를 저만의 성장 기록 공간으로 발전시킬 예정입니다.",
-    stack: ["Next.js", "GitHub", "Vercel", "Portfolio"]
+      "모델링 실험 과정을 코드, 지표, 의사결정 기록으로 재현 가능하게 정리하는 방식을 개선하고 있습니다.",
+    stack: ["GitHub", "Experiment Notes", "Reproducibility"]
   }
 ];

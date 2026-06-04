@@ -50,12 +50,34 @@ export type SkillGroup = {
 };
 
 export type Project = {
+  slug: string;
   title: string;
   year: string;
+  category: string;
   description: string;
   outcome: string;
   tags: string[];
-  href?: string;
+  githubUrl: string;
+  detailHref?: string;
+  featured?: boolean;
+  summaryCards?: ProjectSummaryCard[];
+  detail?: ProjectDetail;
+};
+
+export type ProjectSummaryCard = {
+  title: string;
+  items: string[];
+};
+
+export type ProjectDetail = {
+  oneLine: string;
+  nature: string[];
+  award: string;
+  problem: string;
+  considerations: string[];
+  techStack: string[];
+  modelingFlow: string[];
+  results: string[];
 };
 
 export type LabIdea = {

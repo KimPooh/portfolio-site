@@ -19,10 +19,10 @@ export function Skills({ content, skillGroups }: SkillsProps) {
         viewport={{ once: true, amount: 0.25 }}
       >
         <motion.div variants={fadeInUp} className="max-w-2xl">
-          <p className="text-sm font-semibold uppercase tracking-normal text-mint">
+          <p className="text-sm font-semibold uppercase tracking-normal text-accent">
             {content.eyebrow}
           </p>
-          <h2 className="mt-3 text-3xl font-semibold text-paper sm:text-4xl">
+          <h2 className="mt-3 text-3xl font-semibold text-foreground sm:text-4xl">
             {content.title}
           </h2>
         </motion.div>
@@ -35,13 +35,13 @@ export function Skills({ content, skillGroups }: SkillsProps) {
               transition={{ type: "spring", stiffness: 260, damping: 22 }}
               className="glass-panel rounded-lg p-5"
             >
-              <h3 className="text-xl font-semibold text-paper">{group.title}</h3>
-              <p className="mt-3 text-sm leading-6 text-paper/65">{group.description}</p>
+              <h3 className="text-xl font-semibold text-foreground">{group.title}</h3>
+              <p className="mt-3 text-sm leading-6 text-muted">{group.description}</p>
               <div className="mt-5 flex flex-wrap gap-2">
                 {group.skills.map((skill) => (
                   <span
                     key={skill}
-                    className="border border-white/10 bg-ink/60 px-3 py-1 text-sm text-paper/74"
+                    className="border border-border bg-background px-3 py-1 text-sm text-muted"
                   >
                     {skill}
                   </span>

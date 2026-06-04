@@ -1,75 +1,117 @@
 "use client";
 
+import Link from "next/link";
 import { motion } from "framer-motion";
 import { fadeInUp, staggerContainer } from "@/lib/animation";
 import type { Project, SectionContent } from "@/types/portfolio";
 
 type ProjectsProps = {
   content: SectionContent;
+  featuredProject: Project;
   projects: Project[];
 };
 
-export function Projects({ content, projects }: ProjectsProps) {
+export function Projects({ content, featuredProject, projects }: ProjectsProps) {
+  const secondaryProjects = projects.filter((project) => project.slug !== featuredProject.slug);
+
   return (
-    <section id="projects" className="section-shell py-20 sm:py-28">
+    <section id="featured-project" className="section-shell py-20 sm:py-28">
       <motion.div
         variants={staggerContainer}
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, amount: 0.22 }}
       >
-        <motion.div variants={fadeInUp} className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+        <motion.div variants={fadeInUp} className="max-w-3xl">
           <div className="max-w-2xl">
-            <p className="text-sm font-semibold uppercase tracking-normal text-electric">
+            <p className="text-sm font-semibold uppercase tracking-normal text-accent">
               {content.eyebrow}
             </p>
-            <h2 className="mt-3 text-3xl font-semibold text-paper sm:text-4xl">
+            <h2 className="mt-3 text-3xl font-semibold text-foreground sm:text-4xl">
               {content.title}
             </h2>
           </div>
-          {content.ctaHref && content.ctaLabel ? (
-            <a
-              href={content.ctaHref}
-              className="w-fit border border-white/15 px-4 py-2 text-sm font-semibold text-paper/80 transition hover:border-signal hover:text-signal"
-            >
-              {content.ctaLabel}
-            </a>
-          ) : null}
         </motion.div>
-        <div className="mt-10 grid gap-4 lg:grid-cols-3">
-          {projects.map((project) => (
+        <motion.article
+          variants={fadeInUp}
+          className="glass-panel mt-10 grid gap-6 rounded-lg p-5 md:grid-cols-[1fr_0.75fr] md:p-7"
+        >
+          <div>
+            <p className="text-sm font-semibold text-accent">{featuredProject.category}</p>
+            <h3 className="mt-3 text-3xl font-semibold text-foreground">
+              {featuredProject.title}
+            </h3>
+            <p className="mt-4 text-base leading-7 text-muted">{featuredProject.description}</p>
+            <p className="mt-4 border-l-2 border-success pl-4 text-sm leading-6 text-muted">
+              {featuredProject.outcome}
+            </p>
+            <div className="mt-6 flex flex-wrap gap-2">
+              {featuredProject.tags.map((tag) => (
+                <span key={tag} className="border border-border bg-background px-3 py-1 text-xs text-muted">
+                  {tag}
+                </span>
+              ))}
+            </div>
+          </div>
+          <div className="flex flex-col justify-between gap-5 rounded-lg border border-border bg-background p-5">
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-normal text-muted">Result</p>
+              <p className="mt-2 text-2xl font-semibold text-foreground">
+                {featuredProject.detail?.award}
+              </p>
+              <p className="mt-3 text-sm leading-6 text-muted">
+                데이터 누수 방지, 검증 점수와 제출 점수 차이, 앙상블 안정성을 함께 고려한 실전형 모델링 기록입니다.
+              </p>
+            </div>
+            <div className="flex flex-col gap-2 sm:flex-row md:flex-col">
+              <Link
+                href={featuredProject.detailHref ?? "#"}
+                className="border border-accent bg-accent px-4 py-3 text-center text-sm font-semibold text-white transition hover:bg-accent/90"
+              >
+                상세 페이지 보기
+              </Link>
+              <a
+                href={featuredProject.githubUrl}
+                className="border border-border bg-surface px-4 py-3 text-center text-sm font-semibold text-foreground transition hover:border-accent hover:text-accent"
+              >
+                GitHub 보기
+              </a>
+            </div>
+          </div>
+        </motion.article>
+        <div className="mt-8 grid gap-4 lg:grid-cols-3">
+          {secondaryProjects.map((project) => (
             <motion.article
               key={project.title}
               variants={fadeInUp}
               whileHover={{ y: -8 }}
               transition={{ type: "spring", stiffness: 240, damping: 21 }}
-              className="glass-panel flex min-h-[320px] flex-col rounded-lg p-5"
+              className="glass-panel flex min-h-[280px] flex-col rounded-lg p-5"
             >
               <div className="flex items-start justify-between gap-4">
-                <h3 className="text-2xl font-semibold leading-tight text-paper">{project.title}</h3>
-                <span className="border border-ember/35 bg-ember/10 px-2 py-1 text-xs font-semibold text-ember">
+                <h3 className="text-xl font-semibold leading-tight text-foreground">{project.title}</h3>
+                <span className="border border-border bg-background px-2 py-1 text-xs font-semibold text-muted">
                   {project.year}
                 </span>
               </div>
-              <p className="mt-5 text-sm leading-6 text-paper/68">{project.description}</p>
-              <p className="mt-4 border-l-2 border-mint pl-3 text-sm leading-6 text-paper/78">
+              <p className="mt-2 text-xs font-semibold text-accent">{project.category}</p>
+              <p className="mt-4 text-sm leading-6 text-muted">{project.description}</p>
+              <p className="mt-4 border-l-2 border-accent pl-3 text-sm leading-6 text-muted">
                 {project.outcome}
               </p>
               <div className="mt-auto flex flex-wrap gap-2 pt-6">
                 {project.tags.map((tag) => (
-                  <span key={tag} className="bg-white/[0.06] px-2.5 py-1 text-xs text-paper/64">
+                  <span key={tag} className="bg-background px-2.5 py-1 text-xs text-muted">
                     {tag}
                   </span>
                 ))}
               </div>
-              {project.href ? (
-                <a
-                  href={project.href}
-                  className="mt-5 text-sm font-semibold text-electric underline-offset-4 hover:underline"
-                >
-                  사례 보기
-                </a>
-              ) : null}
+              <a
+                href={project.githubUrl}
+                className="mt-5 text-sm font-semibold text-accent underline-offset-4 hover:underline"
+              >
+                GitHub 보기
+              </a>
             </motion.article>
           ))}
         </div>

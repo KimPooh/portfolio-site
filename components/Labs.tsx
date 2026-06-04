@@ -10,9 +10,9 @@ type LabsProps = {
 };
 
 const statusStyles: Record<LabIdea["status"], string> = {
-  Exploring: "border-electric/35 bg-electric/10 text-electric",
-  Prototype: "border-mint/35 bg-mint/10 text-mint",
-  Backlog: "border-signal/35 bg-signal/10 text-signal"
+  Exploring: "border-accent/35 bg-accent/10 text-accent",
+  Prototype: "border-success/35 bg-success/10 text-success",
+  Backlog: "border-warning/35 bg-warning/10 text-warning"
 };
 
 export function Labs({ content, labIdeas }: LabsProps) {
@@ -26,10 +26,10 @@ export function Labs({ content, labIdeas }: LabsProps) {
         className="grid gap-10 lg:grid-cols-[0.75fr_1.25fr]"
       >
         <motion.div variants={fadeInUp}>
-          <p className="text-sm font-semibold uppercase tracking-normal text-signal">
+          <p className="text-sm font-semibold uppercase tracking-normal text-accent">
             {content.eyebrow}
           </p>
-          <h2 className="mt-3 text-3xl font-semibold text-paper sm:text-4xl">
+          <h2 className="mt-3 text-3xl font-semibold text-foreground sm:text-4xl">
             {content.title}
           </h2>
         </motion.div>
@@ -43,15 +43,15 @@ export function Labs({ content, labIdeas }: LabsProps) {
               className="glass-panel rounded-lg p-5"
             >
               <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
-                <h3 className="text-xl font-semibold text-paper">{idea.title}</h3>
+                <h3 className="text-xl font-semibold text-foreground">{idea.title}</h3>
                 <span className={`w-fit border px-2.5 py-1 text-xs font-semibold ${statusStyles[idea.status]}`}>
                   {idea.status}
                 </span>
               </div>
-              <p className="mt-3 text-sm leading-6 text-paper/68">{idea.description}</p>
+              <p className="mt-3 text-sm leading-6 text-muted">{idea.description}</p>
               <div className="mt-4 flex flex-wrap gap-2">
                 {idea.stack.map((item) => (
-                  <span key={item} className="text-xs text-paper/52">
+                  <span key={item} className="text-xs text-muted">
                     #{item}
                   </span>
                 ))}

@@ -1,6 +1,6 @@
-# Maintainable Motion Portfolio
+# Kim Ji-hyun AI/Data Portfolio
 
-김지현 포트폴리오 사이트입니다. Next.js, Tailwind CSS, Framer Motion 기반이며, 화면 컴포넌트와 수정 가능한 데이터를 분리했습니다.
+김지현 AI/Data 포트폴리오 사이트입니다. Next.js, TypeScript, Tailwind CSS, Framer Motion 기반이며, 대표 프로젝트인 `난임 임신 성공 예측 모델`을 중심으로 구성했습니다.
 
 ## Run locally
 
@@ -17,6 +17,7 @@ Open `http://localhost:3000`.
 - `data/projects.ts`: 프로젝트 카드
 - `data/skills.ts`: 기술 스택 그룹
 - `data/labs.ts`: 랩 아이디어
+- `app/projects/infertility-pregnancy-prediction/page.tsx`: 대표 프로젝트 상세 페이지
 
 ## Main components
 
@@ -28,6 +29,7 @@ Open `http://localhost:3000`.
 - `components/Contact.tsx`
 - `components/ParticleBackground.tsx`
 - `components/SiteHeader.tsx`
+- `components/ThemeToggle.tsx`
 
 ## Deploy
 
