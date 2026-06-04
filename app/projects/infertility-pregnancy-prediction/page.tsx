@@ -15,6 +15,23 @@ export default function InfertilityPredictionProjectPage() {
     return null;
   }
 
+  const caseStudySections = [
+    { title: "문제 정의", body: detail.problem },
+    { title: "데이터 이해", body: detail.dataUnderstanding },
+    { title: "전처리 방향", body: detail.preprocessing },
+    { title: "Feature Engineering", body: detail.featureEngineering },
+    { title: "모델링 전략", body: detail.modelingStrategy },
+    { title: "검증 방식", body: detail.validation }
+  ];
+
+  const consoleLines = [
+    "> Loading dataset...",
+    "> Checking leakage risk...",
+    "> Training CatBoost...",
+    "> Blending predictions...",
+    "> Final result: 3rd place"
+  ];
+
   return (
     <main className="min-h-screen bg-background text-foreground">
       <section className="section-shell pb-16 pt-10 sm:pb-24 sm:pt-14">
@@ -59,24 +76,101 @@ export default function InfertilityPredictionProjectPage() {
             <p className="text-sm font-semibold uppercase tracking-normal text-accent">
               프로젝트 공개 범위
             </p>
-            <p className="mt-3 text-sm leading-6 text-muted">
-              보안 및 데이터 공개 제한으로 인해 전체 코드와 데이터셋은 공개하지 않았습니다.
-              프로젝트 페이지에는 문제 정의, 전처리 방향, 모델링 흐름, 검증 방식과 결과를 중심으로
-              정리했습니다.
-            </p>
+            <p className="mt-3 text-sm leading-6 text-muted">{detail.disclosure}</p>
+            <div className="mt-5 rounded-lg border border-border bg-background/85 p-4">
+              <p className="text-[11px] font-semibold uppercase tracking-normal text-accent">
+                Modeling Console
+              </p>
+              <div className="mt-3 space-y-2 font-mono text-xs leading-5 text-muted">
+                {consoleLines.map((line) => (
+                  <p key={line}>{line}</p>
+                ))}
+              </div>
+            </div>
           </aside>
         </div>
       </section>
 
       <section className="section-shell py-12">
-        <div className="grid gap-6 lg:grid-cols-[0.8fr_1.2fr]">
-          <h2 className="text-2xl font-semibold text-foreground">문제 정의</h2>
-          <p className="text-base leading-8 text-muted">{detail.problem}</p>
+        <div className="grid gap-6 lg:grid-cols-[0.78fr_1.22fr]">
+          <div>
+            <p className="text-sm font-semibold uppercase tracking-normal text-accent">
+              Case Study Notes
+            </p>
+            <h2 className="mt-3 text-3xl font-semibold text-foreground">
+              문제부터 검증까지의 기록
+            </h2>
+          </div>
+          <div className="grid gap-4">
+            {caseStudySections.map((section) => (
+              <article key={section.title} className="glass-panel rounded-lg p-5">
+                <h3 className="text-lg font-semibold text-foreground">{section.title}</h3>
+                <p className="mt-3 text-sm leading-7 text-muted">{section.body}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="section-shell py-8">
+        <div className="rounded-lg border border-warning/35 bg-warning/10 px-5 py-4">
+          <p className="text-sm font-semibold text-warning">검증 신뢰성</p>
+          <p className="mt-2 text-sm leading-7 text-muted">{detail.leakageNote}</p>
         </div>
       </section>
 
       <section className="section-shell py-12">
-        <div className="grid gap-6 lg:grid-cols-[0.8fr_1.2fr]">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <p className="text-sm font-semibold uppercase tracking-normal text-accent">
+              Experiment Log
+            </p>
+            <h2 className="mt-3 text-3xl font-semibold text-foreground">
+              성능 개선 과정
+            </h2>
+          </div>
+          <p className="max-w-xl text-sm leading-6 text-muted">
+            점수 자체를 과하게 나열하기보다, 어떤 기준으로 실험하고 안정성을 확인했는지를 중심으로 정리했습니다.
+          </p>
+        </div>
+        <div className="mt-7 grid gap-4 md:grid-cols-2 xl:grid-cols-5">
+          {detail.performanceCards.map((card) => (
+            <article key={card.title} className="glass-panel rounded-lg p-5">
+              <h3 className="text-base font-semibold text-foreground">{card.title}</h3>
+              <p className="mt-3 text-sm leading-6 text-muted">{card.description}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section className="section-shell py-12">
+        <div className="grid gap-6 lg:grid-cols-[0.78fr_1.22fr]">
+          <div>
+            <p className="text-sm font-semibold uppercase tracking-normal text-accent">
+              Modeling Timeline
+            </p>
+            <h2 className="mt-3 text-3xl font-semibold text-foreground">
+              모델링 타임라인
+            </h2>
+          </div>
+          <ol className="grid gap-4">
+            {detail.timeline.map((item, index) => (
+              <li key={item.title} className="glass-panel rounded-lg p-5 sm:grid sm:grid-cols-[8rem_1fr] sm:gap-5">
+                <span className="text-xs font-semibold uppercase tracking-normal text-accent">
+                  Step {String(index + 1).padStart(2, "0")}
+                </span>
+                <div>
+                  <h3 className="text-lg font-semibold text-foreground">{item.title}</h3>
+                  <p className="mt-2 text-sm leading-6 text-muted">{item.description}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </section>
+
+      <section className="section-shell py-12">
+        <div className="grid gap-6 lg:grid-cols-[0.78fr_1.22fr]">
           <h2 className="text-2xl font-semibold text-foreground">실제로 고민했던 부분</h2>
           <div className="grid gap-3 sm:grid-cols-2">
             {detail.considerations.map((item) => (
@@ -89,7 +183,7 @@ export default function InfertilityPredictionProjectPage() {
       </section>
 
       <section className="section-shell py-12">
-        <div className="grid gap-6 lg:grid-cols-[0.8fr_1.2fr]">
+        <div className="grid gap-6 lg:grid-cols-[0.78fr_1.22fr]">
           <h2 className="text-2xl font-semibold text-foreground">사용 기술</h2>
           <div className="flex flex-wrap gap-2">
             {detail.techStack.map((tech) => (
@@ -102,7 +196,7 @@ export default function InfertilityPredictionProjectPage() {
       </section>
 
       <section className="section-shell py-12">
-        <div className="grid gap-6 lg:grid-cols-[0.8fr_1.2fr]">
+        <div className="grid gap-6 lg:grid-cols-[0.78fr_1.22fr]">
           <h2 className="text-2xl font-semibold text-foreground">모델링 흐름</h2>
           <ol className="grid gap-3 sm:grid-cols-2">
             {detail.modelingFlow.map((step, index) => (
@@ -118,14 +212,28 @@ export default function InfertilityPredictionProjectPage() {
       </section>
 
       <section className="section-shell pb-20 pt-12 sm:pb-28">
-        <div className="grid gap-6 lg:grid-cols-[0.8fr_1.2fr]">
-          <h2 className="text-2xl font-semibold text-foreground">결과</h2>
-          <div className="space-y-3">
-            {detail.results.map((result) => (
-              <div key={result} className="border-l-2 border-accent bg-accent/5 px-4 py-3">
-                <p className="text-sm leading-6 text-muted">{result}</p>
-              </div>
-            ))}
+        <div className="grid gap-8 lg:grid-cols-[0.78fr_1.22fr]">
+          <div>
+            <h2 className="text-2xl font-semibold text-foreground">결과와 배운 점</h2>
+            <p className="mt-3 text-sm leading-6 text-muted">
+              코드 공개보다 프로젝트 과정과 판단 근거가 잘 보이도록 정리했습니다.
+            </p>
+          </div>
+          <div className="space-y-6">
+            <div className="space-y-3">
+              {detail.results.map((result) => (
+                <div key={result} className="border-l-2 border-accent bg-accent/5 px-4 py-3">
+                  <p className="text-sm leading-6 text-muted">{result}</p>
+                </div>
+              ))}
+            </div>
+            <div className="grid gap-3">
+              {detail.lessons.map((lesson) => (
+                <div key={lesson} className="glass-panel rounded-lg px-4 py-3">
+                  <p className="text-sm leading-6 text-muted">{lesson}</p>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>

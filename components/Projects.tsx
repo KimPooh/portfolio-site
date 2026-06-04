@@ -13,6 +13,7 @@ type ProjectsProps = {
 
 export function Projects({ content, featuredProject, projects }: ProjectsProps) {
   const secondaryProjects = projects.filter((project) => project.slug !== featuredProject.slug);
+  const detailHref = "/projects/infertility-pregnancy-prediction";
 
   return (
     <section id="featured-project" className="section-shell py-20 sm:py-28">
@@ -32,50 +33,60 @@ export function Projects({ content, featuredProject, projects }: ProjectsProps) 
             </h2>
           </div>
         </motion.div>
-        <motion.article
-          variants={fadeInUp}
-          className="glass-panel mt-10 grid gap-6 rounded-lg p-5 md:grid-cols-[1fr_0.75fr] md:p-7"
+        <Link
+          href={detailHref}
+          aria-label={`${featuredProject.title} 상세 페이지로 이동`}
+          className="group mt-10 block rounded-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
         >
-          <div>
-            <p className="text-sm font-semibold text-accent">{featuredProject.category}</p>
-            <h3 className="mt-3 text-3xl font-semibold text-foreground">
-              {featuredProject.title}
-            </h3>
-            <p className="mt-4 text-base leading-7 text-muted">{featuredProject.description}</p>
-            <p className="mt-4 border-l-2 border-success pl-4 text-sm leading-6 text-muted">
-              {featuredProject.outcome}
-            </p>
-            <div className="mt-6 flex flex-wrap gap-2">
-              {featuredProject.tags.map((tag) => (
-                <span key={tag} className="border border-border bg-background px-3 py-1 text-xs text-muted">
-                  {tag}
-                </span>
-              ))}
+          <motion.article
+            variants={fadeInUp}
+            whileHover={{ y: -6 }}
+            transition={{ type: "spring", stiffness: 240, damping: 22 }}
+            className="glass-panel relative grid cursor-pointer gap-6 rounded-lg p-5 transition-shadow duration-300 group-hover:border-accent/50 group-hover:shadow-[0_24px_70px_rgb(15_23_42/0.16)] md:grid-cols-[1fr_0.75fr] md:p-7"
+          >
+            <div className="pointer-events-none absolute right-3 top-3 z-10 rotate-[-5deg] rounded-full border border-warning/30 bg-warning/15 px-3 py-1.5 text-xs font-bold text-warning shadow-sm transition-transform duration-300 group-hover:rotate-[-1deg] group-hover:scale-105 sm:right-5 sm:top-5">
+              🏆 3rd Place
             </div>
-          </div>
-          <div className="flex flex-col justify-between gap-5 rounded-lg border border-border bg-background p-5">
             <div>
-              <p className="text-xs font-semibold uppercase tracking-normal text-muted">Result</p>
-              <p className="mt-2 text-2xl font-semibold text-foreground">
-                {featuredProject.detail?.award}
+              <p className="pr-28 text-sm font-semibold text-accent sm:pr-36">
+                {featuredProject.category}
               </p>
-              <p className="mt-3 text-sm leading-6 text-muted">
-                데이터 누수 방지, 검증 점수와 제출 점수 차이, 앙상블 안정성을 함께 고려한 실전형 모델링 기록입니다.
+              <h3 className="mt-3 text-3xl font-semibold text-foreground">
+                {featuredProject.title}
+              </h3>
+              <p className="mt-4 text-base leading-7 text-muted">{featuredProject.description}</p>
+              <p className="mt-4 border-l-2 border-success pl-4 text-sm leading-6 text-muted">
+                {featuredProject.outcome}
               </p>
+              <div className="mt-6 flex flex-wrap gap-2">
+                {featuredProject.tags.map((tag) => (
+                  <span key={tag} className="border border-border bg-background px-3 py-1 text-xs text-muted">
+                    {tag}
+                  </span>
+                ))}
+              </div>
             </div>
-            <div className="flex flex-col gap-2 sm:flex-row md:flex-col">
-              <Link
-                href={featuredProject.detailHref ?? "#"}
-                className="border border-accent bg-accent px-4 py-3 text-center text-sm font-semibold text-white transition hover:bg-accent/90"
-              >
-                상세 페이지 보기
-              </Link>
-              <p className="text-sm leading-6 text-muted">
-                보안 및 데이터 공개 제한으로 인해 전체 코드와 데이터셋은 공개하지 않았습니다. 프로젝트 페이지에는 문제 정의, 전처리 방향, 모델링 흐름, 검증 방식과 결과를 중심으로 정리했습니다.
-              </p>
+            <div className="flex flex-col justify-between gap-5 rounded-lg border border-border bg-background p-5">
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-normal text-muted">Result</p>
+                <p className="mt-2 text-2xl font-semibold text-foreground">
+                  {featuredProject.detail?.award}
+                </p>
+                <p className="mt-3 text-sm leading-6 text-muted">
+                  데이터 누수 방지, 검증 점수와 제출 점수 차이, 앙상블 안정성을 함께 고려한 실전형 모델링 기록입니다.
+                </p>
+              </div>
+              <div className="flex flex-col gap-2 sm:flex-row md:flex-col">
+                <span className="border border-accent bg-accent px-4 py-3 text-center text-sm font-semibold text-white transition group-hover:bg-accent/90">
+                  상세 페이지 보기
+                </span>
+                <p className="text-sm leading-6 text-muted">
+                  보안 및 데이터 공개 제한으로 인해 전체 코드와 데이터셋은 공개하지 않았습니다. 프로젝트 페이지에는 문제 정의, 전처리 방향, 모델링 흐름, 검증 방식과 결과를 중심으로 정리했습니다.
+                </p>
+              </div>
             </div>
-          </div>
-        </motion.article>
+          </motion.article>
+        </Link>
         <div className="mt-8 grid gap-4 lg:grid-cols-3">
           {secondaryProjects.map((project) => (
             <motion.article

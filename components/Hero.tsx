@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
 import { fadeInUp, staggerContainer } from "@/lib/animation";
@@ -16,6 +17,13 @@ export function Hero({ content, featuredProject, profile }: HeroProps) {
   const cards = featuredProject.summaryCards ?? [];
   const [activeIndex, setActiveIndex] = useState(0);
   const activeCard = cards[activeIndex];
+  const consoleLines = [
+    "> Loading dataset...",
+    "> Checking leakage risk...",
+    "> Training CatBoost...",
+    "> Blending predictions...",
+    "> Final result: 3rd place"
+  ];
 
   return (
     <section className="section-shell grid min-h-[86svh] items-center gap-10 pb-16 pt-24 lg:grid-cols-[1.04fr_0.96fr] lg:pt-28">
@@ -25,12 +33,28 @@ export function Hero({ content, featuredProject, profile }: HeroProps) {
         animate="visible"
         className="max-w-3xl"
       >
-        <motion.p
+        <motion.div
           variants={fadeInUp}
-          className="mb-5 inline-flex border border-accent/25 bg-accent/10 px-3 py-1 text-sm font-semibold text-accent"
+          className="mb-6 flex flex-wrap items-center gap-4"
         >
-          {profile.availability}
-        </motion.p>
+          <motion.div
+            whileHover={{ scale: 1.03 }}
+            transition={{ type: "spring", stiffness: 260, damping: 18 }}
+            className="relative h-20 w-20 shrink-0 overflow-hidden rounded-full border border-border bg-surface shadow-lift sm:h-24 sm:w-24 lg:h-28 lg:w-28"
+          >
+            <Image
+              src="/profile.jpg"
+              alt="김지현 프로필 사진"
+              fill
+              priority
+              sizes="(max-width: 640px) 80px, (max-width: 1024px) 96px, 112px"
+              className="object-cover object-[50%_38%]"
+            />
+          </motion.div>
+          <p className="inline-flex border border-accent/25 bg-accent/10 px-3 py-1 text-sm font-semibold text-accent">
+            {profile.availability}
+          </p>
+        </motion.div>
         <motion.h1
           variants={fadeInUp}
           className="max-w-4xl text-4xl font-semibold leading-[1.05] tracking-normal text-foreground sm:text-6xl lg:text-7xl"
@@ -126,6 +150,26 @@ export function Hero({ content, featuredProject, profile }: HeroProps) {
             ) : null}
           </AnimatePresence>
         </div>
+        <motion.div
+          variants={fadeInUp}
+          className="mt-4 rounded-lg border border-border bg-background/85 p-4"
+        >
+          <p className="text-[11px] font-semibold uppercase tracking-normal text-accent">
+            Modeling Console
+          </p>
+          <div className="mt-3 space-y-2 font-mono text-xs leading-5 text-muted">
+            {consoleLines.map((line, index) => (
+              <motion.p
+                key={line}
+                initial={{ opacity: 0, y: 4 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.35, delay: 0.12 * index }}
+              >
+                {line}
+              </motion.p>
+            ))}
+          </div>
+        </motion.div>
       </motion.aside>
     </section>
   );

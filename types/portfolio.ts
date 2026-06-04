@@ -68,14 +68,34 @@ export type ProjectSummaryCard = {
   items: string[];
 };
 
+export type ProjectTimelineItem = {
+  title: string;
+  description: string;
+};
+
+export type ProjectPerformanceCard = {
+  title: string;
+  description: string;
+};
+
 export type ProjectDetail = {
   oneLine: string;
   nature: string[];
   award: string;
   problem: string;
+  dataUnderstanding: string;
+  preprocessing: string;
+  featureEngineering: string;
+  modelingStrategy: string;
+  validation: string;
+  lessons: string[];
+  disclosure: string;
+  leakageNote: string;
   considerations: string[];
   techStack: string[];
   modelingFlow: string[];
+  timeline: ProjectTimelineItem[];
+  performanceCards: ProjectPerformanceCard[];
   results: string[];
 };
 
