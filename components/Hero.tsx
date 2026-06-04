@@ -57,7 +57,7 @@ export function Hero({ content, featuredProject, profile }: HeroProps) {
             {content.primaryCtaLabel}
           </Link>
           <a
-            href={featuredProject.githubUrl}
+            href="#featured-project"
             className="border border-border bg-surface px-5 py-3 text-sm font-semibold text-foreground transition hover:border-accent hover:text-accent"
           >
             {content.secondaryCtaLabel}

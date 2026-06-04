@@ -57,17 +57,13 @@ export default function InfertilityPredictionProjectPage() {
 
           <aside className="glass-panel rounded-lg p-5">
             <p className="text-sm font-semibold uppercase tracking-normal text-accent">
-              Repository
+              프로젝트 공개 범위
             </p>
             <p className="mt-3 text-sm leading-6 text-muted">
-              실제 GitHub 저장소 링크는 프로젝트 데이터의 GitHub URL 값만 바꾸면 됩니다.
+              보안 및 데이터 공개 제한으로 인해 전체 코드와 데이터셋은 공개하지 않았습니다.
+              프로젝트 페이지에는 문제 정의, 전처리 방향, 모델링 흐름, 검증 방식과 결과를 중심으로
+              정리했습니다.
             </p>
-            <a
-              href={featuredProject.githubUrl}
-              className="mt-5 inline-flex w-full justify-center border border-accent bg-accent px-4 py-3 text-sm font-semibold text-white transition hover:bg-accent/90"
-            >
-              GitHub 보기
-            </a>
           </aside>
         </div>
       </section>

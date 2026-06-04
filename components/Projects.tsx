@@ -70,12 +70,9 @@ export function Projects({ content, featuredProject, projects }: ProjectsProps) 
               >
                 상세 페이지 보기
               </Link>
-              <a
-                href={featuredProject.githubUrl}
-                className="border border-border bg-surface px-4 py-3 text-center text-sm font-semibold text-foreground transition hover:border-accent hover:text-accent"
-              >
-                GitHub 보기
-              </a>
+              <p className="text-sm leading-6 text-muted">
+                보안 및 데이터 공개 제한으로 인해 전체 코드와 데이터셋은 공개하지 않았습니다. 프로젝트 페이지에는 문제 정의, 전처리 방향, 모델링 흐름, 검증 방식과 결과를 중심으로 정리했습니다.
+              </p>
             </div>
           </div>
         </motion.article>
@@ -106,12 +103,9 @@ export function Projects({ content, featuredProject, projects }: ProjectsProps) 
                   </span>
                 ))}
               </div>
-              <a
-                href={project.githubUrl}
-                className="mt-5 text-sm font-semibold text-accent underline-offset-4 hover:underline"
-              >
-                GitHub 보기
-              </a>
+              <p className="mt-5 text-sm font-medium text-muted">
+                프로젝트 요약 중심으로 정리했습니다.
+              </p>
             </motion.article>
           ))}
         </div>

@@ -20,6 +20,6 @@ export const labIdeas: LabIdea[] = [
     status: "Backlog",
     description:
       "모델링 실험 과정을 코드, 지표, 의사결정 기록으로 재현 가능하게 정리하는 방식을 개선하고 있습니다.",
-    stack: ["GitHub", "Experiment Notes", "Reproducibility"]
+    stack: ["Experiment Notes", "Reproducibility", "Model Reports"]
   }
 ];

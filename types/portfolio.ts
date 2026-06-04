@@ -57,7 +57,6 @@ export type Project = {
   description: string;
   outcome: string;
   tags: string[];
-  githubUrl: string;
   detailHref?: string;
   featured?: boolean;
   summaryCards?: ProjectSummaryCard[];

@@ -19,6 +19,6 @@ export const skillGroups: SkillGroup[] = [
   {
     title: "Portfolio Engineering",
     description: "분석 결과와 프로젝트 과정을 웹 포트폴리오로 명확하게 전달합니다.",
-    skills: ["Next.js", "TypeScript", "Tailwind CSS", "GitHub", "Responsive UI"]
+    skills: ["Next.js", "TypeScript", "Tailwind CSS", "Responsive UI", "Documentation"]
   }
 ];

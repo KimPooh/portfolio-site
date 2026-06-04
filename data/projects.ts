@@ -10,7 +10,6 @@ export const projects: Project[] = [
       "난임 시술 데이터를 기반으로 임신 성공 가능성을 예측한 머신러닝 분류 모델 프로젝트입니다.",
     outcome: "해커톤 3등 수상, Public Leaderboard 기준 상위권 성능 달성",
     tags: ["Python", "Pandas", "Scikit-learn", "CatBoost", "LightGBM"],
-    githubUrl: "https://github.com/your-username/infertility-pregnancy-prediction",
     detailHref: "/projects/infertility-pregnancy-prediction",
     featured: true,
     summaryCards: [
@@ -43,7 +42,7 @@ export const projects: Project[] = [
         items: [
           "Python, Pandas, NumPy",
           "Scikit-learn, CatBoost, LightGBM",
-          "Matplotlib, Google Colab, GitHub"
+          "Matplotlib, Google Colab"
         ]
       },
       {
@@ -81,7 +80,7 @@ export const projects: Project[] = [
         "LightGBM",
         "Matplotlib",
         "Google Colab",
-        "GitHub"
+        "Google Colab"
       ],
       modelingFlow: [
         "EDA",
@@ -107,8 +106,7 @@ export const projects: Project[] = [
     description:
       "운영 지표와 알림 데이터를 한 화면에서 분석할 수 있도록 구성한 데이터 대시보드 프로토타입입니다.",
     outcome: "지표 탐색 흐름과 데이터 기반 의사결정 구조를 화면 단위로 설계했습니다.",
-    tags: ["Next.js", "TypeScript", "Tailwind CSS", "Analytics"],
-    githubUrl: "https://github.com/your-username/ops-intelligence-dashboard"
+    tags: ["Next.js", "TypeScript", "Tailwind CSS", "Analytics"]
   },
   {
     slug: "design-system-migration",
@@ -118,8 +116,7 @@ export const projects: Project[] = [
     description:
       "반복되는 UI 패턴을 토큰, 컴포넌트, 문서 구조로 재정리한 프론트엔드 시스템화 작업입니다.",
     outcome: "컴포넌트 재사용성과 화면 제작 일관성을 높이는 구조를 정리했습니다.",
-    tags: ["React", "Design Tokens", "Storybook", "Accessibility"],
-    githubUrl: "https://github.com/your-username/design-system-migration"
+    tags: ["React", "Design Tokens", "Storybook", "Accessibility"]
   },
   {
     slug: "interactive-launch-microsite",
@@ -129,8 +126,7 @@ export const projects: Project[] = [
     description:
       "제품 메시지와 인터랙션 흐름을 검증하기 위해 제작한 경량 웹 인터페이스입니다.",
     outcome: "사용자가 핵심 정보를 빠르게 파악할 수 있도록 시각 흐름과 모션을 정리했습니다.",
-    tags: ["Framer Motion", "Canvas", "Content Strategy"],
-    githubUrl: "https://github.com/your-username/interactive-launch-microsite"
+    tags: ["Framer Motion", "Canvas", "Content Strategy"]
   }
 ];
 

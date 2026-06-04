@@ -16,16 +16,8 @@ export const profile: Profile = {
   ],
   socials: [
     {
-      label: "GitHub",
-      href: "https://github.com/"
-    },
-    {
       label: "Email",
       href: "mailto:jihyun@example.com"
-    },
-    {
-      label: "Project Code",
-      href: "https://github.com/your-username/infertility-pregnancy-prediction"
     }
   ]
 };
@@ -40,7 +32,7 @@ export const siteContent: SiteContent = {
   ],
   hero: {
     primaryCtaLabel: "대표 프로젝트 보기",
-    secondaryCtaLabel: "GitHub 보기"
+    secondaryCtaLabel: "모델링 흐름 보기"
   },
   about: {
     eyebrow: "About",
@@ -60,8 +52,8 @@ export const siteContent: SiteContent = {
   },
   contact: {
     eyebrow: "Links",
-    title: "코드와 포트폴리오를 확인할 수 있는 링크",
+    title: "포트폴리오 연락 링크",
     description:
-      "GitHub 저장소와 이메일 링크를 통해 프로젝트 코드와 포트폴리오 정보를 확인할 수 있습니다."
+      "프로젝트 설명과 모델링 과정은 포트폴리오 페이지에 정리되어 있으며, 연락이 필요할 경우 이메일을 사용할 수 있습니다."
   }
 };
