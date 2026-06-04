@@ -16,11 +16,11 @@ export default function InfertilityPredictionProjectPage() {
   }
 
   const sectionLinks = [
-    { label: "Project Overview", href: "#project-overview" },
-    { label: "Modeling Process", href: "#modeling-process" },
-    { label: "Award", href: "#award" },
-    { label: "Tech Stack", href: "#tech-stack" },
-    { label: "Key Lessons", href: "#key-lessons" }
+    { label: "PROJECT", href: "#project" },
+    { label: "MODELING", href: "#modeling" },
+    { label: "VALIDATION", href: "#validation" },
+    { label: "AWARD", href: "#award" },
+    { label: "LESSONS", href: "#lessons" }
   ];
 
   const caseStudySections = [
@@ -50,8 +50,8 @@ export default function InfertilityPredictionProjectPage() {
           >
             홈으로 돌아가기
           </Link>
-          <ThemeToggle />
         </div>
+        <ThemeToggle />
 
         <div className="mt-10 grid gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-start">
           <div>
@@ -94,14 +94,14 @@ export default function InfertilityPredictionProjectPage() {
       <div className="section-shell pb-8">
         <nav
           aria-label="프로젝트 상세 섹션"
-          className="overflow-x-auto border-y border-border bg-background/90 py-3 backdrop-blur"
+          className="overflow-x-auto border-y border-border bg-background/90 py-4 backdrop-blur"
         >
-          <div className="flex min-w-max gap-2">
+          <div className="flex min-w-max gap-3">
             {sectionLinks.map((link) => (
               <a
                 key={link.href}
                 href={link.href}
-                className="border border-border bg-surface px-3 py-2 text-sm font-semibold text-muted transition hover:border-accent hover:text-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+                className="sticker-link min-w-[8.5rem]"
               >
                 {link.label}
               </a>
@@ -110,7 +110,7 @@ export default function InfertilityPredictionProjectPage() {
         </nav>
       </div>
 
-      <section id="project-overview" className="section-shell scroll-mt-24 py-12">
+      <section id="project" className="section-shell scroll-mt-24 py-12">
         <div className="grid gap-6 lg:grid-cols-[0.78fr_1.22fr]">
           <div>
             <p className="text-sm font-semibold uppercase tracking-normal text-accent">
@@ -131,7 +131,7 @@ export default function InfertilityPredictionProjectPage() {
         </div>
       </section>
 
-      <section id="modeling-process" className="section-shell scroll-mt-24 py-12">
+      <section id="modeling" className="section-shell scroll-mt-24 py-12">
         <div className="grid gap-8 lg:grid-cols-[0.78fr_1.22fr]">
           <div>
             <p className="text-sm font-semibold uppercase tracking-normal text-accent">
@@ -182,14 +182,14 @@ export default function InfertilityPredictionProjectPage() {
         </div>
       </section>
 
-      <section id="validation-leakage" className="section-shell scroll-mt-24 py-8">
+      <section id="validation" className="section-shell scroll-mt-24 py-8">
         <div className="rounded-lg border border-warning/35 bg-warning/10 px-5 py-4">
           <p className="text-sm font-semibold text-warning">Validation / Leakage Check</p>
           <p className="mt-2 text-sm leading-7 text-muted">{detail.leakageNote}</p>
         </div>
       </section>
 
-      <section id="performance-improvement" className="section-shell scroll-mt-24 py-12">
+      <section id="performance" className="section-shell scroll-mt-24 py-12">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <p className="text-sm font-semibold uppercase tracking-normal text-accent">
@@ -249,7 +249,7 @@ export default function InfertilityPredictionProjectPage() {
         </div>
       </section>
 
-      <section id="key-lessons" className="section-shell scroll-mt-24 py-12">
+      <section id="lessons" className="section-shell scroll-mt-24 py-12">
         <div className="grid gap-8 lg:grid-cols-[0.78fr_1.22fr]">
           <div>
             <p className="text-sm font-semibold uppercase tracking-normal text-accent">
@@ -267,7 +267,7 @@ export default function InfertilityPredictionProjectPage() {
         </div>
       </section>
 
-      <section id="project-disclosure" className="section-shell scroll-mt-24 pb-20 pt-12 sm:pb-28">
+      <section id="disclosure" className="section-shell scroll-mt-24 pb-20 pt-12 sm:pb-28">
         <div className="grid gap-8 lg:grid-cols-[0.78fr_1.22fr]">
           <div>
             <p className="text-sm font-semibold uppercase tracking-normal text-accent">
