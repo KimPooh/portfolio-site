@@ -105,3 +105,35 @@ export type LabIdea = {
   description: string;
   stack: string[];
 };
+
+export type LearningNote = {
+  title: string;
+  source: string;
+  summary: string;
+  portfolioValue: string;
+  tags: string[];
+};
+
+export type LearningLogLink = {
+  day: string;
+  topic: string;
+  href: string;
+  category?: string;
+  summary?: string;
+  result?: string;
+  details?: string[];
+  tags?: string[];
+  hideDay?: boolean;
+  // originalDay: 이전 전체 순번(선택적). 카테고리별 재번호매김 시 보존용
+  originalDay?: string;
+};
+
+export type LearningCategory = {
+  course?: string;
+  courseLabel?: string;
+  courseDescription?: string;
+  courseSubjects?: string[];
+  category: string;
+  description?: string;
+  links: LearningLogLink[];
+};

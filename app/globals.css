@@ -4,30 +4,17 @@
 
 :root {
   color-scheme: light;
-  --color-background: 246 248 251;
-  --color-foreground: 19 27 41;
+  --color-background: 248 250 247;
+  --color-foreground: 24 34 38;
   --color-surface: 255 255 255;
-  --color-muted: 92 105 124;
-  --color-border: 214 222 235;
-  --color-accent: 37 99 235;
-  --color-accent-2: 14 165 233;
-  --color-success: 5 150 105;
-  --color-warning: 180 83 9;
+  --color-muted: 91 105 107;
+  --color-border: 219 227 224;
+  --color-accent: 22 116 118;
+  --color-accent-2: 63 142 122;
+  --color-success: 36 129 93;
+  --color-warning: 176 111 37;
   background: rgb(var(--color-background));
   color: rgb(var(--color-foreground));
-}
-
-:root[data-theme="dark"] {
-  color-scheme: dark;
-  --color-background: 10 15 26;
-  --color-foreground: 239 246 255;
-  --color-surface: 17 24 39;
-  --color-muted: 148 163 184;
-  --color-border: 51 65 85;
-  --color-accent: 96 165 250;
-  --color-accent-2: 45 212 191;
-  --color-success: 52 211 153;
-  --color-warning: 251 191 36;
 }
 
 * {
@@ -41,10 +28,7 @@ html {
 body {
   min-height: 100vh;
   margin: 0;
-  background:
-    radial-gradient(circle at 18% 12%, rgb(var(--color-accent) / 0.14), transparent 28rem),
-    radial-gradient(circle at 82% 8%, rgb(var(--color-accent-2) / 0.12), transparent 24rem),
-    linear-gradient(180deg, rgb(var(--color-background)) 0%, rgb(var(--color-background)) 100%);
+  background: rgb(var(--color-background));
   color: rgb(var(--color-foreground));
 }
 
@@ -55,6 +39,11 @@ body:has(.home-workspace) {
 
 body:has(.home-workspace) {
   overflow-x: hidden;
+}
+
+.portfolio-detail :is(h1, h2, h3, p, span) {
+  overflow-wrap: anywhere;
+  word-break: break-all;
 }
 
 @media (min-width: 1024px) {
@@ -77,6 +66,24 @@ body:has(.home-workspace) {
 
   .glass-panel {
     @apply border border-border/80 bg-surface/80 shadow-lift backdrop-blur;
+  }
+
+  .horizontal-rail {
+    scrollbar-width: thin;
+    scrollbar-color: rgb(var(--color-border)) transparent;
+  }
+
+  .horizontal-rail::-webkit-scrollbar {
+    height: 0.45rem;
+  }
+
+  .horizontal-rail::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .horizontal-rail::-webkit-scrollbar-thumb {
+    border-radius: 999px;
+    background: rgb(var(--color-border));
   }
 }
 
@@ -102,7 +109,8 @@ body:has(.home-workspace) {
       transform 180ms ease,
       box-shadow 180ms ease,
       border-color 180ms ease,
-      color 180ms ease;
+      color 180ms ease,
+      background-color 180ms ease;
     white-space: nowrap;
   }
 
@@ -125,14 +133,26 @@ body:has(.home-workspace) {
     opacity: 0.85;
     transition:
       transform 180ms ease,
-      opacity 180ms ease;
+      opacity 180ms ease,
+      background-color 180ms ease;
   }
 
   .sticker-link:hover,
   .sticker-link:focus-visible {
     border-color: rgb(var(--color-accent) / 0.55);
     color: rgb(var(--color-accent));
-    box-shadow: 0 16px 34px rgb(15 23 42 / 0.14);
+    box-shadow: 0 18px 40px rgb(15 23 42 / 0.18);
+    transform: translateY(-2px) rotate(0deg);
+    background:
+      linear-gradient(135deg, rgb(var(--color-surface)) 0%, rgb(var(--color-surface)) 62%, rgb(var(--color-accent) / 0.14) 100%);
+  }
+
+  .sticker-link-active {
+    border-color: rgb(var(--color-accent) / 0.75);
+    color: rgb(var(--color-accent));
+    background:
+      linear-gradient(135deg, rgb(var(--color-surface)) 0%, rgb(var(--color-surface)) 54%, rgb(var(--color-accent) / 0.2) 100%);
+    box-shadow: 0 22px 46px rgb(15 23 42 / 0.2);
     transform: translateY(-2px) rotate(0deg);
   }
 
@@ -141,25 +161,46 @@ body:has(.home-workspace) {
     opacity: 1;
     transform: translate(-2px, 2px) rotate(-4deg);
   }
-
   .peel-sticker {
     position: relative;
+    isolation: isolate;
     display: inline-flex;
     min-height: 2.75rem;
     cursor: grab;
     align-items: center;
     justify-content: center;
+    overflow: visible;
     border: 1px solid rgb(var(--color-border));
-    border-radius: 8px;
+    border-radius: 10px;
     background:
-      linear-gradient(135deg, rgb(var(--color-surface)) 0%, rgb(var(--color-surface)) 74%, rgb(var(--color-accent) / 0.08) 100%);
+      radial-gradient(circle at 12% 18%, rgb(var(--color-accent) / 0.06), transparent 1.8rem),
+      linear-gradient(135deg, rgb(var(--color-surface)) 0%, rgb(var(--color-surface)) 68%, rgb(var(--color-accent) / 0.11) 100%);
     color: rgb(var(--color-foreground));
     font-size: 0.72rem;
     font-weight: 800;
     letter-spacing: 0;
     padding: 0.72rem 0.9rem;
     white-space: nowrap;
-    touch-action: manipulation;
+    touch-action: none;
+    transform-origin: 50% 70%;
+    transition:
+      border-color 180ms ease,
+      color 180ms ease,
+      filter 180ms ease;
+  }
+
+  .peel-sticker::before {
+    content: "";
+    position: absolute;
+    inset: 0.45rem 0.5rem -0.5rem;
+    z-index: -1;
+    border-radius: 12px;
+    background: radial-gradient(ellipse at center, rgb(15 23 42 / 0.14), transparent 72%);
+    opacity: 0.68;
+    transform: translateY(4px) scale(0.94);
+    transition:
+      opacity 180ms ease,
+      transform 180ms ease;
   }
 
   .peel-sticker:active {
@@ -171,30 +212,179 @@ body:has(.home-workspace) {
     position: absolute;
     right: -1px;
     top: -1px;
-    width: 0.85rem;
-    height: 0.85rem;
+    width: 1.05rem;
+    height: 1.05rem;
     border-left: 1px solid rgb(var(--color-border));
     border-bottom: 1px solid rgb(var(--color-border));
-    border-bottom-left-radius: 6px;
+    border-bottom-left-radius: 7px;
     background:
-      linear-gradient(135deg, rgb(var(--color-background)) 0 50%, rgb(var(--color-border) / 0.6) 51% 100%);
-    opacity: 0.86;
+      linear-gradient(135deg, rgb(var(--color-background)) 0 48%, rgb(var(--color-surface)) 49% 58%, rgb(var(--color-border) / 0.72) 59% 100%);
+    box-shadow: -4px 4px 9px rgb(15 23 42 / 0.1);
+    opacity: 0.9;
+    transform-origin: 100% 0;
     transition:
       opacity 180ms ease,
-      transform 180ms ease;
+      transform 180ms ease,
+      box-shadow 180ms ease;
+  }
+
+  .peel-sticker-label {
+    position: relative;
+    z-index: 1;
   }
 
   .peel-sticker:hover,
   .peel-sticker:focus-visible,
   .peel-sticker-active {
-    border-color: rgb(var(--color-accent) / 0.58);
+    border-color: rgb(var(--color-accent) / 0.6);
     color: rgb(var(--color-accent));
+    filter: saturate(1.05);
+  }
+
+  .peel-sticker:hover::before,
+  .peel-sticker:focus-visible::before,
+  .peel-sticker-active::before {
+    opacity: 0.92;
+    transform: translateY(9px) scale(0.98);
   }
 
   .peel-sticker:hover::after,
   .peel-sticker:focus-visible::after,
   .peel-sticker-active::after {
     opacity: 1;
-    transform: translate(-2px, 2px) rotate(-5deg);
+    box-shadow: -6px 7px 12px rgb(15 23 42 / 0.16);
+    transform: translate(-4px, 4px) rotate(-8deg) scale(1.08);
   }
+
+  .peel-sticker--leaving {
+    pointer-events: none;
+    border-color: rgb(var(--color-accent) / 0.75);
+    color: rgb(var(--color-accent));
+  }
+
+  .peel-sticker--leaving::before {
+    opacity: 0.35;
+    transform: translateY(13px) scale(1.04);
+  }
+
+  .peel-sticker--leaving::after {
+    opacity: 1;
+    box-shadow: -8px 9px 16px rgb(15 23 42 / 0.18);
+    transform: translate(-6px, 6px) rotate(-12deg) scale(1.16);
+  }
+  .sticker-link:hover::after,
+  .sticker-link:focus-visible::after {
+    opacity: 1;
+    transform: translate(-2px, 2px) rotate(-4deg);
+  }
+
+}
+
+/* Clean clickable sticker motion */
+.peel-sticker {
+  position: relative !important;
+  isolation: isolate !important;
+  display: inline-flex !important;
+  min-height: 3rem !important;
+  cursor: grab !important;
+  align-items: center !important;
+  justify-content: center !important;
+  overflow: visible !important;
+  border: 0 !important;
+  border-radius: 14px !important;
+  background: transparent !important;
+  color: rgb(var(--color-foreground)) !important;
+  box-shadow: none !important;
+  transform-origin: center !important;
+  touch-action: none !important;
+  user-select: none !important;
+}
+
+.peel-sticker:active {
+  cursor: grabbing !important;
+}
+
+.peel-sticker::before,
+.peel-sticker::after {
+  content: none !important;
+}
+
+.peel-sticker-face {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  min-height: 3rem;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border: 1px solid rgb(var(--color-border));
+  border-radius: 14px;
+  background:
+    linear-gradient(
+      135deg,
+      rgb(var(--color-surface)) 0%,
+      rgb(var(--color-surface)) 72%,
+      rgb(var(--color-accent) / 0.1) 100%
+    );
+  box-shadow: 0 12px 26px rgb(15 23 42 / 0.12);
+  transition:
+    border-color 180ms ease,
+    box-shadow 180ms ease,
+    background 180ms ease;
+}
+
+.peel-sticker-face::before {
+  content: "";
+  position: absolute;
+  right: -0.15rem;
+  top: -0.15rem;
+  width: 1.2rem;
+  height: 1.2rem;
+  border-left: 1px solid rgb(var(--color-border));
+  border-bottom: 1px solid rgb(var(--color-border));
+  border-bottom-left-radius: 8px;
+  background:
+    linear-gradient(
+      135deg,
+      rgb(var(--color-background)) 0%,
+      rgb(var(--color-surface)) 48%,
+      rgb(var(--color-border) / 0.65) 100%
+    );
+  box-shadow: -4px 4px 10px rgb(15 23 42 / 0.14);
+  transform: rotate(0deg);
+  transform-origin: top right;
+  transition:
+    transform 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.peel-sticker-main-label {
+  position: relative;
+  z-index: 3;
+  padding: 0.72rem 0.9rem;
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: inherit;
+  white-space: nowrap;
+}
+
+.peel-sticker:hover,
+.peel-sticker:focus-visible,
+.peel-sticker-active {
+  color: rgb(var(--color-accent)) !important;
+}
+
+.peel-sticker:hover .peel-sticker-face,
+.peel-sticker:focus-visible .peel-sticker-face,
+.peel-sticker-active .peel-sticker-face {
+  border-color: rgb(var(--color-accent) / 0.65);
+  box-shadow: 0 20px 42px rgb(15 23 42 / 0.2);
+}
+
+.peel-sticker:hover .peel-sticker-face::before,
+.peel-sticker:focus-visible .peel-sticker-face::before,
+.peel-sticker-active .peel-sticker-face::before {
+  transform: translate(-4px, 4px) rotate(-10deg);
+  box-shadow: -7px 7px 14px rgb(15 23 42 / 0.18);
 }
