@@ -13,23 +13,16 @@ Open `http://localhost:3000`.
 
 ## Edit content
 
-- `data/site.ts`: 이름, 소개 문구, 섹션 제목, 연락 링크, 상단 메뉴
-- `data/projects.ts`: 프로젝트 카드
-- `data/skills.ts`: 기술 스택 그룹
-- `data/labs.ts`: 랩 아이디어
-- `app/projects/infertility-pregnancy-prediction/page.tsx`: 대표 프로젝트 상세 페이지
+- `data/site.ts`: 프로필, 소셜 링크, 섹션 카피
+- `data/projects.ts`: 케이스 스터디 상세 데이터
+- `data/learning.ts`: StudyFlow 학습 로그와 여정 페이지 데이터
+- `app/projects/infertility-pregnancy-prediction/`: 대표 프로젝트 상세 페이지
 
 ## Main components
 
-- `components/Hero.tsx`
-- `components/About.tsx`
-- `components/Skills.tsx`
-- `components/Projects.tsx`
-- `components/Labs.tsx`
-- `components/Contact.tsx`
-- `components/ParticleBackground.tsx`
-- `components/SiteHeader.tsx`
-- `components/ThemeToggle.tsx`
+- `components/TargetedPortfolio.tsx`: 메인 포트폴리오 페이지 전체
+- `components/ProjectCaseStudyHeader.tsx`: 케이스 스터디 페이지 공용 헤더
+- `components/AppBuildCaseStudy.tsx`: 앱 제작 과정 페이지 템플릿
 
 ## Deploy
 

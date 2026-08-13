@@ -1,5 +1,19 @@
 "use client";
 
+import Link from "next/link";
+import {
+  ArrowLeft,
+  BookOpen,
+  BriefcaseBusiness,
+  CheckCircle2,
+  ChevronRight,
+  FileText,
+  FolderKanban,
+  MessageCircleQuestion,
+  NotebookPen,
+  Save,
+  Sparkles
+} from "lucide-react";
 import { useMemo, useState } from "react";
 
 type Focus = "portfolio" | "interview" | "project";
@@ -46,7 +60,7 @@ const keywordMap = [
     area: "배포 환경",
     project: "폐렴 환자 관리 백오피스",
     hint: "Docker나 실행 환경 단서가 있으면 백오피스 배포 흐름과 연결 후보로 볼 수 있어요.",
-    terms: ["docker", "도커", "독커", "컨테이너", "콘테이너", "이미지", "dockerfile", "도커파일", "docker compose", "docker-compose", "컴포즈", "배포", "포트", "실행환경", "실행 환경", "환경", "healthcheck", "헬스체크", "volume", "볼륨"]
+    terms: ["docker", "도커", "독커", "컨테이너", "콘테이너", "도커 이미지", "컨테이너 이미지", "dockerfile", "도커파일", "docker compose", "docker-compose", "컴포즈", "실행환경", "실행 환경", "healthcheck", "헬스체크", "volume", "볼륨"]
   },
   {
     skill: "Redis / Queue",
@@ -60,14 +74,14 @@ const keywordMap = [
     area: "모델 추론 아키텍처",
     project: "폐렴 환자 관리 백오피스",
     hint: "AI Worker 단서는 무거운 모델 추론을 FastAPI 요청 흐름에서 분리한 설계 경험으로 볼 수 있어요.",
-    terms: ["ai worker", "worker", "워커", "추론 워커", "모델 추론", "비동기", "event-driven", "event driven", "이벤트 드리븐", "eda", "dead letter", "dead letter queue", "dlq", "재시도", "멱등성", "idempotency", "중복 예측", "원자적", "atomic"]
+    terms: ["ai worker", "worker", "워커", "추론 워커", "모델 추론", "비동기", "event-driven", "event driven", "이벤트 드리븐", "dead letter", "dead letter queue", "dlq", "재시도", "멱등성", "idempotency", "중복 예측", "원자적", "atomic"]
   },
   {
     skill: "PyTorch Inference",
     area: "의료 이미지 추론",
     project: "폐렴 환자 관리 백오피스",
     hint: "PyTorch 모델 로드와 이미지 전처리 단서는 X-Ray 폐렴 예측 모델을 서비스에 연결한 경험과 직접 연결됩니다.",
-    terms: ["pytorch", "파이토치", "torch", "model.pth", "state_dict", "model.eval", "eval()", "torch.no_grad", "no_grad", "sigmoid", "softmax", "resize", "normalize", "정규화", "rgb", "x-ray", "xray", "x ray", "엑스레이", "폐렴", "pneumonia", "confidence", "신뢰도", "model_version", "모델 버전"]
+    terms: ["pytorch", "파이토치", "torch", "model.pth", "state_dict", "model.eval", "eval()", "torch.no_grad", "no_grad", "sigmoid", "softmax", "정규화", "confidence", "신뢰도", "model_version", "모델 버전"]
   },
   {
     skill: "Auth / API Contract",
@@ -88,14 +102,21 @@ const keywordMap = [
     area: "머신러닝",
     project: "난임 임신 성공 예측 모델",
     hint: "모델링 알고리즘 단서는 난임 예측 모델 프로젝트와 직접 연결됩니다.",
-    terms: ["catboost", "cat boost", "캣부스트", "캣 부스트", "부스팅", "boosting", "분류", "예측모델", "예측 모델", "머신러닝", "머신 러닝", "모델링"]
+    terms: ["catboost", "cat boost", "캣부스트", "캣 부스트"]
   },
   {
     skill: "LightGBM",
     area: "머신러닝",
     project: "난임 임신 성공 예측 모델",
     hint: "모델링 알고리즘 단서는 난임 예측 모델 프로젝트와 직접 연결됩니다.",
-    terms: ["lightgbm", "light gbm", "lgbm", "라이트gbm", "라이트 gbm", "분류", "예측", "머신러닝", "머신 러닝", "모델링"]
+    terms: ["lightgbm", "light gbm", "lgbm", "라이트gbm", "라이트 gbm"]
+  },
+  {
+    skill: "머신러닝 개념",
+    area: "머신러닝",
+    project: "",
+    hint: "구체적인 알고리즘이나 라이브러리명이 없는 학습 기록이라, 아직 특정 모델이나 프로젝트로 단정하지 않아요.",
+    terms: ["머신러닝", "머신 러닝", "기계학습", "모델링", "분류모델", "분류 모델", "예측모델", "예측 모델"]
   },
   {
     skill: "ExtraTrees",
@@ -123,28 +144,28 @@ const keywordMap = [
     area: "파생변수",
     project: "흡연 여부 건강 데이터 분석",
     hint: "파생변수 단서는 건강 데이터 분석 프로젝트의 개선 과정으로 연결할 수 있어요.",
-    terms: ["bmi", "비엠아이", "파생변수", "파생 변수", "특성", "피처", "feature", "변수", "나이대", "그룹", "4050", "40대", "50대", "흡연자", "비흡연자", "smoking", "흡연 여부", "흡연"]
+    terms: ["bmi", "비엠아이", "파생변수", "파생 변수", "특성", "피처", "feature", "나이대", "4050", "40대", "50대", "흡연자", "비흡연자", "smoking", "흡연 여부", "흡연"]
   },
   {
     skill: "Statistical Test",
     area: "통계 검정",
     project: "흡연 여부 건강 데이터 분석",
     hint: "통계 검정 단서는 데이터 분석 결과를 해석한 경험으로 연결됩니다.",
-    terms: ["t-test", "ttest", "티테스트", "t검정", "anova", "아노바", "통계", "검정", "p-value", "p값", "피값", "상관관계", "상관 관계", "분석", "시각화", "heatmap", "히트맵", "matplotlib", "seaborn", "유의미", "상관계수"]
+    terms: ["t-test", "ttest", "티테스트", "t검정", "anova", "아노바", "통계", "통계검정", "통계 검정", "p-value", "p값", "피값", "상관관계", "상관 관계", "heatmap", "히트맵", "matplotlib", "seaborn", "유의미", "상관계수"]
   },
   {
     skill: "Deep Learning",
     area: "딥러닝",
     project: "말라리아 세포분류",
     hint: "이미지 분류나 CNN 단서는 딥러닝 프로젝트와 연결됩니다.",
-    terms: ["딥러닝", "딥 러닝", "cnn", "씨엔엔", "전이학습", "전이 학습", "이미지", "분류", "말라리아", "컴퓨터비전", "컴퓨터 비전", "cv"]
+    terms: ["딥러닝", "딥 러닝", "cnn", "씨엔엔", "전이학습", "전이 학습", "이미지 분류", "이미지분류", "말라리아", "컴퓨터비전", "컴퓨터 비전"]
   },
   {
     skill: "Git Collaboration",
     area: "협업",
     project: "AI 헬스케어 팀 프로젝트",
     hint: "협업 단서는 팀 프로젝트 운영 방식과 연결할 수 있어요.",
-    terms: ["git", "github", "깃", "깃허브", "협업", "브랜치", "커밋", "merge", "머지", "pull request", "pr", "피알", "팀"]
+    terms: ["git", "github", "깃", "깃허브", "협업", "브랜치", "커밋", "merge", "머지", "pull request", "피알", "협업 프로젝트", "팀 프로젝트"]
   }
 ];
 
@@ -176,7 +197,7 @@ function analyze(log: string, focus: Focus) {
   const rawLog = log.trim();
   const normalizedLog = log.toLowerCase().replace(/\s+/g, " ");
   const compactLog = normalizedLog.replace(/\s+/g, "");
-  const isConfused = ["어렵", "헷갈", "이해", "모르", "불안", "막막", "ㅠ", "ㅜ"].some((term) => normalizedLog.includes(term));
+  const isConfused = ["어렵", "헷갈", "이해가 안", "이해 안", "이해 못", "이해를 못", "모르", "불안", "막막", "ㅠ", "ㅜ"].some((term) => normalizedLog.includes(term));
   const isQuestion = includesAny(normalizedLog, ["?", "어떻게", "왜", "뭐", "무엇", "알려줘", "궁금"]);
   const careerSignal = includesAny(normalizedLog, ["면접", "이력서", "자소서", "지원", "채용", "포트폴리오", "질문"]);
   const projectSignal = includesAny(normalizedLog, ["프로젝트", "해커톤", "구현", "만들", "기능", "서비스", "앱", "웹", "설계", "명세", "연동", "배포", "시연"]);
@@ -342,289 +363,310 @@ export default function StudyFlowPage() {
   const [view, setView] = useState<View>("coach");
   const [analyzed, setAnalyzed] = useState(false);
   const [saved, setSaved] = useState<string[]>([]);
+  const [notice, setNotice] = useState("");
 
   const result = useMemo(() => analyze(log, focus), [log, focus]);
 
   const run = () => {
-    setAnalyzed(log.trim().length > 0);
+    if (!log.trim()) return;
+    setAnalyzed(true);
     setView("coach");
+    setNotice("");
   };
 
   const save = () => {
-    setSaved((items) => [result.sentence, ...items].slice(0, 5));
-    setView("library");
+    setSaved((items) => [result.sentence, ...items.filter((item) => item !== result.sentence)].slice(0, 5));
+    setNotice("정리한 문장을 저장했어요.");
   };
 
   return (
-    <main className="min-h-screen bg-[#FFF8EF] text-[#2E2A24]">
-      <header className="sticky top-0 z-40 border-b border-[#ECDDCB] bg-[#FFF8EF]/92 backdrop-blur">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 sm:px-8">
+    <main className="min-h-screen bg-[#F4F4F7] text-[#27262D]">
+      <header className="sticky top-0 z-40 border-b border-[#DDDCE3] bg-[#F8F8FA]/95 backdrop-blur-xl">
+        <div className="mx-auto flex max-w-[1440px] items-center justify-between px-5 py-3 sm:px-8">
           <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-[#FFB86B] text-lg font-black text-[#3A2A18]">
-              S
-            </div>
+            <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-[#D8CAFF] text-[#393044]">
+              <Sparkles className="h-5 w-5" aria-hidden="true" />
+            </span>
             <div>
-              <p className="text-sm font-black leading-none">StudyFlow AI</p>
-              <p className="mt-1 text-xs font-semibold text-[#7A6B5B]">공부 기록을 포트폴리오로 바꾸는 코치</p>
+              <p className="text-sm font-black">StudyFlow AI</p>
+              <p className="text-xs text-[#777481]">배운 것을 다시 꺼내 쓰는 학습 노트</p>
             </div>
           </div>
-          <div className="hidden rounded-full bg-white px-4 py-2 text-xs font-bold text-[#7A6B5B] shadow-sm sm:block">
-            Local-first MVP
-          </div>
+          <Link
+            href="/"
+            className="flex items-center gap-2 rounded-lg border border-[#D4D2DA] bg-white px-3 py-2 text-xs font-bold text-[#5E5A68] transition hover:border-[#9585C7] hover:text-[#27262D]"
+          >
+            <ArrowLeft className="h-4 w-4" aria-hidden="true" />
+            포트폴리오
+          </Link>
         </div>
       </header>
 
-      <section className="mx-auto grid max-w-7xl gap-5 px-5 py-6 sm:px-8 lg:grid-cols-[0.38fr_0.62fr]">
-        <aside className="space-y-5">
-          <section className="rounded-[1.35rem] bg-white p-5 shadow-[0_24px_70px_rgba(77,54,28,0.10)]">
-            <p className="text-xs font-black uppercase text-[#E17B45]">Today&apos;s Note</p>
-            <h1 className="mt-2 text-3xl font-black leading-tight">
-              오늘 배운 걸 그냥 흘려보내지 않게
-            </h1>
-            <p className="mt-3 text-sm leading-6 text-[#7A6B5B]">
-              수업 기록을 넣으면 StudyFlow가 기술, 프로젝트, 면접 질문, 포트폴리오 문장으로 정리해줘요.
+      <section className="mx-auto grid max-w-[1440px] gap-0 px-0 py-0 lg:min-h-[calc(100vh-65px)] lg:grid-cols-[minmax(360px,0.43fr)_minmax(0,0.57fr)] lg:px-8 lg:py-8">
+        <aside className="border-b border-[#DDDCE3] bg-[#FBFBFC] px-5 py-7 sm:px-8 lg:rounded-l-lg lg:border-b-0 lg:border-r lg:px-9 lg:py-9">
+          <div className="mx-auto max-w-xl lg:mx-0">
+            <p className="text-xs font-black uppercase text-[#765EBA]">Today&apos;s learning</p>
+            <h1 className="mt-3 text-3xl font-black leading-tight sm:text-4xl">오늘 무엇을 배웠나요?</h1>
+            <p className="mt-3 text-sm leading-6 text-[#716E79]">
+              완벽하게 정리하지 않아도 괜찮아요. 기억나는 말부터 편하게 적어보세요.
             </p>
-          </section>
 
-          <section className="rounded-[1.35rem] bg-[#2F6F68] p-5 text-white shadow-sm">
-            <p className="text-xs font-black uppercase text-white/70">How to use</p>
-            <h2 className="mt-2 text-xl font-black">처음이라면 이렇게 써보세요</h2>
-            <div className="mt-4 space-y-3">
-              {tutorialSteps.map((step) => (
-                <div key={step.title} className="rounded-2xl bg-white/12 p-4 backdrop-blur">
-                  <p className="text-sm font-black">{step.title}</p>
-                  <p className="mt-1 text-xs leading-5 text-white/78">{step.body}</p>
-                </div>
-              ))}
-            </div>
-          </section>
-
-          <section className="rounded-[1.35rem] bg-white p-5 shadow-sm">
-            <div className="flex items-center justify-between gap-3">
-              <h2 className="text-lg font-black">학습 로그</h2>
-              <span className="rounded-full bg-[#EEF6EA] px-3 py-1 text-xs font-bold text-[#51724A]">
-                {log.length}자
-              </span>
-            </div>
-            <textarea
-              value={log}
-              placeholder="예: 오늘 파이썬으로 데이터 정리를 했고, 판다스로 결측치를 확인했다. 아직 그래프 해석은 조금 어렵다."
-              onChange={(event) => {
-                const nextLog = event.target.value;
-                setLog(nextLog);
-                setAnalyzed(nextLog.trim().length > 0);
-              }}
-              spellCheck={false}
-              className="mt-4 min-h-44 w-full resize-none rounded-2xl border border-[#ECDDCB] bg-[#FFFDF9] p-4 text-sm leading-6 outline-none transition focus:border-[#E17B45]"
-            />
-            <div className="mt-3 grid gap-2">
-              {samples.slice(0, 2).map((sample, index) => (
-                <button
-                  key={sample}
-                  type="button"
-                  onClick={() => {
-                    setLog(sample);
-                    setAnalyzed(true);
-                    setView("coach");
-                  }}
-                  className="rounded-2xl border border-[#ECDDCB] bg-[#FFFDF9] px-4 py-3 text-left text-xs leading-5 text-[#7A6B5B] transition hover:border-[#E17B45] hover:bg-[#FFF4E6]"
-                >
-                  <span className="font-black text-[#E17B45]">빠른 입력 {index + 1}</span> · {sample}
-                </button>
-              ))}
-            </div>
-          </section>
-
-          <section className="rounded-[1.35rem] bg-white p-5 shadow-sm">
-            <h2 className="text-lg font-black">오늘 목표</h2>
-            <div className="mt-4 grid gap-2">
-              {(Object.keys(focusOptions) as Focus[]).map((key) => (
-                <button
-                  key={key}
-                  type="button"
-                  onClick={() => {
-                    setFocus(key);
-                    setAnalyzed(log.trim().length > 0);
-                    setView("coach");
-                  }}
-                  className={`rounded-2xl border px-4 py-3 text-left transition ${
-                    focus === key
-                      ? "border-[#E17B45] bg-[#FFF0DA] text-[#2E2A24]"
-                      : "border-[#ECDDCB] bg-[#FFFDF9] text-[#7A6B5B] hover:border-[#E17B45]"
-                  }`}
-                >
-                  <span className="block text-sm font-black">{focusOptions[key].label}</span>
-                  <span className="mt-1 block text-xs">{focusOptions[key].helper}</span>
-                </button>
-              ))}
-            </div>
-          </section>
-
-          <button
-            type="button"
-            onClick={run}
-            className="w-full rounded-2xl bg-[#2F6F68] px-5 py-4 text-sm font-black text-white shadow-[0_18px_36px_rgba(47,111,104,0.22)] transition hover:translate-y-[-1px] hover:bg-[#285F59]"
-          >
-            정리 시작하기
-          </button>
-        </aside>
-
-        <section className="overflow-hidden rounded-[1.5rem] bg-white shadow-[0_24px_80px_rgba(77,54,28,0.12)]">
-          <div className="relative overflow-hidden bg-[#2F6F68] p-6 text-white">
-            <div className="absolute -right-12 top-8 h-40 w-40 rounded-full bg-[#FFB86B]/35" />
-            <div className="absolute -bottom-16 left-10 h-48 w-48 rounded-full bg-[#BFE6D4]/25" />
-            <div className="relative z-10 grid gap-6 lg:grid-cols-[1fr_0.72fr] lg:items-end">
-              <div>
-                <p className="text-xs font-black uppercase text-white/70">Friendly Learning OS</p>
-                <h2 className="mt-2 text-4xl font-black leading-tight">작은 기록을 면접 이야기로</h2>
-                <p className="mt-3 max-w-2xl text-sm leading-6 text-white/82">
-                  파이썬, 에이피아이, 도커처럼 편하게 적어도 괜찮아요. StudyFlow가 학습 기록을 프로젝트, 질문, 다음 액션으로 나눠줍니다.
-                </p>
+            <div className="mt-7">
+              <div className="mb-2 flex items-center justify-between gap-3">
+                <label htmlFor="study-log" className="flex items-center gap-2 text-sm font-black">
+                  <NotebookPen className="h-4 w-4 text-[#765EBA]" aria-hidden="true" />
+                  학습 기록
+                </label>
+                <span className="text-xs font-bold text-[#8B8793]">{log.length}자</span>
               </div>
-              <div className="grid grid-cols-2 gap-2 text-center sm:grid-cols-4">
-                {[
-                  ["분류", analyzed ? result.intentLabel : "대기"],
-                  ["준비도", `${analyzed ? result.readiness : 0}%`],
-                  ["기술", `${analyzed ? result.skills.length : 0}`],
-                  ["저장", `${saved.length}`]
-                ].map(([label, value]) => (
-                  <div key={label} className="rounded-2xl bg-white/15 px-3 py-3 backdrop-blur">
-                    <p className="text-xs font-bold text-white/70">{label}</p>
-                    <p className="mt-1 text-2xl font-black">{value}</p>
-                  </div>
+              <textarea
+                id="study-log"
+                value={log}
+                placeholder="예: FastAPI로 예측 API를 만들었는데 요청과 응답 구조가 아직 헷갈렸다."
+                onChange={(event) => {
+                  setLog(event.target.value);
+                  setAnalyzed(false);
+                  setNotice("");
+                }}
+                spellCheck={false}
+                className="min-h-56 w-full resize-none rounded-lg border border-[#CECBD6] bg-white p-4 text-sm leading-7 outline-none transition placeholder:text-[#AAA6B1] focus:border-[#846EC3] focus:ring-4 focus:ring-[#D8CAFF]/45"
+              />
+            </div>
+
+            {!log && (
+              <div className="mt-3 flex flex-wrap gap-2" aria-label="학습 기록 예시">
+                {samples.slice(0, 3).map((sample, index) => (
+                  <button
+                    key={sample}
+                    type="button"
+                    onClick={() => {
+                      setLog(sample);
+                      setAnalyzed(false);
+                    }}
+                    className="rounded-lg border border-[#D9D6E0] bg-white px-3 py-2 text-xs font-bold text-[#676370] transition hover:border-[#9585C7] hover:bg-[#F5F1FF]"
+                  >
+                    예시 {index + 1}
+                  </button>
                 ))}
               </div>
-            </div>
-          </div>
+            )}
 
-          <div className="border-b border-[#ECDDCB] bg-[#FFFDF9] px-4 py-3">
-            <div className="flex flex-wrap gap-2">
+            <div className="mt-7">
+              <p className="text-sm font-black">어디에 활용할까요?</p>
+              <div className="mt-3 grid grid-cols-3 gap-2" role="group" aria-label="정리 목적">
+                {(Object.keys(focusOptions) as Focus[]).map((key) => {
+                  const Icon = key === "portfolio" ? FileText : key === "interview" ? BriefcaseBusiness : FolderKanban;
+                  return (
+                    <button
+                      key={key}
+                      type="button"
+                      onClick={() => {
+                        setFocus(key);
+                        setAnalyzed(false);
+                        setView("coach");
+                      }}
+                      className={`flex min-h-24 flex-col items-start justify-between rounded-lg border p-3 text-left transition ${
+                        focus === key
+                          ? "border-[#846EC3] bg-[#EEE8FF] text-[#3D3355]"
+                          : "border-[#D9D6E0] bg-white text-[#716E79] hover:border-[#A99BD0]"
+                      }`}
+                      aria-pressed={focus === key}
+                    >
+                      <Icon className="h-5 w-5" aria-hidden="true" />
+                      <span className="text-xs font-black leading-5">{focusOptions[key].label.replace("로 정리", "")}</span>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            <button
+              type="button"
+              onClick={run}
+              disabled={!log.trim()}
+              className="mt-6 flex w-full items-center justify-center gap-2 rounded-lg bg-[#312D3B] px-5 py-4 text-sm font-black text-white transition hover:bg-[#494255] disabled:cursor-not-allowed disabled:bg-[#C9C6CE]"
+            >
+              <Sparkles className="h-4 w-4" aria-hidden="true" />
+              내 기록 정리하기
+            </button>
+
+            <p className="mt-4 flex items-center gap-2 text-xs leading-5 text-[#85818D]">
+              <BookOpen className="h-4 w-4 shrink-0 text-[#5B927A]" aria-hidden="true" />
+              한글 발음으로 적어도 기술 단어를 찾아요. 입력 내용은 현재 브라우저 안에서만 처리합니다.
+            </p>
+          </div>
+        </aside>
+
+        <section className="bg-white px-5 py-7 sm:px-8 lg:rounded-r-lg lg:px-9 lg:py-9">
+          <div className="mx-auto max-w-3xl">
+            <div className="flex flex-wrap items-end justify-between gap-4 border-b border-[#E1DFE5] pb-5">
+              <div>
+                <p className="text-xs font-black uppercase text-[#5B927A]">Your flow</p>
+                <h2 className="mt-2 text-2xl font-black">정리 결과</h2>
+              </div>
+              {analyzed && (
+                <div className="flex items-center gap-2 text-xs font-bold text-[#5F5B67]">
+                  <span className="rounded-md bg-[#DDF1E7] px-2.5 py-1.5 text-[#37654F]">{result.intentLabel}</span>
+                  <span>기술 {result.skills.length}개</span>
+                </div>
+              )}
+            </div>
+
+            <nav className="flex gap-1 overflow-x-auto border-b border-[#E1DFE5] py-3" aria-label="정리 결과 메뉴">
               {[
-                ["coach", "코치"],
-                ["match", "프로젝트"],
-                ["questions", "질문"],
-                ["library", "저장함"]
+                ["coach", "한눈에 보기"],
+                ["match", "프로젝트 연결"],
+                ["questions", "면접 질문"],
+                ["library", `저장함 ${saved.length}`]
               ].map(([key, label]) => (
                 <button
                   key={key}
                   type="button"
                   onClick={() => setView(key as View)}
-                  className={`rounded-full px-4 py-2 text-sm font-black transition ${
-                    view === key ? "bg-[#2F6F68] text-white" : "bg-white text-[#7A6B5B] hover:bg-[#FFF0DA]"
+                  className={`shrink-0 rounded-md px-3 py-2 text-xs font-black transition ${
+                    view === key ? "bg-[#312D3B] text-white" : "text-[#716E79] hover:bg-[#F1F0F4]"
                   }`}
                 >
                   {label}
                 </button>
               ))}
-            </div>
-          </div>
+            </nav>
 
-          <div className="p-5 sm:p-6">
+            <div className="py-6">
             {!analyzed ? (
-              <div className="rounded-[1.25rem] border border-dashed border-[#ECDDCB] bg-[#FFFDF9] p-8 text-center">
-                <p className="text-xl font-black">아직 정리 전이에요.</p>
-                <p className="mt-2 text-sm text-[#7A6B5B]">어렵게 쓰지 않아도 됩니다. “오늘 파이썬 배웠다”, “도커가 어려웠다”처럼 적어보세요.</p>
+              <div className="py-10 text-center sm:py-16">
+                <span className="mx-auto flex h-16 w-16 items-center justify-center rounded-lg bg-[#EEE8FF] text-[#6F59AF]">
+                  <NotebookPen className="h-8 w-8" aria-hidden="true" />
+                </span>
+                <p className="mt-5 text-xl font-black">기록 한 줄이면 충분해요.</p>
+                <p className="mx-auto mt-2 max-w-md text-sm leading-6 text-[#777481]">
+                  왼쪽에 오늘 배운 내용이나 막혔던 부분을 적으면 필요한 형태로 나눠드릴게요.
+                </p>
+                <div className="mx-auto mt-8 grid max-w-xl gap-3 text-left sm:grid-cols-3">
+                  {tutorialSteps.map((step, index) => (
+                    <div key={step.title} className="border-t-2 border-[#D8CAFF] pt-3">
+                      <p className="text-xs font-black text-[#765EBA]">0{index + 1}</p>
+                      <p className="mt-1 text-sm font-black">{step.title.replace(/^\d\.\s/, "")}</p>
+                    </div>
+                  ))}
+                </div>
               </div>
             ) : view === "coach" ? (
-              <div className="space-y-5">
-                <section className="rounded-[1.25rem] bg-[#FFF8EF] p-5">
+              <div className="space-y-6">
+                <section className="rounded-lg bg-[#F3F0FF] p-5 sm:p-6">
                   <div className="flex flex-wrap items-center justify-between gap-3">
-                    <p className="text-xs font-black uppercase text-[#E17B45]">Coach Note</p>
-                    <span className="rounded-full bg-white px-3 py-1 text-xs font-black text-[#2F6F68]">{result.intentLabel}</span>
+                    <p className="flex items-center gap-2 text-sm font-black text-[#4B3D70]">
+                      <Sparkles className="h-4 w-4" aria-hidden="true" />
+                      먼저 이렇게 이해했어요
+                    </p>
                   </div>
-                  <p className="mt-3 text-base leading-8 text-[#6E6257]">{result.summary}</p>
+                  <p className="mt-3 text-base leading-8 text-[#595264]">{result.summary}</p>
                 </section>
-                <section className="rounded-[1.25rem] bg-white p-5 ring-1 ring-[#ECDDCB]">
-                  <h3 className="text-lg font-black">쉬운 설명</h3>
-                  <div className="mt-3 grid gap-2">
+                <section>
+                  <h3 className="text-base font-black">쉽게 다시 보기</h3>
+                  <div className="mt-3 divide-y divide-[#E5E3E8] border-y border-[#E5E3E8]">
                     {result.guide.map((item, index) => (
-                      <p key={item} className="rounded-2xl bg-[#FFFDF9] px-4 py-3 text-sm leading-6 text-[#6E6257]">
-                        <span className="mr-2 font-black text-[#2F6F68]">{index + 1}</span>
-                        {item}
-                      </p>
+                      <div key={item} className="flex gap-3 py-4 text-sm leading-6 text-[#676370]">
+                        <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-md bg-[#DDF1E7] text-xs font-black text-[#37654F]">{index + 1}</span>
+                        <p>{item}</p>
+                      </div>
                     ))}
                   </div>
                 </section>
-                <div className="grid gap-4 md:grid-cols-2">
-                  <section className="rounded-[1.25rem] bg-[#EEF6EA] p-5">
-                    <h3 className="text-lg font-black">찾은 기술</h3>
-                    <div className="mt-4 flex flex-wrap gap-2">
+                <div className="grid gap-4 md:grid-cols-[0.75fr_1.25fr]">
+                  <section className="rounded-lg bg-[#EAF5F0] p-5">
+                    <h3 className="text-sm font-black">찾은 기술</h3>
+                    <div className="mt-3 flex flex-wrap gap-2">
                       {result.skills.length ? result.skills.map((skill) => (
-                        <span key={skill} className="rounded-full bg-white px-3 py-1 text-xs font-black text-[#2F6F68]">{skill}</span>
-                      )) : <p className="text-sm text-[#6E6257]">기술 키워드를 조금 더 구체적으로 써보면 좋아요.</p>}
+                        <span key={skill} className="rounded-md bg-white px-2.5 py-1.5 text-xs font-black text-[#37654F]">{skill}</span>
+                      )) : <p className="text-sm text-[#676370]">기술 단어를 조금 더 구체적으로 적어보세요.</p>}
                     </div>
                   </section>
-                  <section className="rounded-[1.25rem] bg-[#FFF0DA] p-5">
-                    <h3 className="text-lg font-black">초안 문장</h3>
-                    <p className="mt-3 text-sm leading-7 text-[#6E6257]">{result.sentence}</p>
-                    <button type="button" onClick={save} className="mt-4 rounded-full bg-[#E17B45] px-4 py-3 text-sm font-black text-white">
-                      문장 저장
+                  <section className="rounded-lg bg-[#FFF0E8] p-5">
+                    <h3 className="text-sm font-black">활용 문장</h3>
+                    <p className="mt-3 text-sm leading-7 text-[#625A57]">{result.sentence}</p>
+                    <button type="button" onClick={save} className="mt-4 flex items-center gap-2 rounded-md bg-[#E98361] px-3 py-2 text-xs font-black text-white transition hover:bg-[#D9704F]">
+                      <Save className="h-4 w-4" aria-hidden="true" />
+                      저장하기
                     </button>
+                    {notice && <p className="mt-3 flex items-center gap-1.5 text-xs font-bold text-[#6B5B52]"><CheckCircle2 className="h-4 w-4" />{notice}</p>}
                   </section>
                 </div>
-                <section className="rounded-[1.25rem] bg-white p-5 ring-1 ring-[#ECDDCB]">
-                  <h3 className="text-lg font-black">판단 방식</h3>
-                  <div className="mt-3 grid gap-2">
-                    {result.hints.map((hint) => (
-                      <p key={hint} className="rounded-2xl bg-[#FFFDF9] px-4 py-3 text-sm leading-6 text-[#6E6257]">{hint}</p>
-                    ))}
-                  </div>
-                </section>
               </div>
             ) : view === "match" ? (
-              <div className="grid gap-3 md:grid-cols-3">
+              <div>
+                <div className="mb-5 flex items-center gap-3">
+                  <FolderKanban className="h-5 w-5 text-[#765EBA]" aria-hidden="true" />
+                  <div><h3 className="font-black">연결할 수 있는 프로젝트</h3><p className="mt-1 text-xs text-[#777481]">입력한 기술과 경험이 실제로 겹칠 때만 후보로 보여줍니다.</p></div>
+                </div>
+                <div className="grid gap-3 md:grid-cols-2">
                 {result.projects.length ? result.projects.map((project) => (
-                  <article key={project} className="rounded-[1.25rem] bg-[#FFF8EF] p-5">
-                    <p className="text-xs font-black uppercase text-[#E17B45]">Candidate</p>
-                    <h3 className="mt-3 text-lg font-black">{project}</h3>
-                    <p className="mt-2 text-sm leading-6 text-[#6E6257]">오늘 학습 기록과 연결해 볼 수 있는 후보입니다. 실제 경험으로 확정하려면 만든 기능이나 사용한 기술을 더 적어주세요.</p>
+                  <article key={project} className="rounded-lg border border-[#DED7F2] bg-[#F8F5FF] p-5">
+                    <p className="text-xs font-black text-[#765EBA]">연결 후보</p>
+                    <h3 className="mt-2 text-lg font-black">{project}</h3>
+                    <p className="mt-2 text-sm leading-6 text-[#676370]">직접 만든 기능이나 맡은 역할을 더 적으면 연결 근거가 선명해져요.</p>
                   </article>
                 )) : (
-                  <div className="rounded-[1.25rem] bg-[#FFF8EF] p-5 md:col-span-3">
-                    <p className="text-sm leading-6 text-[#6E6257]">아직 특정 프로젝트로 단정하지 않았어요. 지금은 개념 학습 기록으로 두고, 나중에 FastAPI로 엔드포인트를 만들었거나 모델 서빙을 구현했다는 단서가 생기면 프로젝트 후보로 연결합니다.</p>
+                  <div className="rounded-lg border border-dashed border-[#D4D1D9] bg-[#FAFAFB] p-6 md:col-span-2">
+                    <p className="text-sm leading-6 text-[#676370]">아직 특정 프로젝트로 연결할 근거가 부족해요. 만든 기능, 사용한 기술, 확인한 결과 중 하나를 기록에 추가해보세요.</p>
                   </div>
                 )}
+                </div>
               </div>
             ) : view === "questions" ? (
-              <div className="space-y-3">
+              <div>
+                <div className="mb-5 flex items-center gap-3">
+                  <MessageCircleQuestion className="h-5 w-5 text-[#C76C4D]" aria-hidden="true" />
+                  <div><h3 className="font-black">이 기록에서 나올 질문</h3><p className="mt-1 text-xs text-[#777481]">기술 설명보다 선택과 해결 과정을 말해보세요.</p></div>
+                </div>
+                <div className="divide-y divide-[#E5E3E8] border-y border-[#E5E3E8]">
                 {result.questions.map((question, index) => (
-                  <article key={question} className="rounded-[1.25rem] bg-[#FFF8EF] p-5">
-                    <p className="text-xs font-black uppercase text-[#E17B45]">Question {index + 1}</p>
-                    <p className="mt-2 text-base font-black">{question}</p>
+                  <article key={question} className="flex gap-4 py-5">
+                    <span className="text-xs font-black text-[#C76C4D]">Q{index + 1}</span>
+                    <p className="text-base font-black leading-7">{question}</p>
                   </article>
                 ))}
+                </div>
               </div>
             ) : (
-              <div className="grid gap-5 lg:grid-cols-[0.9fr_1.1fr]">
-                <section className="rounded-[1.25rem] bg-[#EEF6EA] p-5">
-                  <h3 className="text-lg font-black">다음에 할 일</h3>
+              <div className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
+                <section className="rounded-lg bg-[#EAF5F0] p-5">
+                  <h3 className="text-base font-black">다음 학습</h3>
                   <ol className="mt-4 space-y-3">
                     {result.next.map((item, index) => (
-                      <li key={item} className="flex gap-3 text-sm leading-6 text-[#6E6257]">
-                        <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#2F6F68] text-xs font-black text-white">{index + 1}</span>
+                      <li key={item} className="flex gap-3 text-sm leading-6 text-[#5C665F]">
+                        <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-md bg-[#4D846B] text-xs font-black text-white">{index + 1}</span>
                         {item}
                       </li>
                     ))}
                   </ol>
                 </section>
-                <section className="rounded-[1.25rem] bg-[#FFF8EF] p-5">
-                  <h3 className="text-lg font-black">저장한 문장</h3>
+                <section>
+                  <h3 className="flex items-center gap-2 text-base font-black"><Save className="h-4 w-4 text-[#765EBA]" />저장한 문장</h3>
                   {saved.length ? (
-                    <ul className="mt-4 space-y-2">
+                    <ul className="mt-4 divide-y divide-[#E5E3E8] border-y border-[#E5E3E8]">
                       {saved.map((item) => (
-                        <li key={item} className="rounded-2xl bg-white px-4 py-3 text-sm leading-6 text-[#6E6257]">{item}</li>
+                        <li key={item} className="py-4 text-sm leading-6 text-[#676370]">{item}</li>
                       ))}
                     </ul>
                   ) : (
-                    <p className="mt-4 text-sm text-[#6E6257]">아직 저장한 문장이 없어요.</p>
+                    <p className="mt-4 rounded-lg border border-dashed border-[#D4D1D9] p-5 text-sm text-[#777481]">저장한 문장이 아직 없어요.</p>
                   )}
                 </section>
               </div>
             )}
           </div>
+            {analyzed && (
+              <div className="mt-4 flex items-center justify-end border-t border-[#E1DFE5] pt-4">
+                <button type="button" onClick={() => setView(view === "library" ? "coach" : "library")} className="flex items-center gap-1 text-xs font-black text-[#62518F]">
+                  {view === "library" ? "결과로 돌아가기" : "다음 학습과 저장함 보기"}
+                  <ChevronRight className="h-4 w-4" aria-hidden="true" />
+                </button>
+              </div>
+            )}
+          </div>
         </section>
       </section>
-
     </main>
   );
 }
