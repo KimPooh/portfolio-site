@@ -18,6 +18,8 @@ const navItems = [
   { id: "about", label: { kr: "소개", en: "About" } },
   { id: "skills", label: { kr: "기술", en: "Skills" } },
   { id: "projects", label: { kr: "프로젝트", en: "Projects" } },
+  { id: "background", label: { kr: "배경", en: "Background" }, href: "/background" },
+  { id: "journey", label: { kr: "여정", en: "Journey" }, href: "/journey" },
   { id: "contact", label: { kr: "연락", en: "Contact" } }
 ];
 
@@ -357,7 +359,7 @@ export function TargetedPortfolio({ profile, projects }: TargetedPortfolioProps)
           </Link>
           <nav className="hidden items-center gap-7 text-sm font-semibold text-[#B8BDC7] md:flex">
             {navItems.map((item) => (
-              <a key={item.id} href={`#${item.id}`} className="transition hover:text-[#B9E4D0]">
+              <a key={item.id} href={item.href ?? `#${item.id}`} className="transition hover:text-[#B9E4D0]">
                 {item.label[language]}
               </a>
             ))}
@@ -397,7 +399,7 @@ export function TargetedPortfolio({ profile, projects }: TargetedPortfolioProps)
               {navItems.map((item) => (
                 <a
                   key={item.id}
-                  href={`#${item.id}`}
+                  href={item.href ?? `#${item.id}`}
                   onClick={() => setIsMenuOpen(false)}
                   className="rounded px-4 py-3 text-sm font-bold text-[#D8DCE3] transition hover:bg-white/[0.06] hover:text-[#B9E4D0]"
                 >

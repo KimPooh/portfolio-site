@@ -38,6 +38,9 @@ export default function JourneyPage() {
             JIHYUN
           </Link>
           <nav className="flex items-center gap-4 text-sm font-bold text-[#AAB2C0]">
+            <Link href="/background" className="transition hover:text-[#D8C7FF]">
+              배경
+            </Link>
             <Link href="/#projects" className="transition hover:text-[#D8C7FF]">
               프로젝트
             </Link>
