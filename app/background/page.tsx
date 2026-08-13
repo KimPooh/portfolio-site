@@ -51,15 +51,24 @@ export default function BackgroundPage() {
           <Link href="/" className="text-base font-black tracking-tight">
             JIHYUN
           </Link>
-          <nav className="flex items-center gap-4 text-sm font-bold text-[#AAB2C0]">
-            <Link href="/journey" className="transition hover:text-[#F0A58D]">
-              여정
+          <nav className="flex items-center gap-4 overflow-x-auto text-sm font-bold text-[#AAB2C0]">
+            <Link href="/#about" className="shrink-0 transition hover:text-[#F0A58D]">
+              소개
             </Link>
-            <Link href="/#projects" className="transition hover:text-[#F0A58D]">
+            <Link href="/#skills" className="shrink-0 transition hover:text-[#F0A58D]">
+              기술
+            </Link>
+            <Link href="/#projects" className="shrink-0 transition hover:text-[#F0A58D]">
               프로젝트
             </Link>
-            <Link href="/#contact" className="transition hover:text-[#F0A58D]">
-              연락처
+            <Link href="/background" className="shrink-0 transition hover:text-[#F0A58D]">
+              배경
+            </Link>
+            <Link href="/journey" className="shrink-0 transition hover:text-[#F0A58D]">
+              여정
+            </Link>
+            <Link href="/#contact" className="shrink-0 transition hover:text-[#F0A58D]">
+              연락
             </Link>
           </nav>
         </div>
