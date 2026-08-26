@@ -116,6 +116,22 @@ const skillGroups = [
 
 const projectCards = [
   {
+    slug: "personal-finance-manager",
+    label: "Product",
+    title: "개인 자산관리",
+    role: { kr: "보안 · 모바일 UX · 데이터 안정성", en: "Security · Mobile UX · Data Safety" },
+    summary: {
+      kr: "금융을 잘 모르는 사용자도 자산·대출·현금흐름을 이해하고 기록할 수 있도록 만든 개인 금융 관리 앱입니다.",
+      en: "A personal finance app designed to make assets, loans, and cash flow understandable even for financial beginners."
+    },
+    points: { kr: ["암호화 저장", "백업·복원", "CSV 중복 방지", "갤럭시 실기기 검증"], en: ["Encrypted storage", "Backup & restore", "CSV deduplication", "Galaxy device QA"] },
+    href: "/projects/personal-finance-manager",
+    repository: null,
+    processHref: null,
+    color: "bg-[#E5E7FA]",
+    visual: "finance"
+  },
+  {
     slug: "studyflow-ai",
     label: "Product",
     title: "StudyFlow AI",
@@ -208,6 +224,26 @@ type ChatMessage = {
 };
 
 function ProjectVisual({ type, label }: { type: string; label: string }) {
+  if (type === "finance") {
+    return (
+      <div className="relative h-44 overflow-hidden rounded-md bg-[#1B2233] p-5 text-white">
+        <p className="relative z-10 text-xs font-black uppercase text-[#A5B4FC]">{label}</p>
+        <div className="absolute left-5 right-5 top-12 grid grid-cols-2 gap-2">
+          <span className="h-10 rounded bg-white/10" />
+          <span className="h-10 rounded bg-[#6366F1]/35" />
+        </div>
+        <div className="absolute bottom-5 left-5 right-5 rounded bg-white/[0.06] p-3">
+          <span className="block h-2 overflow-hidden rounded-full bg-white/10">
+            <span className="block h-full w-2/3 rounded-full bg-[#818CF8]" />
+          </span>
+          <span className="mt-3 grid grid-cols-4 gap-2">
+            <i className="h-2 rounded bg-[#818CF8]" /><i className="h-2 rounded bg-[#22C55E]" /><i className="h-2 rounded bg-[#38BDF8]" /><i className="h-2 rounded bg-[#F59E0B]" />
+          </span>
+        </div>
+      </div>
+    );
+  }
+
   if (type === "studyflow") {
     return (
       <div className="relative h-44 overflow-hidden rounded-md bg-[#E7E9FF] p-5 text-[#141821]">
@@ -528,9 +564,11 @@ export function TargetedPortfolio({ profile, projects }: TargetedPortfolioProps)
                     <Link href={project.href} className="inline-flex min-h-11 items-center gap-3 rounded-md bg-[#1A1B20] px-4 text-sm font-black text-white transition hover:-translate-y-0.5">
                       {project.processHref ? copy.appButton : copy.detailButton}<span aria-hidden="true">↗</span>
                     </Link>
-                    <a href={project.repository} target="_blank" rel="noreferrer" className="inline-flex min-h-11 items-center gap-3 rounded-md border border-[#9F988D] px-4 text-sm font-black transition hover:-translate-y-0.5 hover:border-[#6C5A8F] hover:text-[#6C5A8F]">
-                      {copy.repositoryButton}<span aria-hidden="true">↗</span>
-                    </a>
+                    {project.repository ? (
+                      <a href={project.repository} target="_blank" rel="noreferrer" className="inline-flex min-h-11 items-center gap-3 rounded-md border border-[#9F988D] px-4 text-sm font-black transition hover:-translate-y-0.5 hover:border-[#6C5A8F] hover:text-[#6C5A8F]">
+                        {copy.repositoryButton}<span aria-hidden="true">↗</span>
+                      </a>
+                    ) : null}
                     {project.processHref ? (
                       <Link href={project.processHref} className="inline-flex min-h-11 items-center gap-3 rounded-md border border-[#6C5A8F] bg-[#E5DCF3] px-4 text-sm font-black text-[#4F3F72] transition hover:-translate-y-0.5 hover:bg-[#D5C8EA]">
                         {copy.processButton}<span aria-hidden="true">→</span>

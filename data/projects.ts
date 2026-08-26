@@ -2,6 +2,45 @@ import type { Project } from "@/types/portfolio";
 
 export const projects: Project[] = [
   {
+    slug: "personal-finance-manager",
+    title: "개인 자산관리",
+    year: "2026",
+    category: "Personal Finance / Security-first Web App / Mobile UX",
+    description:
+      "금융을 잘 모르는 사용자도 자산·대출·현금흐름을 이해하고 기록할 수 있도록 만든 모바일 중심 개인 금융 관리 앱입니다.",
+    outcome:
+      "암호화 저장, 백업·복원, 중복 방지 CSV 가져오기, 대출 상환계획과 모바일 실기기 검증까지 갖춘 로컬 MVP를 구현했습니다.",
+    tags: ["Next.js", "TypeScript", "Prisma", "SQLite", "Security", "Mobile UX"],
+    detailHref: "/projects/personal-finance-manager",
+    featured: true,
+    summaryCards: [
+      {
+        title: "Problem",
+        items: [
+          "자산·대출 정보가 여러 금융사에 흩어져 전체 상태를 보기 어려움",
+          "금융 용어를 모르면 무엇을 입력해야 하는지 판단하기 어려움",
+          "민감한 개인 금융 데이터를 외부 서비스에 맡기기 부담스러움"
+        ]
+      },
+      {
+        title: "Product",
+        items: [
+          "자산·대출·현금흐름과 상환계획을 한곳에서 관리",
+          "입력 항목마다 쉬운 설명과 국내 금융회사 선택 제공",
+          "은행·카드 CSV 미리보기, 수정, 중복 방지 후 저장"
+        ]
+      },
+      {
+        title: "Reliability",
+        items: [
+          "민감 필드 암호화와 로그인 시도 제한 적용",
+          "백업 → 전체 삭제 → 복원 시나리오 자동 검증",
+          "147개 자동 테스트와 갤럭시 실기기 점검"
+        ]
+      }
+    ]
+  },
+  {
     slug: "studyflow-ai",
     title: "StudyFlow AI",
     year: "2026",
