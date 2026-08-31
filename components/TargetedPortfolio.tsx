@@ -38,6 +38,7 @@ const languageCopy = {
     projectsTitle: "만든 것들",
     detailButton: "자세히",
     appButton: "앱 실행",
+    liveButton: "배포 앱",
     repositoryButton: "GitHub",
     processButton: "제작 과정",
     projectsBody: "문제를 정의하고, 데이터를 다루고, 화면과 API로 연결한 과정을 프로젝트별로 정리했습니다.",
@@ -69,6 +70,7 @@ const languageCopy = {
     projectsTitle: "Built Work",
     detailButton: "Details",
     appButton: "Open App",
+    liveButton: "Live App",
     repositoryButton: "GitHub",
     processButton: "Build Process",
     projectsBody: "Each project shows how I framed a problem, worked with data, and connected the result to an interface or API.",
@@ -126,6 +128,7 @@ const projectCards = [
     },
     points: { kr: ["암호화 저장", "백업·복원", "CSV 중복 방지", "갤럭시 실기기 검증"], en: ["Encrypted storage", "Backup & restore", "CSV deduplication", "Galaxy device QA"] },
     href: "/projects/personal-finance-manager",
+    liveHref: "https://personal-finance-manager-roan.vercel.app/login",
     repository: null,
     processHref: null,
     color: "bg-[#E5E7FA]",
@@ -564,6 +567,11 @@ export function TargetedPortfolio({ profile, projects }: TargetedPortfolioProps)
                     <Link href={project.href} className="inline-flex min-h-11 items-center gap-3 rounded-md bg-[#1A1B20] px-4 text-sm font-black text-white transition hover:-translate-y-0.5">
                       {project.processHref ? copy.appButton : copy.detailButton}<span aria-hidden="true">↗</span>
                     </Link>
+                    {"liveHref" in project && project.liveHref ? (
+                      <a href={project.liveHref} target="_blank" rel="noreferrer" className="inline-flex min-h-11 items-center gap-3 rounded-md border border-[#6C5A8F] bg-[#E5DCF3] px-4 text-sm font-black text-[#4F3F72] transition hover:-translate-y-0.5 hover:bg-[#D5C8EA]">
+                        {copy.liveButton}<span aria-hidden="true">↗</span>
+                      </a>
+                    ) : null}
                     {project.repository ? (
                       <a href={project.repository} target="_blank" rel="noreferrer" className="inline-flex min-h-11 items-center gap-3 rounded-md border border-[#9F988D] px-4 text-sm font-black transition hover:-translate-y-0.5 hover:border-[#6C5A8F] hover:text-[#6C5A8F]">
                         {copy.repositoryButton}<span aria-hidden="true">↗</span>

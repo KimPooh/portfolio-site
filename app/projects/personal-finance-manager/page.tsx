@@ -3,6 +3,7 @@ import {
   ArrowLeft,
   Banknote,
   DatabaseBackup,
+  ExternalLink,
   FileSpreadsheet,
   Landmark,
   LockKeyhole,
@@ -19,7 +20,7 @@ const features = [
 
 const decisions = [
   ["외부 연동보다 안전한 로컬 MVP부터", "은행 API는 개인 개발자가 즉시 연결하기 어렵고 실제 금융정보를 다루는 순간 인증·보안 범위가 크게 늘어납니다.", "계좌 스크래핑은 제외하고 로컬 저장과 CSV 가져오기로 먼저 사용 가치를 검증했습니다."],
-  ["저장보다 복구 가능성을 먼저 검증", "개인 금융 앱은 기능 수보다 데이터를 잃지 않는 것이 더 중요합니다.", "백업, 전체 삭제, 복원과 트랜잭션 롤백을 격리된 SQLite에서 자동 테스트했습니다."],
+  ["저장보다 복구 가능성을 먼저 검증", "개인 금융 앱은 기능 수보다 데이터를 잃지 않는 것이 더 중요합니다.", "백업, 전체 삭제, 복원과 트랜잭션 롤백을 격리된 테스트 DB에서 자동 검증했습니다."],
   ["금융 용어를 안다고 가정하지 않기", "취득일, 원금, 잔액, 변동금리 같은 필드는 초보자에게 입력 기준이 불명확합니다.", "각 입력 아래에 쉬운 설명을 제공하고 국내 금융회사를 목록에서 선택하도록 바꿨습니다."],
   ["갤럭시 실기기로 확인", "파일 선택, datalist, 쿠키, 하단 안전영역은 모바일 브라우저에서 다르게 동작했습니다.", "갤럭시에서 직접 사용하며 네이티브 선택창, 파일 버튼, 하단 탭과 로컬 세션을 개선했습니다."]
 ] as const;
@@ -29,7 +30,7 @@ function ProductPreview() {
     <div className="overflow-hidden rounded-[1.75rem] border border-white/15 bg-[#111827] p-5 text-white shadow-[0_30px_80px_rgb(15_23_42/0.32)]">
       <div className="flex items-center justify-between border-b border-white/10 pb-4">
         <div><p className="text-[10px] font-black tracking-[0.18em] text-[#A5B4FC]">PERSONAL FINANCE</p><p className="mt-1 text-sm font-black">개인 자산관리</p></div>
-        <span className="rounded-full bg-[#6366F1]/20 px-3 py-1 text-[10px] font-black text-[#C7D2FE]">LOCAL MVP</span>
+        <span className="rounded-full bg-[#6366F1]/20 px-3 py-1 text-[10px] font-black text-[#C7D2FE]">LIVE APP</span>
       </div>
       <div className="mt-5 grid grid-cols-2 gap-3">
         {[["총자산", "₩42,800,000"], ["대출잔액", "₩18,500,000"], ["월 잉여자금", "₩1,240,000"], ["순자산", "₩24,300,000"]].map(([label, value], index) => (
@@ -64,7 +65,10 @@ export default function PersonalFinanceManagerPage() {
             <p className="text-xs font-black tracking-[0.16em] text-[#4F46E5]">PERSONAL FINANCE · MOBILE WEB APP</p>
             <h1 className="mt-5 text-4xl font-black leading-[1.12] [word-break:keep-all] sm:text-6xl">금융을 몰라도 시작할 수 있는<br />개인 자산관리</h1>
             <p className="mt-6 max-w-2xl text-base leading-8 text-black/60 sm:text-lg">자산, 대출, 월 현금흐름을 한곳에서 이해하고 기록하도록 만든 개인용 금융 관리 제품입니다. 민감정보 보호와 데이터 복구 가능성을 기능 설계의 출발점으로 삼았습니다.</p>
-            <div className="mt-8 flex flex-wrap gap-2">{["Next.js", "TypeScript", "Prisma", "SQLite", "Zod", "Mobile UX"].map((tag) => <span key={tag} className="rounded-full border border-[#4F46E5]/20 bg-white/45 px-3 py-1.5 text-xs font-bold text-[#4138B8]">{tag}</span>)}</div>
+            <div className="mt-8 flex flex-wrap gap-2">{["Next.js", "TypeScript", "Prisma", "PostgreSQL", "Neon", "Vercel", "Mobile UX"].map((tag) => <span key={tag} className="rounded-full border border-[#4F46E5]/20 bg-white/45 px-3 py-1.5 text-xs font-bold text-[#4138B8]">{tag}</span>)}</div>
+            <a href="https://personal-finance-manager-roan.vercel.app/login" target="_blank" rel="noreferrer" className="mt-7 inline-flex min-h-12 items-center gap-2 rounded-md bg-[#202329] px-5 text-sm font-black text-white transition hover:-translate-y-0.5">
+              배포 앱 보기 <ExternalLink className="h-4 w-4" aria-hidden="true" />
+            </a>
           </div>
           <ProductPreview />
         </div>
@@ -95,13 +99,13 @@ export default function PersonalFinanceManagerPage() {
         <div className="mx-auto grid max-w-[1240px] gap-5 px-5 sm:px-8 lg:grid-cols-3">
           <article className="rounded-2xl border border-black/10 bg-white/60 p-6"><LockKeyhole className="h-7 w-7 text-[#4F46E5]" /><h2 className="mt-5 text-2xl font-black">Security</h2><ul className="mt-5 space-y-3 text-sm leading-7 text-black/60"><li>민감 텍스트 필드 암호화 저장</li><li>세션 로그인과 시도 횟수 제한</li><li>파서 예외·거래 원문 노출 차단</li></ul></article>
           <article className="rounded-2xl border border-black/10 bg-[#E8F2EC] p-6"><DatabaseBackup className="h-7 w-7 text-[#287567]" /><h2 className="mt-5 text-2xl font-black">Data Safety</h2><ul className="mt-5 space-y-3 text-sm leading-7 text-black/60"><li>전체 데이터 백업·삭제·복원</li><li>손상 백업과 다른 키 사전 거절</li><li>트랜잭션 실패 전체 롤백</li></ul></article>
-          <article className="rounded-2xl border border-black/10 bg-[#F6DDD4] p-6"><Smartphone className="h-7 w-7 text-[#A4513A]" /><h2 className="mt-5 text-2xl font-black">Verification</h2><ul className="mt-5 space-y-3 text-sm leading-7 text-black/60"><li>자동 테스트 147개 통과</li><li>lint·TypeScript·빌드 검증</li><li>갤럭시 실기기 점검</li></ul></article>
+          <article className="rounded-2xl border border-black/10 bg-[#F6DDD4] p-6"><Smartphone className="h-7 w-7 text-[#A4513A]" /><h2 className="mt-5 text-2xl font-black">Verification</h2><ul className="mt-5 space-y-3 text-sm leading-7 text-black/60"><li>자동 테스트 205개 통과</li><li>lint·TypeScript·빌드 검증</li><li>갤럭시 실기기 점검</li></ul></article>
         </div>
       </section>
 
       <section className="border-t border-black/10 bg-white/40 py-16 sm:py-20">
         <div className="mx-auto grid max-w-[1240px] gap-8 px-5 sm:px-8 lg:grid-cols-[0.8fr_1.2fr]">
-          <div><h2 className="text-3xl font-black">현재 상태와 다음 단계</h2><p className="mt-5 text-sm leading-7 text-black/55">개인 로컬 MVP로 핵심 흐름은 작동합니다. 공개 서비스가 아니라 보안과 사용성 가설을 안전하게 검증하는 단계입니다.</p></div>
+          <div><h2 className="text-3xl font-black">현재 상태와 다음 단계</h2><p className="mt-5 text-sm leading-7 text-black/55">Neon PostgreSQL과 Vercel 기반 운영 환경에 배포했습니다. 개인 금융정보 보호를 위해 관리자 로그인은 유지하며, 포트폴리오에서는 구현 과정과 배포 결과를 공개합니다.</p></div>
           <div className="grid gap-3 sm:grid-cols-2">{["실제 금융사 파일 형식 확대", "초보자 첫 실행 가이드", "PWA 또는 안전한 배포 환경", "공식 금융 API 연동 검토"].map((item, index) => <div key={item} className="rounded-xl border border-black/10 bg-[#F4F1EA] p-5"><span className="text-xs font-black text-[#4F46E5]">NEXT {index + 1}</span><p className="mt-3 text-sm font-bold leading-7">{item}</p></div>)}</div>
         </div>
       </section>

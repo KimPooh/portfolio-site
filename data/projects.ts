@@ -9,8 +9,8 @@ export const projects: Project[] = [
     description:
       "금융을 잘 모르는 사용자도 자산·대출·현금흐름을 이해하고 기록할 수 있도록 만든 모바일 중심 개인 금융 관리 앱입니다.",
     outcome:
-      "암호화 저장, 백업·복원, 중복 방지 CSV 가져오기, 대출 상환계획과 모바일 실기기 검증까지 갖춘 로컬 MVP를 구현했습니다.",
-    tags: ["Next.js", "TypeScript", "Prisma", "SQLite", "Security", "Mobile UX"],
+      "암호화 저장, 백업·복원, 중복 방지 CSV 가져오기와 모바일 검증을 거쳐 Neon PostgreSQL·Vercel 운영 환경에 배포했습니다.",
+    tags: ["Next.js", "TypeScript", "Prisma", "PostgreSQL", "Neon", "Vercel", "Security", "Mobile UX"],
     detailHref: "/projects/personal-finance-manager",
     featured: true,
     summaryCards: [
@@ -35,7 +35,7 @@ export const projects: Project[] = [
         items: [
           "민감 필드 암호화와 로그인 시도 제한 적용",
           "백업 → 전체 삭제 → 복원 시나리오 자동 검증",
-          "147개 자동 테스트와 갤럭시 실기기 점검"
+          "205개 자동 테스트와 갤럭시 실기기 점검"
         ]
       }
     ]
