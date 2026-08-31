@@ -66,7 +66,7 @@ export default function PersonalFinanceManagerPage() {
             <h1 className="mt-5 text-4xl font-black leading-[1.12] [word-break:keep-all] sm:text-6xl">금융을 몰라도 시작할 수 있는<br />개인 자산관리</h1>
             <p className="mt-6 max-w-2xl text-base leading-8 text-black/60 sm:text-lg">자산, 대출, 월 현금흐름을 한곳에서 이해하고 기록하도록 만든 개인용 금융 관리 제품입니다. 민감정보 보호와 데이터 복구 가능성을 기능 설계의 출발점으로 삼았습니다.</p>
             <div className="mt-8 flex flex-wrap gap-2">{["Next.js", "TypeScript", "Prisma", "PostgreSQL", "Neon", "Vercel", "Mobile UX"].map((tag) => <span key={tag} className="rounded-full border border-[#4F46E5]/20 bg-white/45 px-3 py-1.5 text-xs font-bold text-[#4138B8]">{tag}</span>)}</div>
-            <a href="https://personal-finance-manager-roan.vercel.app/login" target="_blank" rel="noreferrer" className="mt-7 inline-flex min-h-12 items-center gap-2 rounded-md bg-[#202329] px-5 text-sm font-black text-white transition hover:-translate-y-0.5">
+            <a href="https://personal-finance-manager-roan.vercel.app/demo" target="_blank" rel="noreferrer" className="mt-7 inline-flex min-h-12 items-center gap-2 rounded-md bg-[#202329] px-5 text-sm font-black text-white transition hover:-translate-y-0.5">
               배포 앱 보기 <ExternalLink className="h-4 w-4" aria-hidden="true" />
             </a>
           </div>
