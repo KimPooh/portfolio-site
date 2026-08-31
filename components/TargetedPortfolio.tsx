@@ -130,7 +130,7 @@ const projectCards = [
     href: "/projects/personal-finance-manager",
     liveHref: "https://personal-finance-manager-roan.vercel.app/demo",
     repository: null,
-    processHref: null,
+    processHref: "/projects/personal-finance-manager/process",
     color: "bg-[#E5E7FA]",
     visual: "finance"
   },
@@ -565,7 +565,7 @@ export function TargetedPortfolio({ profile, projects }: TargetedPortfolioProps)
                   </div>
                   <div className="mt-6 flex flex-wrap gap-3 lg:mt-auto lg:pt-6">
                     <Link href={project.href} className="inline-flex min-h-11 items-center gap-3 rounded-md bg-[#1A1B20] px-4 text-sm font-black text-white transition hover:-translate-y-0.5">
-                      {project.processHref ? copy.appButton : copy.detailButton}<span aria-hidden="true">↗</span>
+                      {project.processHref && !("liveHref" in project) ? copy.appButton : copy.detailButton}<span aria-hidden="true">↗</span>
                     </Link>
                     {"liveHref" in project && project.liveHref ? (
                       <a href={project.liveHref} target="_blank" rel="noreferrer" className="inline-flex min-h-11 items-center gap-3 rounded-md border border-[#6C5A8F] bg-[#E5DCF3] px-4 text-sm font-black text-[#4F3F72] transition hover:-translate-y-0.5 hover:bg-[#D5C8EA]">

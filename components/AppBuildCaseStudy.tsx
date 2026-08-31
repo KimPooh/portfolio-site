@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { ArrowLeft, CodeXml, Play, Sparkles } from "lucide-react";
 
-type ThemeName = "studyflow" | "arte";
+type ThemeName = "studyflow" | "arte" | "finance";
 
 type BuildStep = {
   question: string;
@@ -40,10 +40,42 @@ const themes = {
     button: "bg-[#173F3B] text-white",
     soft: "bg-[#F6DDD4] border-[#DDB6A8]",
     marker: "bg-[#C9BDF4]"
+  },
+  finance: {
+    page: "bg-[#F3F1EC] text-[#1E2026]",
+    hero: "bg-[#E5E7FA] border-[#C4C7E8]",
+    accent: "text-[#4F46A8]",
+    button: "bg-[#202329] text-white",
+    soft: "bg-[#E8F2EC] border-[#BCD5C8]",
+    marker: "bg-[#A5B4FC]"
   }
 } satisfies Record<ThemeName, Record<string, string>>;
 
 function ProductVisual({ theme }: { theme: ThemeName }) {
+  if (theme === "finance") {
+    return (
+      <div className="relative min-h-[22rem] overflow-hidden rounded-md bg-[#111827] p-5 text-white" aria-label="개인 자산관리의 자산, 대출, 현금흐름 대시보드를 표현한 그래픽">
+        <div className="flex items-center justify-between border-b border-white/15 pb-4 text-[10px] font-black">
+          <span>PERSONAL FINANCE</span>
+          <span className="rounded bg-[#A5B4FC] px-2 py-1 text-[#202329]">SECURE · LIVE</span>
+        </div>
+        <div className="mt-5 grid grid-cols-2 gap-3">
+          {[["TOTAL ASSETS", "₩42.8M"], ["NET WORTH", "₩24.3M"], ["LOAN", "₩18.5M"], ["SURPLUS", "₩1.81M"]].map(([label, value], index) => (
+            <div key={label} className={`rounded-md border p-4 ${index === 1 ? "border-[#A5B4FC]/60 bg-[#6366F1]/20" : "border-white/15 bg-white/5"}`}>
+              <p className="text-[9px] font-black text-white/45">{label}</p>
+              <p className="mt-3 text-sm font-black">{value}</p>
+            </div>
+          ))}
+        </div>
+        <div className="mt-4 rounded-md border border-white/15 bg-white/5 p-4">
+          <div className="flex items-center justify-between"><span className="text-[10px] font-black">ASSET MIX</span><span className="text-[9px] text-white/40">2026.08</span></div>
+          <div className="mt-5 flex h-3 overflow-hidden rounded-full bg-white/10"><span className="w-[28%] bg-[#38BDF8]" /><span className="w-[20%] bg-[#22C55E]" /><span className="w-[36%] bg-[#818CF8]" /><span className="w-[16%] bg-[#F59E0B]" /></div>
+          <div className="mt-4 grid grid-cols-4 gap-2 text-center text-[9px] font-bold text-white/50"><span>예금</span><span>적금</span><span>ETF</span><span>청약</span></div>
+        </div>
+      </div>
+    );
+  }
+
   if (theme === "arte") {
     return (
       <div className="relative min-h-[22rem] overflow-hidden rounded-md bg-[#17191E] p-5 text-white" aria-label="ARTE Visit Companion의 작품 선택과 이중 언어 관람 가이드 화면을 표현한 그래픽">
