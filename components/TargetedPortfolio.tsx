@@ -129,7 +129,7 @@ const projectCards = [
     points: { kr: ["암호화 저장", "백업·복원", "CSV 중복 방지", "갤럭시 실기기 검증"], en: ["Encrypted storage", "Backup & restore", "CSV deduplication", "Galaxy device QA"] },
     href: "/projects/personal-finance-manager",
     liveHref: "https://personal-finance-manager-roan.vercel.app/demo",
-    repository: null,
+    repository: "https://github.com/KimPooh/Personal-Finance-Manager",
     processHref: "/projects/personal-finance-manager/process",
     color: "bg-[#E5E7FA]",
     visual: "finance"
