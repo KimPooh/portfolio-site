@@ -118,6 +118,44 @@ export const projects: Project[] = [
     ]
   },
   {
+    slug: "pote-gallery",
+    title: "Pote",
+    year: "2026",
+    category: "Art Gallery Platform / i18n Web App / Business Model Design",
+    description:
+      "신진·아마추어 작가의 작품을 소개하고, 마음이 가는 작품을 만나면 작가와 구매자를 직접 연결해주는 온라인 갤러리입니다.",
+    outcome:
+      "직접 판매 대행 대신 '연결자' 비즈니스 모델을 세우고, 10개 언어 지원과 실제 전시 데이터 연동까지 갖춘 서비스로 Vercel에 배포했습니다.",
+    tags: ["Next.js", "TypeScript", "i18n", "RTL", "Vercel", "Static Data Pipeline"],
+    detailHref: "/projects/pote-gallery",
+    summaryCards: [
+      {
+        title: "Problem",
+        items: [
+          "신진 작가는 인맥·팔로워 없이는 작품을 보여줄 곳이 마땅치 않음",
+          "구매자는 무명 작가의 작품을 어디서 믿고 사야 할지 판단하기 어려움",
+          "직접 판매를 대행하면 작가가 늘어날수록 운영이 감당하기 어려워짐"
+        ]
+      },
+      {
+        title: "Product",
+        items: [
+          "작가·구매자를 연결만 하고 가격 협의·결제·배송은 당사자 간 진행",
+          "판매 성사 시 10% 수수료를 신고제로 수취",
+          "취향 추천 퀴즈, 실제 전시 데이터 연동, 작가 설정 가격 표시"
+        ]
+      },
+      {
+        title: "Engineering",
+        items: [
+          "10개 언어 다국어와 아랍어 RTL 레이아웃 대응",
+          "Vercel 인프라 제약을 확인하고 정적 데이터 스냅샷 파이프라인으로 전환",
+          "색상·대비를 계산 기반으로 검증하는 디자인 원칙 정립"
+        ]
+      }
+    ]
+  },
+  {
     slug: "pneumonia-backoffice-ai-serving",
     title: "폐렴 환자 관리 백오피스",
     year: "2026",

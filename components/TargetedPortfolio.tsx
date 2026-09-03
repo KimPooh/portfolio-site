@@ -199,6 +199,23 @@ const projectCards = [
     visual: "smoking"
   },
   {
+    slug: "pote-gallery",
+    label: "Product",
+    title: "Pote",
+    role: { kr: "비즈니스 모델 · 다국어 · 배포 운영", en: "Business Model · i18n · Deployment" },
+    summary: {
+      kr: "신진 작가와 구매자를 연결만 해주는 온라인 갤러리입니다. 직접 판매 대행 대신 연결자 모델을 세우고 10개 언어와 실제 전시 데이터 연동까지 갖췄습니다.",
+      en: "An online gallery that only connects emerging artists with buyers, built around a connector business model with 10-language support and real exhibition data."
+    },
+    points: { kr: ["연결자 모델", "10개 언어 · RTL", "전시 데이터 연동", "작가 설정 가격"], en: ["Connector model", "10 languages · RTL", "Exhibition data", "Artist-set pricing"] },
+    href: "/projects/pote-gallery",
+    liveHref: "https://pote-gallery.vercel.app",
+    repository: "https://github.com/KimPooh/pote-gallery",
+    processHref: "/projects/pote-gallery/process",
+    color: "bg-[#F7E6D3]",
+    visual: "pote"
+  },
+  {
     slug: "arte-visit-companion",
     label: "Prototype",
     title: "ARTE Visit Companion",
@@ -306,6 +323,19 @@ function ProjectVisual({ type, label }: { type: string; label: string }) {
         <div className="absolute -bottom-16 -left-8 h-44 w-44 rounded-full border-[18px] border-[#F0A58D]" />
         <div className="absolute -bottom-20 left-20 h-48 w-48 rounded-full border-[18px] border-[#C9BDF4]" />
         <div className="absolute -bottom-16 right-0 h-40 w-40 rounded-full border-[18px] border-[#B9E4D0]" />
+      </div>
+    );
+  }
+
+  if (type === "pote") {
+    return (
+      <div className="relative h-44 overflow-hidden rounded-md bg-[#0D2822] p-5 text-white">
+        <p className="relative z-10 text-xs font-black uppercase text-[#F0B36F]">{label}</p>
+        <div className="absolute bottom-5 left-5 right-5 grid grid-cols-3 gap-2">
+          <span className="h-16 rounded" style={{ background: "linear-gradient(135deg,#f6ca98,#985216)" }} />
+          <span className="h-16 rounded bg-[#173F3B]" />
+          <span className="h-16 rounded" style={{ background: "linear-gradient(135deg,#ec9951,#62320e)" }} />
+        </div>
       </div>
     );
   }

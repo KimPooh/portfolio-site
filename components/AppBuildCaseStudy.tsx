@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { ArrowLeft, CodeXml, Play, Sparkles } from "lucide-react";
 
-type ThemeName = "studyflow" | "arte" | "finance";
+type ThemeName = "studyflow" | "arte" | "finance" | "pote";
 
 type BuildStep = {
   question: string;
@@ -48,6 +48,14 @@ const themes = {
     button: "bg-[#202329] text-white",
     soft: "bg-[#E8F2EC] border-[#BCD5C8]",
     marker: "bg-[#A5B4FC]"
+  },
+  pote: {
+    page: "bg-[#F5EFE6] text-[#1E2026]",
+    hero: "bg-[#F7E6D3] border-[#E8C8A0]",
+    accent: "text-[#A85A1E]",
+    button: "bg-[#0D2822] text-white",
+    soft: "bg-[#FBEEDD] border-[#E8C8A0]",
+    marker: "bg-[#F0B36F]"
   }
 } satisfies Record<ThemeName, Record<string, string>>;
 
@@ -96,6 +104,32 @@ function ProductVisual({ theme }: { theme: ThemeName }) {
             <span className="h-12 rounded border border-[#F0A58D]/50 bg-[#F0A58D]/15" />
             <span className="h-12 rounded border border-[#C9BDF4]/50 bg-[#C9BDF4]/15" />
             <span className="h-12 rounded border border-[#B9E4D0]/50 bg-[#B9E4D0]/15" />
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (theme === "pote") {
+    return (
+      <div className="relative min-h-[22rem] overflow-hidden rounded-md bg-[#0D2822] p-5 text-white" aria-label="Pote의 작품 갤러리와 작가 연결 화면을 표현한 그래픽">
+        <div className="flex items-center justify-between border-b border-white/15 pb-4 text-[10px] font-black">
+          <span>ART GALLERY · CONNECTOR</span>
+          <span className="rounded bg-[#F0B36F] px-2 py-1 text-[#0D2822]">KR · EN · +8</span>
+        </div>
+        <div className="mt-5 grid grid-cols-3 gap-2">
+          <span className="h-24 rounded" style={{ background: "linear-gradient(135deg,#f6ca98,#985216)" }} />
+          <span className="h-24 rounded bg-[#173F3B]" />
+          <span className="h-24 rounded" style={{ background: "linear-gradient(135deg,#ec9951,#62320e)" }} />
+        </div>
+        <div className="mt-4 rounded-md border border-white/15 bg-white/5 p-4">
+          <div className="flex items-center justify-between">
+            <span className="text-[10px] font-black text-[#F0B36F]">ARTIST-SET PRICE</span>
+            <span className="text-[9px] text-white/40">문의 가능</span>
+          </div>
+          <div className="mt-4 flex items-center justify-between rounded border border-white/10 bg-black/20 px-3 py-2">
+            <span className="text-xs font-black">350,000원</span>
+            <span className="rounded bg-white/10 px-2 py-1 text-[9px] font-bold text-white/60">10% CONNECTOR FEE</span>
           </div>
         </div>
       </div>

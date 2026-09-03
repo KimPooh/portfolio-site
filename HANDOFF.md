@@ -44,6 +44,15 @@
 - Added a bilingual KR/EN portfolio interface.
 - Added a local serverless portfolio chatbot with follow-up context, accurate project facts and automatic conversation scrolling. It currently does not require an OpenAI API key.
 - Connected project cards to their GitHub repositories.
+- Added a sixth project, Pote (`/projects/pote-gallery`, process at `/projects/pote-gallery/process`) —
+  a real, separately deployed Next.js art-gallery product (https://pote-gallery.vercel.app), not a
+  portfolio-only prototype. Followed the personal-finance-manager pattern (bespoke detail page +
+  `liveHref` to the real deployment + `AppBuildCaseStudy` process page), and the ARTE/infertility
+  pattern for disclosure: its GitHub repo (https://github.com/KimPooh/pote-gallery) is public but
+  README-only — the real source stays private since the internal docs describe live business
+  strategy (commission rate, artist negotiations) that shouldn't be public. `lib/portfolioChat.ts`
+  was intentionally NOT updated with Pote facts — it was already missing personal-finance-manager
+  before this change, so it's a pre-existing gap, not something this change introduced.
 
 ## Next priority
 
