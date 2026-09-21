@@ -29,8 +29,8 @@ export function getPortfolioAnswer(question: string, language: PortfolioLanguage
 
   if (!original) {
     return isEnglish
-      ? "Ask about Jihyun, the five projects, app build decisions, skills, award, or contact details."
-      : "김지현 소개, 다섯 프로젝트, 앱 제작 과정, 기술 스택, 수상 기록과 연락처를 물어보세요.";
+      ? "Ask about Jihyun, the six projects, Pote and app build decisions, skills, award, or contact details."
+      : "김지현 소개, 여섯 프로젝트, Pote·앱 제작 과정, 기술 스택, 수상 기록과 연락처를 물어보세요.";
   }
 
   if (hasAny(text, ["안녕", "반가워", "hello", "hi", "hey"])) {
@@ -41,8 +41,8 @@ export function getPortfolioAnswer(question: string, language: PortfolioLanguage
 
   if (hasAny(text, ["뭘물어", "무엇을물어", "뭐할수", "도와줄", "사용법", "help", "whatcanyoudo"])) {
     return isEnglish
-      ? "I can cover profile details, skills, education, five projects, the 0.74236 hackathon result, StudyFlow and ARTE build decisions, and contact links."
-      : "소개, 기술과 교육, 다섯 프로젝트, 난임 해커톤 점수 0.74236, StudyFlow·ARTE 제작 판단, 연락처를 답할 수 있습니다.";
+      ? "I can cover profile details, skills, education, six projects, Pote, the 0.74236 hackathon result, StudyFlow and ARTE build decisions, and contact links."
+      : "소개, 기술과 교육, 여섯 프로젝트, Pote·StudyFlow·ARTE 제작 판단, 난임 해커톤 점수 0.74236, 연락처를 답할 수 있습니다.";
   }
 
   const personalAnswers: string[] = [];
@@ -66,6 +66,7 @@ export function getPortfolioAnswer(question: string, language: PortfolioLanguage
   const isInfertility = hasAny(subjectText, ["난임", "임신성공", "catboost", "lightgbm", "oofauc", "이거조"]);
   const isPneumonia = hasAny(subjectText, ["폐렴", "xray", "x-ray", "redisqueue", "aiworker", "백오피스"]);
   const isSmoking = hasAny(subjectText, ["흡연", "비흡연", "건강검진", "ttest", "anova", "중성지방"]);
+  const isPote = hasAny(subjectText, ["pote", "peto", "포테", "포트갤러리", "portgallery", "potegallery", "작품갤러리", "공간미리보기"]);
   const isArte = hasAny(subjectText, ["arte", "아르떼", "전시", "관람", "도슨트", "visitcompanion"]);
   const isStudyFlow = hasAny(subjectText, ["studyflow", "스터디플로우", "학습로그", "학습기록", "면접질문생성"]);
 
@@ -100,6 +101,22 @@ export function getPortfolioAnswer(question: string, language: PortfolioLanguage
     return isEnglish
       ? "The smoking analysis compares health indicators between smoker and non-smoker groups. It uses preprocessing, BMI and age-group features, visualization, t-tests, and ANOVA while avoiding causal over-claims."
       : "흡연 여부 건강 데이터 분석은 흡연자와 비흡연자의 건강 지표 차이를 비교한 프로젝트입니다. 결측치 처리, BMI·연령대 파생변수, 시각화, t-검정과 ANOVA를 사용했고 인과관계로 단정하지 않았습니다.";
+  }
+
+  if (isPote) {
+    if (asksWhy) {
+      return isEnglish
+        ? "Pote began with a practical question: how can visitors review unfamiliar artists' work before making an inquiry? It connects artist and artwork information, search and filters, favorites, room preview, and exhibition discovery into one exploration flow."
+        : "Pote는 처음 작품을 구매하는 방문자가 낯선 작가의 작품을 충분히 검토한 뒤 문의할 수 있게 하려는 질문에서 시작했습니다. 작품·작가 정보, 검색·필터, 찜, 실제 공간 미리보기와 전시 탐색을 하나의 흐름으로 연결했습니다.";
+    }
+    if (hasAny(text, ["대표", "대표작", "main", "flagship"])) {
+      return isEnglish
+        ? "Yes. Pote is one of Jihyun's representative projects: a live art-gallery service operated on Vercel. It currently presents 98 works from five artists, Korean and English support, room preview, and a daily refreshed exhibition catalogue."
+        : "네. Pote는 김지현의 대표 프로젝트 중 하나입니다. Vercel에서 운영 중인 실제 아트 갤러리 서비스로, 5명 작가의 작품 98점, 한국어·영어 지원, 실제 공간 미리보기와 일일 갱신 전시 카탈로그를 갖추고 있습니다.";
+    }
+    return isEnglish
+      ? "Pote is a live online art gallery and one of Jihyun's representative projects. It presents 98 works from five artists, with artwork and artist exploration, search and filters, favorites, inquiry flow, Korean and English support, room preview, and a daily refreshed exhibition catalogue."
+      : "Pote는 김지현의 대표 프로젝트 중 하나인 실제 운영 아트 갤러리 서비스입니다. 5명 작가의 작품 98점을 바탕으로 작품·작가 탐색, 검색·필터, 찜, 문의, 한국어·영어 전환, 실제 공간 미리보기와 일일 갱신 전시 카탈로그를 제공합니다.";
   }
 
   if (isArte) {
@@ -138,8 +155,8 @@ export function getPortfolioAnswer(question: string, language: PortfolioLanguage
 
   if (hasAny(text, ["프로젝트", "만든것", "결과물", "포트폴리오", "대표", "작품목록", "project"])) {
     return isEnglish
-      ? "Five works are presented: StudyFlow AI, the pneumonia back office, the infertility prediction model, the smoking health-data analysis, and ARTE Visit Companion. StudyFlow and ARTE are runnable apps with separate build-process pages."
-      : "현재 다섯 결과물이 있습니다. StudyFlow AI, 폐렴 환자 관리 백오피스, 난임 임신 성공 예측, 흡연 여부 건강 데이터 분석, ARTE Visit Companion입니다. StudyFlow와 ARTE는 직접 실행하고 제작 과정도 따로 볼 수 있습니다.";
+      ? "Six works are presented: Pote, StudyFlow AI, the pneumonia back office, the infertility prediction model, the smoking health-data analysis, and ARTE Visit Companion. Pote, StudyFlow, and ARTE have dedicated project pages and build-process records."
+      : "현재 여섯 결과물이 있습니다. Pote, StudyFlow AI, 폐렴 환자 관리 백오피스, 난임 임신 성공 예측, 흡연 여부 건강 데이터 분석, ARTE Visit Companion입니다. Pote, StudyFlow와 ARTE는 상세 페이지와 제작 과정 기록을 함께 볼 수 있습니다.";
   }
 
   if (hasAny(text, ["기술", "스킬", "stack", "skill", "python", "파이썬", "fastapi", "react", "next", "docker"])) {
