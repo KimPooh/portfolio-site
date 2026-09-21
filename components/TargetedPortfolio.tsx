@@ -202,14 +202,14 @@ const projectCards = [
     slug: "pote-gallery",
     label: "Product",
     title: "Pote",
-    role: { kr: "비즈니스 모델 · 다국어 · 배포 운영", en: "Business Model · i18n · Deployment" },
+    role: { kr: "웹 서비스 기획 · 데이터 자동화 · 배포 운영", en: "Product Build · Data Automation · Deployment" },
     summary: {
-      kr: "신진 작가와 구매자를 연결만 해주는 온라인 갤러리입니다. 직접 판매 대행 대신 연결자 모델을 세우고 10개 언어와 실제 전시 데이터 연동까지 갖췄습니다.",
-      en: "An online gallery that only connects emerging artists with buyers, built around a connector business model with 10-language support and real exhibition data."
+      kr: "5명 작가의 작품 98점을 탐색하고, 실제 전시 정보와 함께 취향에 맞는 작품을 발견할 수 있도록 만든 온라인 아트 갤러리입니다.",
+      en: "An online art gallery built around 98 works from five artists, helping visitors discover art through artwork exploration and real exhibition information."
     },
-    points: { kr: ["연결자 모델", "10개 언어 · RTL", "전시 데이터 연동", "작가 설정 가격"], en: ["Connector model", "10 languages · RTL", "Exhibition data", "Artist-set pricing"] },
+    points: { kr: ["98점 작품 카탈로그", "전시 데이터 자동화", "한국어 · 영어", "Vercel 운영"], en: ["98-work catalogue", "Exhibition automation", "Korean · English", "Vercel operations"] },
     href: "/projects/pote-gallery",
-    liveHref: "https://pote-gallery.vercel.app",
+    liveHref: "https://potegallery.com",
     repository: "https://github.com/KimPooh/pote-gallery",
     processHref: "/projects/pote-gallery/process",
     color: "bg-[#F7E6D3]",

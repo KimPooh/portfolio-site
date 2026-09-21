@@ -56,6 +56,13 @@
 
 ## Next priority
 
+## 2026-09-21 — Pote 최신 운영 정보 반영
+
+- Pote 카드·상세·제작 과정에서 과거의 10개 언어·RTL·10% 수수료·8점 작품 표현을 제거했다.
+- 현재 기준인 5명 작가 98점, 한국어·영어 지원, 작품 탐색·찜·문의·실제 공간 미리보기, KCISA 전시 데이터의 GitHub Actions 기반 일일 정적 스냅샷 갱신, Vercel 운영으로 통일했다.
+- Pote 공개 링크를 `https://potegallery.com`으로 갱신했다.
+- 검증: `npm.cmd run lint`, `npm.cmd run typecheck`, `npm.cmd run build` 통과.
+
 Rebuild StudyFlow AI into a launch-quality standalone product. Preserve the existing portfolio routes while improving the actual app experience first. Before editing, inspect the current implementation and confirm the intended design direction with the user. The user requested stage-by-stage design review rather than one large unreviewed redesign.
 
 StudyFlow should:

@@ -115,7 +115,7 @@ function ProductVisual({ theme }: { theme: ThemeName }) {
       <div className="relative min-h-[22rem] overflow-hidden rounded-md bg-[#0D2822] p-5 text-white" aria-label="Pote의 작품 갤러리와 작가 연결 화면을 표현한 그래픽">
         <div className="flex items-center justify-between border-b border-white/15 pb-4 text-[10px] font-black">
           <span>ART GALLERY · CONNECTOR</span>
-          <span className="rounded bg-[#F0B36F] px-2 py-1 text-[#0D2822]">KR · EN · +8</span>
+          <span className="rounded bg-[#F0B36F] px-2 py-1 text-[#0D2822]">KR · EN</span>
         </div>
         <div className="mt-5 grid grid-cols-3 gap-2">
           <span className="h-24 rounded" style={{ background: "linear-gradient(135deg,#f6ca98,#985216)" }} />
@@ -129,7 +129,7 @@ function ProductVisual({ theme }: { theme: ThemeName }) {
           </div>
           <div className="mt-4 flex items-center justify-between rounded border border-white/10 bg-black/20 px-3 py-2">
             <span className="text-xs font-black">350,000원</span>
-            <span className="rounded bg-white/10 px-2 py-1 text-[9px] font-bold text-white/60">10% CONNECTOR FEE</span>
+            <span className="rounded bg-white/10 px-2 py-1 text-[9px] font-bold text-white/60">INQUIRY FLOW</span>
           </div>
         </div>
       </div>

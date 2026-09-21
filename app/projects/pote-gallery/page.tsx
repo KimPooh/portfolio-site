@@ -9,15 +9,15 @@ import {
 } from "lucide-react";
 
 const features = [
-  [Globe, "10개 언어 다국어 갤러리", "한국어·영어를 포함한 10개 언어와 아랍어 RTL 레이아웃까지 지원합니다."],
-  [Compass, "취향 추천 퀴즈", "몇 장의 그림을 고르면 색감과 분위기를 기준으로 취향과 맞는 작품·전시를 추천합니다."],
-  [Landmark, "실제 전시 데이터 연동", "문화공공데이터광장의 실제 전시 정보를 지역별로 볼 수 있는 카탈로그로 제공합니다."],
-  [Tag, "작가가 직접 정하는 가격", "협의를 부담스러워하는 작가를 위해, 원하는 판매가를 직접 입력해 그대로 노출합니다."]
+  [Globe, "한국어·영어 지원", "사이트 전반과 작품 정보에 한국어·영어 전환을 적용해 두 언어로 일관된 탐색 경험을 제공합니다."],
+  [Compass, "취향 추천과 실제 공간 미리보기", "색감과 분위기를 기준으로 작품을 탐색하고, 선택한 작품을 거실·침실 등 공간에 배치해 볼 수 있습니다."],
+  [Landmark, "전시 데이터 자동 갱신", "문화공공데이터광장의 전시 정보를 정제한 뒤 매일 갱신해 지역별 전시 카탈로그로 제공합니다."],
+  [Tag, "작품 탐색과 문의 흐름", "작가·작품별 탐색, 검색·필터, 찜과 문의 흐름을 연결해 구매 전 검토 과정을 지원합니다."]
 ] as const;
 
 const decisions = [
-  ["직접 판매 대신 연결자로", "판매를 직접 대행하면 작가가 조금만 늘어도 운영이 감당하기 어려워질 위험이 있었습니다.", "가격 협의·결제·배송은 작가와 구매자가 직접 진행하고, 판매 성사 시 10%만 신고제로 받는 구조로 좁혔습니다."],
-  ["실시간 API 대신 정적 데이터 스냅샷", "연동하려던 전시 데이터 API가 Vercel 서버 인프라에서는 도메인 자체가 응답하지 않는 것을 확인했습니다.", "사용자 PC의 예약 작업이 매일 데이터를 받아 정적 JSON으로 커밋하고, 바뀔 때만 재배포하도록 바꿨습니다."],
+  ["구매 행동은 판매 절차보다 탐색부터", "작품을 처음 구매하는 방문자에게는 결제보다 작품·작가 정보와 공간에서의 모습 확인이 먼저 필요했습니다.", "작품·작가 탐색, 검색·필터, 찜, 문의와 실제 공간 미리보기를 하나의 구매 전 탐색 흐름으로 구현했습니다."],
+  ["실시간 API 대신 정적 데이터 스냅샷", "연동하려던 전시 데이터 API가 Vercel 서버 인프라에서는 안정적으로 응답하지 않는 것을 확인했습니다.", "GitHub Actions가 매일 데이터를 수집·정제해 정적 JSON 스냅샷을 갱신하고, 서비스는 빠르고 안정적인 카탈로그를 제공하도록 바꿨습니다."],
   ["색은 눈대중이 아니라 계산으로", "오렌지로 바꿨다고 생각했지만 실제 색상값은 여전히 빨강에 가까운 9~18도에 머물러 있었습니다.", "HSL 색상값을 직접 계산해 25~35도(실제 오렌지 톤) 범위로 팔레트 전체를 재조정했습니다."],
   ["'잘려 보인다'는 신고의 진짜 원인 추적", "실제로는 클리핑이 아니라 그라데이션의 어두운 색이 배경과 대비비 1.25에 불과해 흐려 보이는 문제였습니다.", "밝은 색 구간만 쓰는 불투명 그라데이션 규칙으로 통일하고, 브랜드 자산은 렌더링된 바운딩 박스를 수치로 검증한 뒤 내보내도록 바꿨습니다."]
 ] as const;
@@ -44,7 +44,7 @@ function ProductPreview() {
         </div>
         <p className="mt-2 text-base font-black text-[#F0B36F]">350,000원</p>
         <div className="mt-3 flex flex-wrap gap-1.5 text-[9px] font-bold text-white/55">
-          {["KO", "EN", "JA", "ZH", "AR"].map((lang) => (
+          {["KO", "EN"].map((lang) => (
             <span key={lang} className="rounded bg-white/10 px-2 py-1">{lang}</span>
           ))}
         </div>
@@ -73,10 +73,10 @@ export default function PoteGalleryPage() {
           <div>
             <p className="text-xs font-black tracking-[0.16em] text-[#A85A1E]">ART GALLERY · MULTILINGUAL WEB APP</p>
             <h1 className="mt-5 text-4xl font-black leading-[1.12] [word-break:keep-all] sm:text-6xl">작가와 구매자를<br />연결만 하는 갤러리, Pote</h1>
-            <p className="mt-6 max-w-2xl text-base leading-8 text-black/60 sm:text-lg">신진·아마추어 작가의 작품을 소개하고, 마음이 가는 작품을 만나면 작가와 직접 연결해주는 온라인 갤러리입니다. 판매를 직접 대행하는 대신 연결에만 집중하는 비즈니스 모델을 세우고, 다국어 지원과 실제 전시 데이터 연동까지 갖춘 서비스로 배포했습니다.</p>
-            <div className="mt-8 flex flex-wrap gap-2">{["Next.js", "TypeScript", "i18n · 10 Languages", "RTL", "Vercel", "Static Data Pipeline"].map((tag) => <span key={tag} className="rounded-full border border-[#A85A1E]/25 bg-white/45 px-3 py-1.5 text-xs font-bold text-[#8A4A18]">{tag}</span>)}</div>
+            <p className="mt-6 max-w-2xl text-base leading-8 text-black/60 sm:text-lg">신진·아마추어 작가의 작품을 소개하고, 취향과 구매 전 검토를 돕는 온라인 아트 갤러리입니다. 작품·작가 탐색부터 실제 공간 미리보기, 전시 카탈로그까지 하나의 탐색 경험으로 구현하고 Vercel에 배포·운영했습니다.</p>
+            <div className="mt-8 flex flex-wrap gap-2">{["Next.js", "React", "TypeScript", "KR · EN", "Vercel", "Static Data Pipeline"].map((tag) => <span key={tag} className="rounded-full border border-[#A85A1E]/25 bg-white/45 px-3 py-1.5 text-xs font-bold text-[#8A4A18]">{tag}</span>)}</div>
             <div className="mt-7 flex flex-wrap gap-3">
-              <a href="https://pote-gallery.vercel.app" target="_blank" rel="noreferrer" className="inline-flex min-h-12 items-center gap-2 rounded-md bg-[#0D2822] px-5 text-sm font-black text-white transition hover:-translate-y-0.5">
+              <a href="https://potegallery.com" target="_blank" rel="noreferrer" className="inline-flex min-h-12 items-center gap-2 rounded-md bg-[#0D2822] px-5 text-sm font-black text-white transition hover:-translate-y-0.5">
                 배포 앱 보기 <ExternalLink className="h-4 w-4" aria-hidden="true" />
               </a>
               <Link href="/projects/pote-gallery/process" className="inline-flex min-h-12 items-center gap-2 rounded-md border border-[#A85A1E]/35 bg-white/45 px-5 text-sm font-black text-[#8A4A18] transition hover:-translate-y-0.5 hover:bg-white/70">
@@ -111,7 +111,7 @@ export default function PoteGalleryPage() {
 
       <section className="border-t border-black/10 bg-white/40 py-16 sm:py-20">
         <div className="mx-auto grid max-w-[1240px] gap-8 px-5 sm:px-8 lg:grid-cols-[0.8fr_1.2fr]">
-          <div><h2 className="text-3xl font-black">현재 상태와 다음 단계</h2><p className="mt-5 text-sm leading-7 text-black/55">실제 작가 8작품과 함께 Vercel 프로덕션에 배포했고, 인스타그램 계정(@poteart.gallery)도 함께 운영합니다. 작가 신청과 승인은 아직 이메일과 수동 반영으로 이루어지며, 이 지점이 다음 확장의 시작점입니다.</p></div>
+          <div><h2 className="text-3xl font-black">현재 상태와 다음 단계</h2><p className="mt-5 text-sm leading-7 text-black/55">5명 작가의 작품 98점을 Vercel 프로덕션에서 운영하고 있습니다. 작품 탐색·문의와 전시 정보 제공을 중심으로, 작가 제출과 관리자 검토 흐름도 서비스 안에서 관리할 수 있도록 확장했습니다.</p></div>
           <div className="grid gap-3 sm:grid-cols-2">{["작가 셀프 업로드와 관리자 승인 화면", "판매 정산 자동화 검토", "신규 작가 온보딩 확대", "결제·배송 연동 필요성 재검토"].map((item, index) => <div key={item} className="rounded-xl border border-black/10 bg-[#F5EFE6] p-5"><span className="text-xs font-black text-[#A85A1E]">NEXT {index + 1}</span><p className="mt-3 text-sm font-bold leading-7 [word-break:keep-all]">{item}</p></div>)}</div>
         </div>
       </section>
