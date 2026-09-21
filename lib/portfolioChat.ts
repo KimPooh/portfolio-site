@@ -66,7 +66,7 @@ export function getPortfolioAnswer(question: string, language: PortfolioLanguage
   const isInfertility = hasAny(subjectText, ["난임", "임신성공", "catboost", "lightgbm", "oofauc", "이거조"]);
   const isPneumonia = hasAny(subjectText, ["폐렴", "xray", "x-ray", "redisqueue", "aiworker", "백오피스"]);
   const isSmoking = hasAny(subjectText, ["흡연", "비흡연", "건강검진", "ttest", "anova", "중성지방"]);
-  const isPote = hasAny(subjectText, ["pote", "peto", "포테", "포트갤러리", "portgallery", "potegallery", "작품갤러리", "공간미리보기"]);
+  const isPote = hasAny(subjectText, ["pote", "peto", "포테", "포트는", "포트가", "포트를", "포트의", "포트갤러리", "portgallery", "potegallery", "작품갤러리", "공간미리보기"]);
   const isArte = hasAny(subjectText, ["arte", "아르떼", "전시", "관람", "도슨트", "visitcompanion"]);
   const isStudyFlow = hasAny(subjectText, ["studyflow", "스터디플로우", "학습로그", "학습기록", "면접질문생성"]);
 
