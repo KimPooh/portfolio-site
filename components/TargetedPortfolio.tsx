@@ -19,7 +19,6 @@ const navItems = [
   { id: "skills", label: { kr: "기술", en: "Skills" } },
   { id: "projects", label: { kr: "프로젝트", en: "Projects" } },
   { id: "notes", label: { kr: "기술 노트", en: "Notes" }, href: "/notes" },
-  { id: "notes", label: { kr: "기술 노트", en: "Notes" }, href: "/notes" },
   { id: "background", label: { kr: "배경", en: "Background" }, href: "/background" },
   { id: "journey", label: { kr: "여정", en: "Journey" }, href: "/journey" },
   { id: "contact", label: { kr: "연락", en: "Contact" } }
