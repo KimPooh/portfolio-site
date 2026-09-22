@@ -56,7 +56,8 @@ const languageCopy = {
     phoneLabel: "전화",
     emailLabel: "이메일",
     githubLabel: "GitHub",
-    resumeLabel: "이력서 PDF 다운로드"
+    resumeLabel: "이력서 PDF 다운로드",
+    portfolioPdfLabel: "포트폴리오 요약 PDF 다운로드"
   },
   en: {
     heroKicker: "AI SOLUTION · DATA · WEB",
@@ -89,7 +90,8 @@ const languageCopy = {
     phoneLabel: "Phone",
     emailLabel: "Email",
     githubLabel: "GitHub",
-    resumeLabel: "Download Resume PDF"
+    resumeLabel: "Download Resume PDF",
+    portfolioPdfLabel: "Download Portfolio Summary PDF"
   }
 } satisfies Record<PortfolioLanguage, Record<string, string>>;
 
@@ -670,6 +672,15 @@ export function TargetedPortfolio({ profile, projects }: TargetedPortfolioProps)
             >
               <Download className="h-5 w-5 text-[#5E4E87]" aria-hidden="true" />
               <strong className="text-base sm:text-xl">{copy.resumeLabel}</strong>
+              <ArrowUpRight className="h-5 w-5 transition group-hover:translate-x-1" aria-hidden="true" />
+            </a>
+            <a
+              href="/portfolio/kimjihyun-portfolio-2026.pdf"
+              download="김지현_포트폴리오.pdf"
+              className="group grid min-h-24 grid-cols-[2.5rem_1fr_auto] items-center gap-3 px-2 transition hover:bg-[#F7F4FF]"
+            >
+              <Download className="h-5 w-5 text-[#5E4E87]" aria-hidden="true" />
+              <strong className="text-base sm:text-xl">{copy.portfolioPdfLabel}</strong>
               <ArrowUpRight className="h-5 w-5 transition group-hover:translate-x-1" aria-hidden="true" />
             </a>
           </div>

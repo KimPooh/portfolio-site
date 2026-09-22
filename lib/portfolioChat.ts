@@ -163,6 +163,12 @@ export function getPortfolioAnswer(question: string, language: PortfolioLanguage
       : "수상 기록은 난임 임신 성공 예측 프로젝트 해커톤 3위입니다. 이거조 팀으로 Public Leaderboard 0.74236을 기록했습니다.";
   }
 
+  if (hasAny(text, ["이력서", "resume", "cv", "포트폴리오pdf", "포트폴리오다운로드", "portfoliopdf", "pdf다운로드", "pdf파일"])) {
+    return isEnglish
+      ? "Two downloadable PDFs are available from the Contact section or the Background page: a full resume (career history, skills, education, and target roles) and a condensed one-page portfolio summary (skills and project highlights)."
+      : "다운로드 가능한 PDF는 두 가지입니다. 연락처 섹션이나 배경(Background) 페이지에서 경력·기술·학력·희망 직무가 담긴 이력서 PDF와, 기술 스택·프로젝트 요약을 담은 포트폴리오 요약 PDF를 각각 받을 수 있습니다.";
+  }
+
   if (hasAny(text, ["프로젝트", "만든것", "결과물", "포트폴리오", "대표", "작품목록", "project"])) {
     return isEnglish
       ? "Six works are presented: Pote, StudyFlow AI, the pneumonia back office, the infertility prediction model, the smoking health-data analysis, and ARTE Visit Companion. Pote, StudyFlow, and ARTE have dedicated project pages and build-process records."
@@ -191,12 +197,6 @@ export function getPortfolioAnswer(question: string, language: PortfolioLanguage
     return isEnglish
       ? "He is aiming for roles such as Machine Learning Engineer, Big Data Engineer, AI/AX Engineer, Data Analyst, and Data Scientist."
       : "희망 직무는 머신러닝 엔지니어, 빅데이터 엔지니어, AI/AX 엔지니어, 데이터 분석, 데이터 사이언티스트입니다.";
-  }
-
-  if (hasAny(text, ["이력서", "resume", "cv"])) {
-    return isEnglish
-      ? "You can download Jihyun's resume PDF from the download link in the Contact section or the Background page. It covers his career history, skills, education, and target roles."
-      : "이력서 PDF는 연락처 섹션이나 배경(Background) 페이지의 다운로드 링크에서 받을 수 있습니다. 경력, 기술, 학력, 희망 직무가 정리되어 있습니다.";
   }
 
   if (hasAny(text, ["여정", "journey", "학습흐름", "학습과정", "learningpath"])) {

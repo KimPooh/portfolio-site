@@ -88,13 +88,22 @@ export default function BackgroundPage() {
           AI/Data를 배우기 전에는 5년간 병원 행정·인사·총무 및 고객 분쟁 조정 업무를 담당했습니다.
           숫자와 문서로 현장을 정리하고 설명해야 했던 경험은, 지금 데이터로 문제를 정리하고 프로젝트로 만드는 과정과 자연스럽게 이어지고 있습니다.
         </p>
-        <a
-          href="/resume/kimjihyun-resume-2026.pdf"
-          download="김지현_이력서_2026.pdf"
-          className="mt-7 inline-flex min-h-12 items-center gap-2 rounded-md border border-white/20 px-5 text-sm font-black text-[#F4F0E8] transition hover:-translate-y-0.5 hover:border-[#F0A58D] hover:text-[#F0A58D]"
-        >
-          이력서 PDF 다운로드
-        </a>
+        <div className="mt-7 flex flex-wrap gap-3">
+          <a
+            href="/resume/kimjihyun-resume-2026.pdf"
+            download="김지현_이력서_2026.pdf"
+            className="inline-flex min-h-12 items-center gap-2 rounded-md border border-white/20 px-5 text-sm font-black text-[#F4F0E8] transition hover:-translate-y-0.5 hover:border-[#F0A58D] hover:text-[#F0A58D]"
+          >
+            이력서 PDF 다운로드
+          </a>
+          <a
+            href="/portfolio/kimjihyun-portfolio-2026.pdf"
+            download="김지현_포트폴리오.pdf"
+            className="inline-flex min-h-12 items-center gap-2 rounded-md border border-white/20 px-5 text-sm font-black text-[#F4F0E8] transition hover:-translate-y-0.5 hover:border-[#F0A58D] hover:text-[#F0A58D]"
+          >
+            포트폴리오 요약 PDF 다운로드
+          </a>
+        </div>
       </section>
 
       <section className="border-y border-white/10 bg-[#1C2230] py-16">
