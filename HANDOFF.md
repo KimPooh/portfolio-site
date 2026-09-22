@@ -56,6 +56,12 @@
 
 ## Next priority
 
+## 2026-09-22 — 배경·기술 노트 KR/EN 전환 수정
+
+- `/background`와 `/notes`가 홈페이지와 같은 공용 `LanguageProvider` 상태를 사용하도록 전환했다. 이제 헤더에서 EN을 선택하면 두 페이지의 헤더, 본문, 경력/기술 노트 카드, 버튼과 링크 문구가 모두 영어로 바뀐다.
+- `components/BackgroundContent.tsx`, `components/NotesContent.tsx`에 KR/EN 문구를 두고, 각 라우트 페이지는 해당 클라이언트 컴포넌트를 렌더링하도록 정리했다.
+- 검증: `npm.cmd run build`는 이번 두 페이지와 무관한 기존 작업 트리의 `app/projects/arte-visit-companion/process/page.tsx` 타입 불일치로 실패했다. 이 변경 자체는 컴파일 단계까지 통과했다.
+
 ## 2026-09-21 — 기술 노트 추가
 
 - `/notes`에 실제 프로젝트 경험 기반 기술 노트 3개를 추가했다: Pote 전시 데이터 정적 스냅샷, 난임 예측 모델 비교, 실제 브라우저 기반 배포 검증.
