@@ -1,3 +1,8 @@
+export type Bilingual = {
+  kr: string;
+  en: string;
+};
+
 export type SocialLink = {
   label: string;
   href: string;
@@ -107,21 +112,21 @@ export type LabIdea = {
 };
 
 export type LearningNote = {
-  title: string;
-  source: string;
-  summary: string;
-  portfolioValue: string;
+  title: Bilingual;
+  source: Bilingual;
+  summary: Bilingual;
+  portfolioValue: Bilingual;
   tags: string[];
 };
 
 export type LearningLogLink = {
   day: string;
-  topic: string;
+  topic: Bilingual;
   href: string;
   category?: string;
-  summary?: string;
-  result?: string;
-  details?: string[];
+  summary?: Bilingual;
+  result?: Bilingual;
+  details?: Bilingual[];
   tags?: string[];
   hideDay?: boolean;
   // originalDay: 이전 전체 순번(선택적). 카테고리별 재번호매김 시 보존용
@@ -130,10 +135,10 @@ export type LearningLogLink = {
 
 export type LearningCategory = {
   course?: string;
-  courseLabel?: string;
-  courseDescription?: string;
-  courseSubjects?: string[];
-  category: string;
-  description?: string;
+  courseLabel?: Bilingual;
+  courseDescription?: Bilingual;
+  courseSubjects?: Bilingual[];
+  category: Bilingual;
+  description?: Bilingual;
   links: LearningLogLink[];
 };
