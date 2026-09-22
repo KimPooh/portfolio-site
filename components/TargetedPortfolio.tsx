@@ -6,23 +6,15 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowUpRight, Bot, CodeXml, Download, Mail, Phone, Send, Sparkles, X } from "lucide-react";
 import { fadeInUp, staggerContainer } from "@/lib/animation";
+import { useLanguage } from "@/lib/language";
 import { getPortfolioAnswer, portfolioContact, type PortfolioLanguage } from "@/lib/portfolioChat";
+import { SiteHeader } from "@/components/SiteHeader";
 import type { Profile, Project } from "@/types/portfolio";
 
 type TargetedPortfolioProps = {
   profile: Profile;
   projects: Project[];
 };
-
-const navItems = [
-  { id: "about", label: { kr: "소개", en: "About" } },
-  { id: "skills", label: { kr: "기술", en: "Skills" } },
-  { id: "projects", label: { kr: "프로젝트", en: "Projects" } },
-  { id: "notes", label: { kr: "기술 노트", en: "Notes" }, href: "/notes" },
-  { id: "background", label: { kr: "배경", en: "Background" }, href: "/background" },
-  { id: "journey", label: { kr: "여정", en: "Journey" }, href: "/journey" },
-  { id: "contact", label: { kr: "연락", en: "Contact" } }
-];
 
 const languageCopy = {
   kr: {
@@ -360,8 +352,7 @@ function ProjectVisual({ type, label }: { type: string; label: string }) {
 }
 
 export function TargetedPortfolio({ profile, projects }: TargetedPortfolioProps) {
-  const [language, setLanguage] = useState<PortfolioLanguage>("kr");
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { language } = useLanguage();
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [chatInput, setChatInput] = useState("");
   const [messages, setMessages] = useState<ChatMessage[]>([]);
@@ -423,67 +414,14 @@ export function TargetedPortfolio({ profile, projects }: TargetedPortfolioProps)
     });
   }, [messages, isChatOpen, isAnswering]);
 
+  useEffect(() => {
+    setMessages([]);
+    setChatInput("");
+  }, [language]);
+
   return (
     <main className="min-h-screen bg-[#15171B] text-[#F5F1E8]">
-      <header className="sticky top-0 z-40 border-b border-white/10 bg-[#15171B]/95 backdrop-blur-xl">
-        <div className="relative mx-auto flex max-w-[1240px] items-center justify-between px-5 py-4 sm:px-8">
-          <Link href="/" className="flex items-center gap-3" aria-label="김지현 포트폴리오 홈">
-            <span className="flex h-9 w-9 items-center justify-center rounded-md bg-[#B9E4D0] text-xs font-black text-[#15171B]">KJH</span>
-            <span className="hidden text-sm font-black sm:block">KIM JI-HYUN</span>
-          </Link>
-          <nav className="hidden items-center gap-7 text-sm font-semibold text-[#B8BDC7] md:flex">
-            {navItems.map((item) => (
-              <a key={item.id} href={item.href ?? `#${item.id}`} className="transition hover:text-[#B9E4D0]">
-                {item.label[language]}
-              </a>
-            ))}
-          </nav>
-          <div className="flex items-center gap-3">
-            <div className="flex overflow-hidden rounded-md border border-white/15 text-xs font-black">
-              {(["kr", "en"] as const).map((item) => (
-                <button
-                  key={item}
-                  type="button"
-                  onClick={() => {
-                    setLanguage(item);
-                    setMessages([]);
-                    setChatInput("");
-                  }}
-                  className={`min-w-10 px-3 py-2 transition ${
-                    language === item ? "bg-[#F5F1E8] text-[#15171B]" : "text-[#AEB4BF] hover:text-white"
-                  }`}
-                  aria-pressed={language === item}
-                >
-                  {item === "kr" ? "KR" : "EN"}
-                </button>
-              ))}
-            </div>
-            <button
-              type="button"
-              onClick={() => setIsMenuOpen((current) => !current)}
-              className="flex h-9 w-9 items-center justify-center rounded-md border border-white/15 text-[#F5F1E8] md:hidden"
-              aria-label={isMenuOpen ? "메뉴 닫기" : "메뉴 열기"}
-              aria-expanded={isMenuOpen}
-            >
-              <span aria-hidden="true" className="text-xl leading-none">{isMenuOpen ? "×" : "≡"}</span>
-            </button>
-          </div>
-          {isMenuOpen && (
-            <nav className="absolute left-5 right-5 top-[calc(100%+0.5rem)] grid rounded-md border border-white/10 bg-[#202329] p-2 shadow-2xl md:hidden">
-              {navItems.map((item) => (
-                <a
-                  key={item.id}
-                  href={item.href ?? `#${item.id}`}
-                  onClick={() => setIsMenuOpen(false)}
-                  className="rounded px-4 py-3 text-sm font-bold text-[#D8DCE3] transition hover:bg-white/[0.06] hover:text-[#B9E4D0]"
-                >
-                  {item.label[language]}
-                </a>
-              ))}
-            </nav>
-          )}
-        </div>
-      </header>
+      <SiteHeader />
 
       <section id="about" className="border-b border-white/10">
         <div className="mx-auto grid min-h-[720px] max-w-[1240px] gap-12 px-5 py-14 sm:px-8 lg:grid-cols-[1.12fr_0.88fr] lg:items-center lg:py-16">
