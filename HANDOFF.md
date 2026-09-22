@@ -86,6 +86,18 @@
 - 검증: Node로 분류 로직만 추출해 재현 — 오염된 난임 컨텍스트를 강제로 넣은 상태에서 "사랑"/"친구" → `isInfertility: false, isPote: false` (fallback으로 감), "그건 왜 만들었어?" → 여전히 `isInfertility: true` (의도된 대명사 후속 질문 동작 유지) 확인. `npx tsc --noEmit lib/portfolioChat.ts` 통과.
 - 배포: `git push origin main`으로 반영, Vercel 자동 배포 대상.
 
+## 2026-09-22 — 이력서 내용 포트폴리오 반영
+
+- 소스: `C:\Users\goodf\Desktop\이력서\김지현_이력서_2026.pdf` (2026-09-08 작성).
+- 사용자 확인 사항: 이력서 PDF의 경력 타임라인(강동길동매일365한의원 2021.10~2022.04 등, 총 5년, 3개 직장)이 기존 `/background` 페이지 타임라인(같은 병원 2022.10~2024.12 등, 총 10년+, 2009~2015 신촌세브란스·강동성심병원 항목 포함, 5개 직장)과 날짜·기간이 상당히 달랐음. 사용자가 "이력서 PDF가 최신·정확"이라고 확인해, `/background`의 `careerTimeline`을 이력서 3개 항목 기준으로 전면 교체(신촌세브란스·강동성심병원 항목은 이력서에 없어 제거).
+- 반영 방식: PDF 다운로드 링크 + 텍스트 내용 통합 둘 다 원함(사용자 확인).
+- `app/background/page.tsx`: 경력 타임라인을 이력서 기준으로 교체, 히어로 문구 "10년 넘게"→"5년간 병원 행정·인사·총무 및 고객 분쟁 조정 업무"로 정정, 학력(곤지암고등학교 졸업, 2003.02~2006.03)·자격증(AI 헬스케어 데이터 분석 및 모델링 실무 양성 과정, 2026.09.28 수료 예정 — 오늘 날짜 기준 아직 완료 전이라 "수료 예정"으로 표기)·희망 직무(머신러닝 엔지니어·빅데이터 엔지니어·AI/AX 엔지니어·데이터 분석·데이터 사이언티스트) 섹션 신규 추가, 이력서 PDF 다운로드 버튼 추가.
+- `public/resume/kimjihyun-resume-2026.pdf`: 이력서 PDF를 ASCII 파일명으로 복사해 추가(한글 파일명 URL 인코딩 이슈 방지, `download` 속성으로 원래 한글 파일명 유지).
+- `components/TargetedPortfolio.tsx`: Skills에 PyTorch·TensorFlow(Data/ML), Vercel(Serving) 추가. 연락처 섹션에 이력서 PDF 다운로드 링크 추가(전화·이메일·GitHub 옆).
+- `lib/portfolioChat.ts`: 기술 스택 답변에 PyTorch·TensorFlow·Vercel·SQL·REST API 반영. "학력"(고등학교+교육과정), "희망직무", "이력서" 키워드에 대한 새 답변 분기 추가. 기존 "교육" 답변에 자격증 수료 예정일 추가.
+- 검증: `npm run typecheck`, `npm run lint` 통과. 로컬 dev 서버(포트 3001, 다른 세션이 3000 점유 중이라 자동 할당)를 별도로 띄워 브라우저로 `/background` 데스크톱·모바일(375px) 렌더링 확인, 홈 Skills·연락처 섹션 확인, 이력서 PDF 다운로드 링크가 실제로 파일을 서빙하는지 확인, 챗봇에 "희망 직무가 뭐야?"/"학력이 어떻게 돼?"/"이력서 어디서 다운받아?"를 실제로 입력해 `/api/portfolio-chat` 응답이 새 답변으로 나오는지 확인. 확인 후 임시 dev 서버는 종료함.
+- 배포: `git push origin main`으로 반영(커밋 `c19764d`), Vercel 자동 배포 대상.
+
 Rebuild StudyFlow AI into a launch-quality standalone product. Preserve the existing portfolio routes while improving the actual app experience first. Before editing, inspect the current implementation and confirm the intended design direction with the user. The user requested stage-by-stage design review rather than one large unreviewed redesign.
 
 StudyFlow should:
