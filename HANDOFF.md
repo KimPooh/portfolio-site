@@ -98,6 +98,18 @@
 - 검증: `npm run typecheck`, `npm run lint` 통과. 로컬 dev 서버(포트 3001, 다른 세션이 3000 점유 중이라 자동 할당)를 별도로 띄워 브라우저로 `/background` 데스크톱·모바일(375px) 렌더링 확인, 홈 Skills·연락처 섹션 확인, 이력서 PDF 다운로드 링크가 실제로 파일을 서빙하는지 확인, 챗봇에 "희망 직무가 뭐야?"/"학력이 어떻게 돼?"/"이력서 어디서 다운받아?"를 실제로 입력해 `/api/portfolio-chat` 응답이 새 답변으로 나오는지 확인. 확인 후 임시 dev 서버는 종료함.
 - 배포: `git push origin main`으로 반영(커밋 `c19764d`), Vercel 자동 배포 대상.
 
+## 2026-09-22 — 축약 포트폴리오 PDF 추가 (별도 세션 산출물)
+
+- 소스: 사용자가 다른 Claude Code 세션에서 만든 축약 포트폴리오 PDF. 경로: `...\3c60b2cb-aa01-490c-8fba-e271e16b43cc\scratchpad\portfolio-pdf\김지현_포트폴리오.pdf` (HTML(`index.html`) + `profile.jpg`를 헤드리스 Chrome으로 print-to-pdf해서 만든 산출물, 이력서 PDF와는 별개의 문서 — 히어로·Skills·프로젝트 7개 카드·Background 타임라인·Engineering Notes 3개를 1~2페이지로 압축한 요약본).
+- 문제 발견: 이 PDF의 Background 타임라인이 위 항목(2026-09-22 이력서 반영)에서 이미 폐기한 구버전 데이터(강동길동매일365한의원 2022.10~2024.12 등, 총 10년+, 신촌세브란스·강동성심병원 포함 5개 직장)를 그대로 담고 있었고, Skills에도 PyTorch·TensorFlow·Vercel이 빠져 있었음(둘 다 오늘 이력서 반영 커밋 이전에 캡처된 스냅샷이라 그런 것으로 보임).
+- 조치: 사용자에게 다시 묻지 않고, 이미 이 세션에서 확정된 사실(이력서 기준 경력 3개 항목·5년, 보완된 기술 스택)을 기준으로 원본 `index.html`을 직접 수정 → 헤드리스 Chrome(`chrome.exe --headless --disable-gpu --print-to-pdf`, 로컬에 이미 설치돼 있어 별도 다운로드 없음)으로 재렌더링 → 원본 경로의 `portfolio.pdf`/`김지현_포트폴리오.pdf`도 수정본으로 덮어써 사용자가 그 경로를 다시 참조해도 최신 내용이 나오게 함.
+- `public/portfolio/kimjihyun-portfolio-2026.pdf`: 수정된 PDF를 ASCII 파일명으로 사이트에 추가(이력서와 동일하게 `download` 속성으로 원래 한글 파일명 유지).
+- `app/background/page.tsx`, `components/TargetedPortfolio.tsx`: 기존 "이력서 PDF 다운로드" 버튼 옆에 "포트폴리오 요약 PDF 다운로드" 버튼 추가(배경 페이지, 홈 연락처 섹션 둘 다).
+- `lib/portfolioChat.ts`: "이력서" 답변 분기를 두 PDF를 모두 안내하도록 확장하고, 이 분기를 기존 "프로젝트/포트폴리오" 키워드 분기(줄 순서상 더 앞에 있던 범용 "포트폴리오" 키워드 매치)보다 앞으로 옮김 — 그렇지 않으면 "포트폴리오 PDF 어디서 받아?" 같은 질문이 먼저 "여섯 프로젝트 목록" 답변에 걸려버림. 새 키워드는 "포트폴리오pdf"·"포트폴리오다운로드"·"pdf다운로드"·"pdf파일" 등 복합어만 사용해 기존 범용 "포트폴리오" 질문과 충돌하지 않게 함.
+- 검증: `npm run typecheck`/`npm run lint` 통과. 로컬 dev 서버(포트 3000)로 `/background`에서 링크 존재·실제 파일 서빙 확인, 챗봇에 "포트폴리오 PDF 다운로드하고 싶어"(→ 두 PDF 안내로 정상 분기) / "포트폴리오 프로젝트 뭐있어?"(→ 기존 프로젝트 목록 답변 그대로 유지, 충돌 없음) 둘 다 실제로 입력해 확인.
+- 배포: `git push origin main`으로 반영(커밋 `74b034f`), Vercel 자동 배포 대상.
+- 미해결: 사용자가 요청한 "KR/EN 언어 토글이 배경·기술노트 등 홈 이외 페이지에는 적용 안 되는 버그"는 아직 착수 전. 홈페이지(`components/TargetedPortfolio.tsx`)에만 KR/EN 상태가 있고, `/background`·`/notes`·`/journey`·`/studyflow-ai`·`/arte-companion`·프로젝트 상세/제작과정 페이지(총 13개 라우트, 약 2400줄)는 언어 상태나 영문 콘텐츠 자체가 전혀 없는 한국어 전용 정적 페이지 — 진짜 "전체 적용"은 공유 언어 컨텍스트/헤더 컴포넌트 신설 + 13개 페이지 영문 번역이 필요한 큰 작업. StudyFlow AI·ARTE Visit Companion 두 개는 자체 로직이 한국어 인터랙션/생성 결과를 다루는 앱이라 단순 문구 치환보다 범위가 더 큼. 다음 세션에서 이어서 처리할 것.
+
 Rebuild StudyFlow AI into a launch-quality standalone product. Preserve the existing portfolio routes while improving the actual app experience first. Before editing, inspect the current implementation and confirm the intended design direction with the user. The user requested stage-by-stage design review rather than one large unreviewed redesign.
 
 StudyFlow should:
