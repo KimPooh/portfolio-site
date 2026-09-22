@@ -78,6 +78,14 @@
 - 배포: `git push origin main` (커밋 `d7d19f3`)으로 반영, Vercel 자동 배포 대상.
 - Next.js 개발 서버(`npm.cmd run dev`)를 직접 띄워 브라우저로 재현/재확인하지는 않음 — 필요하면 `http://localhost:3001/`에서 챗봇에 "Pote는 뭐야?" → "pote"를 연달아 물어 확인할 것.
 
+## 2026-09-22 — 챗봇 컨텍스트 오염 버그 2차 수정 (무관한 질문도 오염)
+
+- 증상: "사랑", "친구"처럼 프로젝트와 전혀 무관한 단어를 물어도 챗봇이 직전에 얘기했던 프로젝트(예: 난임)로 계속 답변.
+- 원인: 위 1차 수정에서 `shortFollowUp`이 "직접 프로젝트 키워드가 없으면" `텍스트 길이 14자 이하` 조건으로 여전히 참이 됐다. 한국어 짧은 단어/문장은 거의 다 14자 이하라, 무관한 질문에도 직전 대화 맥락(`context`)이 계속 이어붙어 이전 프로젝트로 오분류됐다.
+- 수정: 맥락 이어붙이기 조건에서 텍스트 길이 기준을 완전히 제거. 이제 "그거", "그건", "그앱", "그프로젝트", "그것", "그럼" 같은 명시적 대명사 후속 질문일 때만 맥락을 사용한다. 무관한 단어는 어떤 프로젝트 카테고리에도 매치되지 않고 마지막 fallback 답변("확인할 수 없는 내용이라 추측해서 답하지 않겠습니다")으로 정직하게 응답한다.
+- 검증: Node로 분류 로직만 추출해 재현 — 오염된 난임 컨텍스트를 강제로 넣은 상태에서 "사랑"/"친구" → `isInfertility: false, isPote: false` (fallback으로 감), "그건 왜 만들었어?" → 여전히 `isInfertility: true` (의도된 대명사 후속 질문 동작 유지) 확인. `npx tsc --noEmit lib/portfolioChat.ts` 통과.
+- 배포: `git push origin main`으로 반영, Vercel 자동 배포 대상.
+
 Rebuild StudyFlow AI into a launch-quality standalone product. Preserve the existing portfolio routes while improving the actual app experience first. Before editing, inspect the current implementation and confirm the intended design direction with the user. The user requested stage-by-stage design review rather than one large unreviewed redesign.
 
 StudyFlow should:

@@ -32,8 +32,7 @@ export function getPortfolioAnswer(question: string, language: PortfolioLanguage
   ];
   const hasDirectProjectMatch = projectKeywordGroups.some((keywords) => hasAny(text, keywords));
   const shortFollowUp =
-    !hasDirectProjectMatch &&
-    (text.length <= 14 || hasAny(text, ["그거", "그건", "그앱", "그프로젝트", "그것", "그럼"]));
+    !hasDirectProjectMatch && hasAny(text, ["그거", "그건", "그앱", "그프로젝트", "그것", "그럼"]);
   const subjectText = `${text}${shortFollowUp ? contextText : ""}`;
   const asksWhy = hasAny(text, ["왜", "이유", "계기", "만든과정", "제작과정", "history", "process"]);
   const asksScore = hasAny(text, ["점수", "스코어", "auc", "leaderboard", "리더보드", "몇점", "score"]);
