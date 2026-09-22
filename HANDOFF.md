@@ -69,6 +69,15 @@
 - Pote 공개 링크를 `https://potegallery.com`으로 갱신했다.
 - 검증: `npm.cmd run lint`, `npm.cmd run typecheck`, `npm.cmd run build` 통과.
 
+## 2026-09-22 — 챗봇 컨텍스트 오염 버그 수정
+
+- 증상: "Pote는 뭐야?"처럼 Pote를 직접 지목한 질문에도 챗봇이 난임 임신 성공 예측 프로젝트 답변을 반환.
+- 원인: `lib/portfolioChat.ts`의 `shortFollowUp` 판정이 "텍스트 길이 14자 이하"면 무조건 참이 되어(거의 모든 짧은 질문, "pote" 자체 포함), 직전 대화 맥락(`context`)을 현재 질문에 이어붙였다. 분류 순서상 `isInfertility` 체크가 `isPote`보다 먼저 실행되므로, 이전 맥락에 난임 키워드가 섞여 있으면 Pote를 직접 물어도 난임 답변으로 덮어써졌다.
+- 수정: 현재 질문(`text`) 자체에 프로젝트 키워드(난임/폐렴/흡연/Pote/ARTE/StudyFlow)가 직접 포함되어 있으면 맥락을 붙이지 않고 그 매치를 그대로 사용하도록 변경. 맥락 이어붙이기는 "그거", "그건" 같은 명시적 대명사 후속 질문에만 적용.
+- 검증: `bash -c 'cd "포트폴리오" && npx tsc --noEmit lib/portfolioChat.ts'` 통과(에러 없음), Node로 분류 로직만 추출해 오염된 컨텍스트를 강제로 넣고 "Pote는 뭐야?"/"pote" 입력 시 `isPote: true, isInfertility: false`로 나오는지 별도 확인.
+- 배포: `git push origin main` (커밋 `d7d19f3`)으로 반영, Vercel 자동 배포 대상.
+- Next.js 개발 서버(`npm.cmd run dev`)를 직접 띄워 브라우저로 재현/재확인하지는 않음 — 필요하면 `http://localhost:3001/`에서 챗봇에 "Pote는 뭐야?" → "pote"를 연달아 물어 확인할 것.
+
 Rebuild StudyFlow AI into a launch-quality standalone product. Preserve the existing portfolio routes while improving the actual app experience first. Before editing, inspect the current implementation and confirm the intended design direction with the user. The user requested stage-by-stage design review rather than one large unreviewed redesign.
 
 StudyFlow should:
