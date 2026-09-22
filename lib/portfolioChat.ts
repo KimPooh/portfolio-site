@@ -169,16 +169,34 @@ export function getPortfolioAnswer(question: string, language: PortfolioLanguage
       : "현재 여섯 결과물이 있습니다. Pote, StudyFlow AI, 폐렴 환자 관리 백오피스, 난임 임신 성공 예측, 흡연 여부 건강 데이터 분석, ARTE Visit Companion입니다. Pote, StudyFlow와 ARTE는 상세 페이지와 제작 과정 기록을 함께 볼 수 있습니다.";
   }
 
-  if (hasAny(text, ["기술", "스킬", "stack", "skill", "python", "파이썬", "fastapi", "react", "next", "docker"])) {
+  if (hasAny(text, ["기술", "스킬", "stack", "skill", "python", "파이썬", "fastapi", "react", "next", "docker", "pytorch", "tensorflow", "sql", "vercel"])) {
     return isEnglish
-      ? "The stack spans Python, Pandas, NumPy, Scikit-learn, CatBoost, LightGBM, ExtraTrees, FastAPI, Docker, Redis, Next.js, React, TypeScript, and Tailwind CSS. The emphasis is on connecting analysis, APIs, and usable interfaces."
-      : "주요 기술은 Python, Pandas, NumPy, Scikit-learn, CatBoost, LightGBM, ExtraTrees, FastAPI, Docker, Redis, Next.js, React, TypeScript, Tailwind CSS입니다. 분석, API, 사용 가능한 화면을 연결하는 데 초점을 두고 있습니다.";
+      ? "The stack spans Python, TypeScript, SQL, Pandas, NumPy, Scikit-learn, PyTorch, TensorFlow, CatBoost, LightGBM, ExtraTrees, FastAPI, Docker, Redis, REST API, Vercel, Next.js, React, and Tailwind CSS. The emphasis is on connecting analysis, APIs, and usable interfaces."
+      : "주요 기술은 Python, TypeScript, SQL, Pandas, NumPy, Scikit-learn, PyTorch, TensorFlow, CatBoost, LightGBM, ExtraTrees, FastAPI, Docker, Redis, REST API, Vercel, Next.js, React, Tailwind CSS입니다. 분석, API, 사용 가능한 화면을 연결하는 데 초점을 두고 있습니다.";
   }
 
   if (hasAny(text, ["교육", "학원", "ai헬스케어", "공부기록", "education", "course", "oz코딩", "오즈코딩"])) {
     return isEnglish
-      ? "Through OZ Coding School's AI Healthcare 5th cohort, Jihyun is studying Python, data analysis, machine learning, deep-learning basics, web development, APIs, and AI model serving."
-      : "OZ코딩스쿨 AI 헬스케어 5기에서 Python, 데이터 분석, 머신러닝, 딥러닝 기초, 웹 개발, API와 AI 모델 서빙을 학습하고 있습니다.";
+      ? "Through OZ Coding School's AI Healthcare 5th cohort, Jihyun is studying Python, data analysis, machine learning, deep-learning basics, web development, APIs, and AI model serving. He is also expected to complete an AI Healthcare Data Analysis and Modeling practical training course on 2026-09-28."
+      : "OZ코딩스쿨 AI 헬스케어 5기에서 Python, 데이터 분석, 머신러닝, 딥러닝 기초, 웹 개발, API와 AI 모델 서빙을 학습하고 있습니다. AI 헬스케어 데이터 분석 및 모델링 실무 양성 과정은 2026년 9월 28일 수료 예정입니다.";
+  }
+
+  if (hasAny(text, ["학력", "고등학교", "곤지암", "졸업", "highschool", "graduate"])) {
+    return isEnglish
+      ? "Jihyun graduated from Gonjiam High School (vocational track) in 2006. His current technical training is OZ Coding School's AI Healthcare 5th cohort, alongside an AI Healthcare Data Analysis and Modeling practical training course expected to finish on 2026-09-28."
+      : "학력은 곤지암고등학교 졸업(실업계열, 2003.02~2006.03)입니다. 현재는 OZ코딩스쿨 AI 헬스케어 5기와 AI 헬스케어 데이터 분석 및 모델링 실무 양성 과정(2026.09.28 수료 예정)을 통해 실무 역량을 쌓고 있습니다.";
+  }
+
+  if (hasAny(text, ["희망직무", "지원직무", "목표직무", "어떤직무", "채용", "targetrole", "desiredrole", "jobtitle"])) {
+    return isEnglish
+      ? "He is aiming for roles such as Machine Learning Engineer, Big Data Engineer, AI/AX Engineer, Data Analyst, and Data Scientist."
+      : "희망 직무는 머신러닝 엔지니어, 빅데이터 엔지니어, AI/AX 엔지니어, 데이터 분석, 데이터 사이언티스트입니다.";
+  }
+
+  if (hasAny(text, ["이력서", "resume", "cv"])) {
+    return isEnglish
+      ? "You can download Jihyun's resume PDF from the download link in the Contact section or the Background page. It covers his career history, skills, education, and target roles."
+      : "이력서 PDF는 연락처 섹션이나 배경(Background) 페이지의 다운로드 링크에서 받을 수 있습니다. 경력, 기술, 학력, 희망 직무가 정리되어 있습니다.";
   }
 
   if (hasAny(text, ["여정", "journey", "학습흐름", "학습과정", "learningpath"])) {

@@ -4,7 +4,7 @@ import { FormEvent, KeyboardEvent, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { ArrowUpRight, Bot, CodeXml, Mail, Phone, Send, Sparkles, X } from "lucide-react";
+import { ArrowUpRight, Bot, CodeXml, Download, Mail, Phone, Send, Sparkles, X } from "lucide-react";
 import { fadeInUp, staggerContainer } from "@/lib/animation";
 import { getPortfolioAnswer, portfolioContact, type PortfolioLanguage } from "@/lib/portfolioChat";
 import type { Profile, Project } from "@/types/portfolio";
@@ -55,7 +55,8 @@ const languageCopy = {
     contactBody: "데이터 분석과 AI 모델링을 배우며, 작은 불편함을 웹 기반 솔루션으로 풀어보는 일에 관심이 있습니다.",
     phoneLabel: "전화",
     emailLabel: "이메일",
-    githubLabel: "GitHub"
+    githubLabel: "GitHub",
+    resumeLabel: "이력서 PDF 다운로드"
   },
   en: {
     heroKicker: "AI SOLUTION · DATA · WEB",
@@ -87,7 +88,8 @@ const languageCopy = {
     contactBody: "I study data analysis and AI modeling, with an interest in turning user friction into practical web-based solutions.",
     phoneLabel: "Phone",
     emailLabel: "Email",
-    githubLabel: "GitHub"
+    githubLabel: "GitHub",
+    resumeLabel: "Download Resume PDF"
   }
 } satisfies Record<PortfolioLanguage, Record<string, string>>;
 
@@ -105,11 +107,11 @@ const skillGroups = [
   },
   {
     title: "Data / ML",
-    skills: ["Pandas", "NumPy", "Scikit-learn", "CatBoost", "LightGBM", "ExtraTrees"]
+    skills: ["Pandas", "NumPy", "Scikit-learn", "PyTorch", "TensorFlow", "CatBoost", "LightGBM", "ExtraTrees"]
   },
   {
     title: "Serving",
-    skills: ["FastAPI", "Docker", "Redis", "AI Worker", "REST API"]
+    skills: ["FastAPI", "Docker", "Redis", "AI Worker", "REST API", "Vercel"]
   },
   {
     title: "Frontend",
@@ -659,6 +661,15 @@ export function TargetedPortfolio({ profile, projects }: TargetedPortfolioProps)
             >
               <CodeXml className="h-5 w-5 text-[#5E4E87]" aria-hidden="true" />
               <strong className="text-base sm:text-xl">GitHub</strong>
+              <ArrowUpRight className="h-5 w-5 transition group-hover:translate-x-1" aria-hidden="true" />
+            </a>
+            <a
+              href="/resume/kimjihyun-resume-2026.pdf"
+              download="김지현_이력서_2026.pdf"
+              className="group grid min-h-24 grid-cols-[2.5rem_1fr_auto] items-center gap-3 border-b border-[#8E82B5] px-2 transition hover:bg-[#F7F4FF]"
+            >
+              <Download className="h-5 w-5 text-[#5E4E87]" aria-hidden="true" />
+              <strong className="text-base sm:text-xl">{copy.resumeLabel}</strong>
               <ArrowUpRight className="h-5 w-5 transition group-hover:translate-x-1" aria-hidden="true" />
             </a>
           </div>
