@@ -22,7 +22,18 @@ export function getPortfolioAnswer(question: string, language: PortfolioLanguage
   const text = normalize(original);
   const contextText = normalize(context);
   const isEnglish = language === "en";
-  const shortFollowUp = text.length <= 14 || hasAny(text, ["그거", "그건", "그앱", "그프로젝트", "그것", "그럼"]);
+  const projectKeywordGroups = [
+    ["난임", "임신성공", "catboost", "lightgbm", "oofauc", "이거조"],
+    ["폐렴", "xray", "x-ray", "redisqueue", "aiworker", "백오피스"],
+    ["흡연", "비흡연", "건강검진", "ttest", "anova", "중성지방"],
+    ["pote", "peto", "포테", "포트는", "포트가", "포트를", "포트의", "포트갤러리", "portgallery", "potegallery", "작품갤러리", "공간미리보기"],
+    ["arte", "아르떼", "전시", "관람", "도슨트", "visitcompanion"],
+    ["studyflow", "스터디플로우", "학습로그", "학습기록", "면접질문생성"]
+  ];
+  const hasDirectProjectMatch = projectKeywordGroups.some((keywords) => hasAny(text, keywords));
+  const shortFollowUp =
+    !hasDirectProjectMatch &&
+    (text.length <= 14 || hasAny(text, ["그거", "그건", "그앱", "그프로젝트", "그것", "그럼"]));
   const subjectText = `${text}${shortFollowUp ? contextText : ""}`;
   const asksWhy = hasAny(text, ["왜", "이유", "계기", "만든과정", "제작과정", "history", "process"]);
   const asksScore = hasAny(text, ["점수", "스코어", "auc", "leaderboard", "리더보드", "몇점", "score"]);
