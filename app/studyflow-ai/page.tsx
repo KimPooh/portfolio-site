@@ -15,6 +15,9 @@ import {
   Sparkles
 } from "lucide-react";
 import { useMemo, useState } from "react";
+import { useLanguage } from "@/lib/language";
+
+type Bilingual = { kr: string; en: string };
 
 type Focus = "portfolio" | "interview" | "project";
 type View = "coach" | "match" | "questions" | "library";
@@ -27,10 +30,22 @@ const samples = [
   "Redis Queue와 AI Worker를 분리해서 X-Ray 폐렴 예측 작업을 비동기로 처리하는 구조를 설계했다."
 ];
 
-const focusOptions: Record<Focus, { label: string; helper: string }> = {
-  portfolio: { label: "포트폴리오로 정리", helper: "배운 내용을 보여줄 문장으로 바꿔요" },
-  interview: { label: "면접 대비", helper: "질문 받을 포인트를 먼저 뽑아요" },
-  project: { label: "프로젝트 연결", helper: "학습과 결과물을 이어 붙여요" }
+const focusOptions: Record<Focus, { label: Bilingual; short: Bilingual; helper: Bilingual }> = {
+  portfolio: {
+    label: { kr: "포트폴리오로 정리", en: "Sort into portfolio" },
+    short: { kr: "포트폴리오", en: "Portfolio" },
+    helper: { kr: "배운 내용을 보여줄 문장으로 바꿔요", en: "Turn what you learned into a sentence you can show" }
+  },
+  interview: {
+    label: { kr: "면접 대비", en: "Interview prep" },
+    short: { kr: "면접 대비", en: "Interview prep" },
+    helper: { kr: "질문 받을 포인트를 먼저 뽑아요", en: "Pull out the points you'll be asked about first" }
+  },
+  project: {
+    label: { kr: "프로젝트 연결", en: "Link to a project" },
+    short: { kr: "프로젝트 연결", en: "Link project" },
+    helper: { kr: "학습과 결과물을 이어 붙여요", en: "Connect your learning to a real result" }
+  }
 };
 
 const keywordMap = [
@@ -169,18 +184,27 @@ const keywordMap = [
   }
 ];
 
-const tutorialSteps = [
+const tutorialSteps: { title: Bilingual; body: Bilingual }[] = [
   {
-    title: "1. 편하게 적기",
-    body: "영어 기술명 몰라도 괜찮아요. 파이썬, 도커, 에이피아이처럼 한글이나 발음으로 적어도 읽습니다."
+    title: { kr: "1. 편하게 적기", en: "1. Write freely" },
+    body: {
+      kr: "영어 기술명 몰라도 괜찮아요. 파이썬, 도커, 에이피아이처럼 한글이나 발음으로 적어도 읽습니다.",
+      en: "You don't need the English tech term. It reads Korean spellings or pronunciations too, like 파이썬 or 에이피아이."
+    }
   },
   {
-    title: "2. 목표 고르기",
-    body: "포트폴리오, 면접, 프로젝트 연결 중 오늘 필요한 목적을 하나 고릅니다."
+    title: { kr: "2. 목표 고르기", en: "2. Choose a goal" },
+    body: {
+      kr: "포트폴리오, 면접, 프로젝트 연결 중 오늘 필요한 목적을 하나 고릅니다.",
+      en: "Pick whichever you need today: portfolio, interview prep, or linking to a project."
+    }
   },
   {
-    title: "3. 정리 시작",
-    body: "버튼을 누르면 기술, 연결 프로젝트, 질문, 저장할 문장을 나눠서 보여줍니다."
+    title: { kr: "3. 정리 시작", en: "3. Start sorting" },
+    body: {
+      kr: "버튼을 누르면 기술, 연결 프로젝트, 질문, 저장할 문장을 나눠서 보여줍니다.",
+      en: "Press the button and it splits the result into skills, linked projects, questions, and a sentence to save."
+    }
   }
 ];
 
@@ -357,7 +381,117 @@ function analyze(log: string, focus: Focus) {
   return { intent, intentLabel, skills, areas, projects, hints, guide, readiness, summary, sentence, questions, next };
 }
 
+const pageCopy = {
+  kr: {
+    headerTagline: "배운 것을 다시 꺼내 쓰는 학습 노트",
+    backToPortfolio: "포트폴리오",
+    heroKicker: "Today's learning",
+    heroTitle: "오늘 무엇을 배웠나요?",
+    heroBody: "완벽하게 정리하지 않아도 괜찮아요. 기억나는 말부터 편하게 적어보세요.",
+    logLabel: "학습 기록",
+    charSuffix: "자",
+    placeholder: "예: FastAPI로 예측 API를 만들었는데 요청과 응답 구조가 아직 헷갈렸다.",
+    samplesAriaLabel: "학습 기록 예시",
+    sampleButton: "예시",
+    focusTitle: "어디에 활용할까요?",
+    runButton: "내 기록 정리하기",
+    footnote: "한글 발음으로 적어도 기술 단어를 찾아요. 입력 내용은 현재 브라우저 안에서만 처리합니다.",
+    flowKicker: "Your flow",
+    resultTitle: "정리 결과",
+    skillsCount: (n: number) => `기술 ${n}개`,
+    tabs: {
+      coach: "한눈에 보기",
+      match: "프로젝트 연결",
+      questions: "면접 질문",
+      library: (n: number) => `저장함 ${n}`
+    },
+    emptyTitle: "기록 한 줄이면 충분해요.",
+    emptyBody: "왼쪽에 오늘 배운 내용이나 막혔던 부분을 적으면 필요한 형태로 나눠드릴게요.",
+    coach: {
+      firstUnderstanding: "먼저 이렇게 이해했어요",
+      easyReview: "쉽게 다시 보기",
+      skillsFound: "찾은 기술",
+      skillsEmpty: "기술 단어를 조금 더 구체적으로 적어보세요.",
+      sentenceTitle: "활용 문장",
+      saveButton: "저장하기",
+      notice: "정리한 문장을 저장했어요."
+    },
+    match: {
+      title: "연결할 수 있는 프로젝트",
+      subtitle: "입력한 기술과 경험이 실제로 겹칠 때만 후보로 보여줍니다.",
+      candidateLabel: "연결 후보",
+      candidateBody: "직접 만든 기능이나 맡은 역할을 더 적으면 연결 근거가 선명해져요.",
+      empty: "아직 특정 프로젝트로 연결할 근거가 부족해요. 만든 기능, 사용한 기술, 확인한 결과 중 하나를 기록에 추가해보세요."
+    },
+    questions: {
+      title: "이 기록에서 나올 질문",
+      subtitle: "기술 설명보다 선택과 해결 과정을 말해보세요."
+    },
+    library: {
+      nextTitle: "다음 학습",
+      savedTitle: "저장한 문장",
+      savedEmpty: "저장한 문장이 아직 없어요."
+    },
+    toggleToLibrary: "다음 학습과 저장함 보기",
+    toggleToResult: "결과로 돌아가기"
+  },
+  en: {
+    headerTagline: "A study notebook you can put back to work",
+    backToPortfolio: "Portfolio",
+    heroKicker: "Today's learning",
+    heroTitle: "What did you learn today?",
+    heroBody: "It doesn't have to be tidy. Start with whatever you remember.",
+    logLabel: "Study log",
+    charSuffix: " chars",
+    placeholder: "e.g. I built a prediction API with FastAPI, but the request/response structure still confused me.",
+    samplesAriaLabel: "Study log examples",
+    sampleButton: "Example",
+    focusTitle: "What will you use this for?",
+    runButton: "Sort my log",
+    footnote: "It finds tech terms even from Korean spellings. Your input is only processed in this browser.",
+    flowKicker: "Your flow",
+    resultTitle: "Result",
+    skillsCount: (n: number) => `${n} skills`,
+    tabs: {
+      coach: "At a glance",
+      match: "Project match",
+      questions: "Interview questions",
+      library: (n: number) => `Saved (${n})`
+    },
+    emptyTitle: "One line is enough.",
+    emptyBody: "Write what you learned or got stuck on today on the left, and it'll be split into what you need.",
+    coach: {
+      firstUnderstanding: "Here's how I read it first",
+      easyReview: "The simple version",
+      skillsFound: "Skills found",
+      skillsEmpty: "Try writing a more specific tech term.",
+      sentenceTitle: "Sentence to use",
+      saveButton: "Save",
+      notice: "Saved your sentence."
+    },
+    match: {
+      title: "Projects you can link to",
+      subtitle: "Only shown as a candidate when the skills and experience you entered actually overlap.",
+      candidateLabel: "Candidate match",
+      candidateBody: "Add the feature you built or the role you played to make the link clearer.",
+      empty: "There isn't enough evidence yet to link this to a specific project. Try adding a feature you built, a tech you used, or a result you confirmed."
+    },
+    questions: {
+      title: "Questions this log could raise",
+      subtitle: "Talk through your choices and how you solved things, not just the tech."
+    },
+    library: {
+      nextTitle: "Next steps",
+      savedTitle: "Saved sentences",
+      savedEmpty: "No saved sentences yet."
+    },
+    toggleToLibrary: "See next steps and saved sentences",
+    toggleToResult: "Back to results"
+  }
+};
+
 export default function StudyFlowPage() {
+  const { language, setLanguage } = useLanguage();
   const [log, setLog] = useState("");
   const [focus, setFocus] = useState<Focus>("portfolio");
   const [view, setView] = useState<View>("coach");
@@ -366,6 +500,7 @@ export default function StudyFlowPage() {
   const [notice, setNotice] = useState("");
 
   const result = useMemo(() => analyze(log, focus), [log, focus]);
+  const t = pageCopy[language];
 
   const run = () => {
     if (!log.trim()) return;
@@ -376,7 +511,7 @@ export default function StudyFlowPage() {
 
   const save = () => {
     setSaved((items) => [result.sentence, ...items.filter((item) => item !== result.sentence)].slice(0, 5));
-    setNotice("정리한 문장을 저장했어요.");
+    setNotice(t.coach.notice);
   };
 
   return (
