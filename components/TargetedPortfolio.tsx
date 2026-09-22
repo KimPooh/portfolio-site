@@ -117,7 +117,7 @@ const projectCards = [
   {
     slug: "personal-finance-manager",
     label: "Product",
-    title: "개인 자산관리",
+    title: { kr: "개인 자산관리", en: "Personal Finance Manager" },
     role: { kr: "보안 · 모바일 UX · 데이터 안정성", en: "Security · Mobile UX · Data Safety" },
     summary: {
       kr: "금융을 잘 모르는 사용자도 자산·대출·현금흐름을 이해하고 기록할 수 있도록 만든 개인 금융 관리 앱입니다.",
@@ -134,7 +134,7 @@ const projectCards = [
   {
     slug: "studyflow-ai",
     label: "Product",
-    title: "StudyFlow AI",
+    title: { kr: "StudyFlow AI", en: "StudyFlow AI" },
     role: { kr: "기획 · 구현 · 검증", en: "Planning · Build · Validation" },
     summary: {
       kr: "공부 기록이 흩어져 다시 꺼내기 어려웠던 문제에서 출발한 작은 AI Solution 웹앱입니다.",
@@ -150,7 +150,7 @@ const projectCards = [
   {
     slug: "pneumonia-backoffice-ai-serving",
     label: "Serving",
-    title: "폐렴 환자 관리 백오피스",
+    title: { kr: "폐렴 환자 관리 백오피스", en: "Pneumonia Patient Management Back Office" },
     role: { kr: "FastAPI · Docker · Worker", en: "FastAPI · Docker · Worker" },
     summary: {
       kr: "X-Ray 예측 모델을 API와 운영 화면 흐름으로 연결한 모델 서빙 프로젝트입니다.",
@@ -166,7 +166,7 @@ const projectCards = [
   {
     slug: "infertility-pregnancy-prediction",
     label: "Award",
-    title: "난임 임신 성공 예측 모델",
+    title: { kr: "난임 임신 성공 예측 모델", en: "Infertility Pregnancy Success Prediction Model" },
     role: { kr: "해커톤 3등", en: "Hackathon 3rd Place" },
     summary: {
       kr: "난임 시술 데이터를 기반으로 임신 성공 가능성을 예측하고 검증한 머신러닝 프로젝트입니다.",
@@ -182,7 +182,7 @@ const projectCards = [
   {
     slug: "smoking-status-data-analysis",
     label: "Analysis",
-    title: "흡연 여부 건강 데이터 분석",
+    title: { kr: "흡연 여부 건강 데이터 분석", en: "Smoking Status Health Data Analysis" },
     role: { kr: "EDA · 통계 검정 · 시각화", en: "EDA · Statistics · Visualization" },
     summary: {
       kr: "건강검진 데이터에서 흡연 여부에 따른 지표 차이를 탐색하고 통계적으로 확인한 분석 프로젝트입니다.",
@@ -198,7 +198,7 @@ const projectCards = [
   {
     slug: "pote-gallery",
     label: "Product",
-    title: "Pote",
+    title: { kr: "Pote", en: "Pote" },
     role: { kr: "웹 서비스 기획 · 데이터 자동화 · 배포 운영", en: "Product Build · Data Automation · Deployment" },
     summary: {
       kr: "5명 작가의 작품 98점을 탐색하고, 실제 전시 정보와 함께 취향에 맞는 작품을 발견할 수 있도록 만든 온라인 아트 갤러리입니다.",
@@ -215,7 +215,7 @@ const projectCards = [
   {
     slug: "arte-visit-companion",
     label: "Prototype",
-    title: "ARTE Visit Companion",
+    title: { kr: "ARTE Visit Companion", en: "ARTE Visit Companion" },
     role: { kr: "기획 · 인터랙션 · 다국어 UX", en: "Planning · Interaction · Bilingual UX" },
     summary: {
       kr: "관람객 유형과 작품 선택에 따라 한국어와 영어 관람 가이드를 제공하는 인터랙티브 웹 프로토타입입니다.",
@@ -527,7 +527,7 @@ export function TargetedPortfolio({ profile, projects }: TargetedPortfolioProps)
                 <ProjectVisual type={project.visual} label={project.label} />
                 <div className="flex h-full flex-col">
                   <p className="text-xs font-black uppercase text-[#6C5A8F]">{project.role[language]}</p>
-                  <h3 className="mt-3 text-2xl font-black sm:text-3xl">{project.title}</h3>
+                  <h3 className="mt-3 text-2xl font-black sm:text-3xl">{project.title[language]}</h3>
                   <p className="mt-4 max-w-2xl text-sm leading-7 text-[#5E5B55]">{project.summary[language]}</p>
                   <div className="mt-5 flex flex-wrap gap-2">
                     {project.points[language].map((point) => (
