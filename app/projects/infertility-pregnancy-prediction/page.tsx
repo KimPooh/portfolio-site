@@ -10,8 +10,8 @@ if (!project) {
 }
 
 export const metadata: Metadata = {
-  title: `${project.title} | 김지현 AI/Data Portfolio`,
-  description: project.detail?.oneLine ?? project.description
+  title: `${project.title.kr} | 김지현 AI/Data Portfolio`,
+  description: project.detail?.oneLine.kr ?? project.description.kr
 };
 
 export default function InfertilityPredictionProjectPage() {

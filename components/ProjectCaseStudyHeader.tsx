@@ -1,5 +1,8 @@
+"use client";
+
 import type { ReactNode } from "react";
 import Link from "next/link";
+import { useLanguage } from "@/lib/language";
 
 type ProjectTheme = "infertility" | "pneumonia" | "smoking";
 
@@ -34,10 +37,10 @@ const themes = {
   }
 } satisfies Record<ProjectTheme, Record<string, string>>;
 
-function ProjectHeroVisual({ theme }: { theme: ProjectTheme }) {
+function ProjectHeroVisual({ theme, language }: { theme: ProjectTheme; language: "kr" | "en" }) {
   if (theme === "pneumonia") {
     return (
-      <figure className="relative min-h-[21rem] overflow-hidden rounded-md border border-[#AFC9C4] bg-[#173F3B] p-5 text-white" aria-label="폐렴 백오피스와 AI 모델 서빙 흐름을 표현한 화면">
+      <figure className="relative min-h-[21rem] overflow-hidden rounded-md border border-[#AFC9C4] bg-[#173F3B] p-5 text-white" aria-label={language === "kr" ? "폐렴 백오피스와 AI 모델 서빙 흐름을 표현한 화면" : "Graphic representing the pneumonia back office and AI model serving flow"}>
         <div className="flex items-center justify-between border-b border-white/20 pb-4">
           <p className="text-xs font-black">PATIENT REVIEW</p>
           <span className="rounded bg-[#BCE7DD] px-2 py-1 text-[10px] font-black text-[#173F3B]">READY</span>
@@ -71,15 +74,15 @@ function ProjectHeroVisual({ theme }: { theme: ProjectTheme }) {
   if (theme === "smoking") {
     const values = [34, 61, 43, 78, 56, 88];
     return (
-      <figure className="min-h-[21rem] overflow-hidden rounded-md border border-[#CBC6AA] bg-[#24281D] p-5 text-white" aria-label="흡연 여부에 따른 건강 지표 비교 차트">
+      <figure className="min-h-[21rem] overflow-hidden rounded-md border border-[#CBC6AA] bg-[#24281D] p-5 text-white" aria-label={language === "kr" ? "흡연 여부에 따른 건강 지표 비교 차트" : "Chart comparing health indicators by smoking status"}>
         <div className="flex items-start justify-between gap-4 border-b border-white/15 pb-4">
           <div>
             <p className="text-xs font-black">HEALTH INDICATOR</p>
             <p className="mt-1 text-[10px] text-white/55">SMOKER / NON-SMOKER</p>
           </div>
           <div className="flex gap-3 text-[10px] text-white/65">
-            <span><i className="mr-1 inline-block h-2 w-2 rounded-sm bg-[#D98268]" />흡연</span>
-            <span><i className="mr-1 inline-block h-2 w-2 rounded-sm bg-[#A7B879]" />비흡연</span>
+            <span><i className="mr-1 inline-block h-2 w-2 rounded-sm bg-[#D98268]" />{language === "kr" ? "흡연" : "Smoker"}</span>
+            <span><i className="mr-1 inline-block h-2 w-2 rounded-sm bg-[#A7B879]" />{language === "kr" ? "비흡연" : "Non-smoker"}</span>
           </div>
         </div>
         <div className="mt-7 flex h-44 items-end gap-3 border-b border-l border-white/20 px-4 pt-4">
@@ -100,7 +103,7 @@ function ProjectHeroVisual({ theme }: { theme: ProjectTheme }) {
   }
 
   return (
-    <figure className="min-h-[21rem] overflow-hidden rounded-md border border-[#D1B8B1] bg-[#351F22] p-5 text-white" aria-label="난임 임신 성공 예측 모델의 검증 과정을 표현한 화면">
+    <figure className="min-h-[21rem] overflow-hidden rounded-md border border-[#D1B8B1] bg-[#351F22] p-5 text-white" aria-label={language === "kr" ? "난임 임신 성공 예측 모델의 검증 과정을 표현한 화면" : "Graphic representing the infertility pregnancy-prediction model's validation process"}>
       <div className="flex items-center justify-between border-b border-white/15 pb-4">
         <p className="text-xs font-black">MODEL VALIDATION</p>
         <span className="rounded bg-[#F2B6A7] px-2 py-1 text-[10px] font-black text-[#351F22]">3RD PLACE</span>
@@ -130,17 +133,31 @@ function ProjectHeroVisual({ theme }: { theme: ProjectTheme }) {
 
 export function ProjectCaseStudyHeader({ theme, eyebrow, title, summary, tags, facts, navigation }: ProjectCaseStudyHeaderProps) {
   const colors = themes[theme];
+  const { language, setLanguage } = useLanguage();
 
   return (
     <>
       <header className="sticky top-0 z-50 border-b border-white/10 bg-[#1D1F22]/95 text-white backdrop-blur">
         <div className="mx-auto flex min-h-16 max-w-[1240px] items-center gap-4 px-5 sm:px-8">
-          <Link href="/" className="flex h-9 w-9 shrink-0 items-center justify-center rounded bg-[#B9E4D0] text-xs font-black text-[#1D1F22]" aria-label="포트폴리오 홈">
+          <Link href="/" className="flex h-9 w-9 shrink-0 items-center justify-center rounded bg-[#B9E4D0] text-xs font-black text-[#1D1F22]" aria-label={language === "kr" ? "포트폴리오 홈" : "Portfolio home"}>
             KJH
           </Link>
-          <nav className="flex min-w-0 flex-1 items-center gap-2 overflow-x-auto py-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" aria-label="프로젝트 상세 메뉴">
+          <nav className="flex min-w-0 flex-1 items-center gap-2 overflow-x-auto py-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" aria-label={language === "kr" ? "프로젝트 상세 메뉴" : "Project detail menu"}>
             {navigation}
           </nav>
+          <div className="flex shrink-0 overflow-hidden rounded-md border border-white/15 text-xs font-black">
+            {(["kr", "en"] as const).map((item) => (
+              <button
+                key={item}
+                type="button"
+                onClick={() => setLanguage(item)}
+                className={`min-w-9 px-2.5 py-1.5 transition ${language === item ? "bg-white text-[#1D1F22]" : "text-white/60 hover:text-white"}`}
+                aria-pressed={language === item}
+              >
+                {item === "kr" ? "KR" : "EN"}
+              </button>
+            ))}
+          </div>
         </div>
       </header>
 
@@ -164,7 +181,7 @@ export function ProjectCaseStudyHeader({ theme, eyebrow, title, summary, tags, f
               ))}
             </dl>
           </div>
-          <ProjectHeroVisual theme={theme} />
+          <ProjectHeroVisual theme={theme} language={language} />
         </div>
       </section>
     </>

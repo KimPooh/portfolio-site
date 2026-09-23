@@ -56,11 +56,11 @@ export type SkillGroup = {
 
 export type Project = {
   slug: string;
-  title: string;
+  title: Bilingual;
   year: string;
   category: string;
-  description: string;
-  outcome: string;
+  description: Bilingual;
+  outcome: Bilingual;
   tags: string[];
   detailHref?: string;
   featured?: boolean;
@@ -70,38 +70,38 @@ export type Project = {
 
 export type ProjectSummaryCard = {
   title: string;
-  items: string[];
+  items: Bilingual[];
 };
 
 export type ProjectTimelineItem = {
-  title: string;
-  description: string;
+  title: Bilingual;
+  description: Bilingual;
 };
 
 export type ProjectPerformanceCard = {
   title: string;
-  description: string;
+  description: Bilingual;
 };
 
 export type ProjectDetail = {
-  oneLine: string;
-  nature: string[];
-  award: string;
-  problem: string;
-  dataUnderstanding: string;
-  preprocessing: string;
-  featureEngineering: string;
-  modelingStrategy: string;
-  validation: string;
-  lessons: string[];
-  disclosure: string;
-  leakageNote: string;
-  considerations: string[];
+  oneLine: Bilingual;
+  nature: Bilingual[];
+  award: Bilingual;
+  problem: Bilingual;
+  dataUnderstanding: Bilingual;
+  preprocessing: Bilingual;
+  featureEngineering: Bilingual;
+  modelingStrategy: Bilingual;
+  validation: Bilingual;
+  lessons: Bilingual[];
+  disclosure: Bilingual;
+  leakageNote: Bilingual;
+  considerations: Bilingual[];
   techStack: string[];
-  modelingFlow: string[];
+  modelingFlow: Bilingual[];
   timeline: ProjectTimelineItem[];
   performanceCards: ProjectPerformanceCard[];
-  results: string[];
+  results: Bilingual[];
 };
 
 export type LabIdea = {

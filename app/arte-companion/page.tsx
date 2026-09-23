@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useMemo, useState } from "react";
+import { useLanguage } from "@/lib/language";
 
 type VisitorType = "family" | "first" | "global" | "quiet";
 type Tab = "guide" | "route" | "ops";
@@ -22,6 +23,17 @@ const visitorTypes: Record<VisitorType, { label: string; caption: string }> = {
   first: { label: "첫 방문", caption: "작품 맥락과 동선 중심" },
   global: { label: "외국인", caption: "한국어와 영어를 함께 보는 안내" },
   quiet: { label: "조용히 감상", caption: "방해하지 않는 힌트" }
+};
+
+// UI-only bilingual labels for the visitor-type picker. The Korean labels above
+// stay as the single source of truth for the generated guide text (createGuide),
+// which is intentionally left untouched — the app's own dual-language guide
+// output is a product feature, not portfolio-site chrome.
+const visitorTypeCopy: Record<VisitorType, { label: { kr: string; en: string }; caption: { kr: string; en: string } }> = {
+  family: { label: { kr: "아이와 함께", en: "With Kids" }, caption: { kr: "짧고 상상하기 쉬운 설명", en: "Short, easy-to-imagine explanations" } },
+  first: { label: { kr: "첫 방문", en: "First Visit" }, caption: { kr: "작품 맥락과 동선 중심", en: "Focused on context and route" } },
+  global: { label: { kr: "외국인", en: "International Visitor" }, caption: { kr: "한국어와 영어를 함께 보는 안내", en: "Guidance shown in Korean and English together" } },
+  quiet: { label: { kr: "조용히 감상", en: "Quiet Viewing" }, caption: { kr: "방해하지 않는 힌트", en: "Unobtrusive hints" } }
 };
 
 const artworks: Artwork[] = [
@@ -115,7 +127,52 @@ function createGuide(artwork: Artwork, visitor: VisitorType) {
   };
 }
 
+const chromeCopy = {
+  kr: {
+    step1: "작품 선택",
+    step2: "관람객 선택",
+    generate: "AI 관람 가이드 생성",
+    productMvp: "Product MVP",
+    heroTitle: "전시장에서 바로 쓰는 AI 도슨트",
+    heroBody: "작품과 관람객 유형을 고르면 맞춤 설명, 질문, 동선, 운영자 인사이트가 생성됩니다. 버튼을 눌러 결과를 만들고 질문을 저장해보세요.",
+    stats: ["체류", "질문", "로그"],
+    tabs: { guide: "관람 가이드", route: "추천 동선", ops: "운영자 화면" },
+    emptyTitle: "아직 가이드가 생성되지 않았습니다.",
+    emptyBody: "왼쪽에서 작품과 관람객 유형을 고른 뒤 생성 버튼을 눌러보세요.",
+    generatedGuide: "Generated Guide",
+    question: "Question",
+    saveButton: "선택 질문 저장하고 운영자 화면 보기",
+    routeHelper: "현재 관람객 유형에 맞춘 다음 추천 지점입니다.",
+    operatorInsight: "Operator Insight",
+    interestLabel: "예상 관심도",
+    liveLogTitle: "실시간 저장 로그",
+    liveLogEmpty: "관람객 질문 저장 후 로그가 표시됩니다."
+  },
+  en: {
+    step1: "Choose Artwork",
+    step2: "Choose Visitor Type",
+    generate: "Generate AI Visit Guide",
+    productMvp: "Product MVP",
+    heroTitle: "An AI Docent You Can Use in the Gallery",
+    heroBody: "Pick an artwork and a visitor type to generate a tailored explanation, questions, a route, and operator insight. Click the button to generate a result, then save a question.",
+    stats: ["Dwell", "Questions", "Logs"],
+    tabs: { guide: "Visit Guide", route: "Recommended Route", ops: "Operator View" },
+    emptyTitle: "No guide generated yet.",
+    emptyBody: "Pick an artwork and a visitor type on the left, then click Generate.",
+    generatedGuide: "Generated Guide",
+    question: "Question",
+    saveButton: "Save Selected Question & View Operator Screen",
+    routeHelper: "The next recommended stop for the current visitor type.",
+    operatorInsight: "Operator Insight",
+    interestLabel: "Estimated Interest",
+    liveLogTitle: "Live Save Log",
+    liveLogEmpty: "A log will appear once a visitor question is saved."
+  }
+};
+
 export default function ArteCompanionPage() {
+  const { language, setLanguage } = useLanguage();
+  const copy = chromeCopy[language];
   const [artworkId, setArtworkId] = useState("wave");
   const [visitor, setVisitor] = useState<VisitorType>("first");
   const [activeTab, setActiveTab] = useState<Tab>("guide");
@@ -143,7 +200,22 @@ export default function ArteCompanionPage() {
       <header className="sticky top-0 z-40 border-b border-border bg-background/95 backdrop-blur">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 sm:px-8">
           <Link href="/" className="text-sm font-bold">김지현 Portfolio</Link>
-          <span className="rounded-sm border border-accent/25 bg-accent/10 px-3 py-1 text-xs font-bold text-accent">ARTE Visit Companion</span>
+          <div className="flex items-center gap-3">
+            <span className="hidden rounded-sm border border-accent/25 bg-accent/10 px-3 py-1 text-xs font-bold text-accent sm:inline-block">ARTE Visit Companion</span>
+            <div className="flex overflow-hidden rounded-md border border-border text-xs font-black">
+              {(["kr", "en"] as const).map((item) => (
+                <button
+                  key={item}
+                  type="button"
+                  onClick={() => setLanguage(item)}
+                  className={`min-w-9 px-2.5 py-1.5 transition ${language === item ? "bg-accent text-white" : "text-muted hover:text-foreground"}`}
+                  aria-pressed={language === item}
+                >
+                  {item === "kr" ? "KR" : "EN"}
+                </button>
+              ))}
+            </div>
+          </div>
         </div>
       </header>
 
@@ -151,7 +223,7 @@ export default function ArteCompanionPage() {
         <aside className="space-y-4">
           <div className="rounded-lg border border-border bg-surface p-4 shadow-sm">
             <p className="text-xs font-bold uppercase text-accent">Step 1</p>
-            <h2 className="mt-1 text-lg font-bold">작품 선택</h2>
+            <h2 className="mt-1 text-lg font-bold">{copy.step1}</h2>
             <div className="mt-4 grid gap-3">
               {artworks.map((item) => (
                 <button
@@ -184,7 +256,7 @@ export default function ArteCompanionPage() {
 
           <div className="rounded-lg border border-border bg-surface p-4 shadow-sm">
             <p className="text-xs font-bold uppercase text-accent">Step 2</p>
-            <h2 className="mt-1 text-lg font-bold">관람객 선택</h2>
+            <h2 className="mt-1 text-lg font-bold">{copy.step2}</h2>
             <div className="mt-4 grid gap-2">
               {(Object.keys(visitorTypes) as VisitorType[]).map((key) => (
                 <button
@@ -196,8 +268,8 @@ export default function ArteCompanionPage() {
                   }}
                   className={`rounded-md border p-3 text-left transition ${visitor === key ? "border-accent bg-accent/10" : "border-border bg-background hover:border-accent"}`}
                 >
-                  <span className="block text-sm font-bold">{visitorTypes[key].label}</span>
-                  <span className="mt-1 block text-xs text-muted">{visitorTypes[key].caption}</span>
+                  <span className="block text-sm font-bold">{visitorTypeCopy[key].label[language]}</span>
+                  <span className="mt-1 block text-xs text-muted">{visitorTypeCopy[key].caption[language]}</span>
                 </button>
               ))}
             </div>
@@ -208,7 +280,7 @@ export default function ArteCompanionPage() {
             onClick={generate}
             className="w-full rounded-md bg-accent px-4 py-4 text-sm font-bold text-white shadow-lift transition hover:translate-y-[-1px] hover:opacity-95"
           >
-            AI 관람 가이드 생성
+            {copy.generate}
           </button>
         </aside>
 
@@ -234,14 +306,13 @@ export default function ArteCompanionPage() {
             </div>
 
             <div className="p-5 sm:p-6">
-              <p className="text-xs font-bold uppercase text-accent">Product MVP</p>
-              <h2 className="mt-2 text-3xl font-bold leading-tight">전시장에서 바로 쓰는 AI 도슨트</h2>
+              <p className="text-xs font-bold uppercase text-accent">{copy.productMvp}</p>
+              <h2 className="mt-2 text-3xl font-bold leading-tight">{copy.heroTitle}</h2>
               <p className="mt-4 text-sm leading-7 text-muted">
-                작품과 관람객 유형을 고르면 맞춤 설명, 질문, 동선, 운영자 인사이트가 생성됩니다.
-                버튼을 눌러 결과를 만들고 질문을 저장해보세요.
+                {copy.heroBody}
               </p>
               <div className="mt-5 grid grid-cols-3 gap-2 text-center">
-                {[["체류", `${artwork.dwell}분`], ["질문", "3개"], ["로그", `${logs.length}건`]].map(([label, value]) => (
+                {[[copy.stats[0], `${artwork.dwell}${language === "kr" ? "분" : "min"}`], [copy.stats[1], language === "kr" ? "3개" : "3"], [copy.stats[2], `${logs.length}${language === "kr" ? "건" : ""}`]].map(([label, value]) => (
                   <div key={label} className="rounded-md border border-border bg-background px-3 py-3">
                     <p className="text-xs font-bold text-muted">{label}</p>
                     <p className="mt-1 text-xl font-bold">{value}</p>
@@ -254,9 +325,9 @@ export default function ArteCompanionPage() {
           <div className="border-t border-border bg-background/70 px-4 py-3">
             <div className="flex flex-wrap gap-2">
               {[
-                ["guide", "관람 가이드"],
-                ["route", "추천 동선"],
-                ["ops", "운영자 화면"]
+                ["guide", copy.tabs.guide],
+                ["route", copy.tabs.route],
+                ["ops", copy.tabs.ops]
               ].map(([key, label]) => (
                 <button
                   key={key}
@@ -273,13 +344,13 @@ export default function ArteCompanionPage() {
           <div className="p-5 sm:p-6">
             {!generated ? (
               <div className="rounded-lg border border-dashed border-border bg-background p-8 text-center">
-                <p className="text-lg font-bold">아직 가이드가 생성되지 않았습니다.</p>
-                <p className="mt-2 text-sm text-muted">왼쪽에서 작품과 관람객 유형을 고른 뒤 생성 버튼을 눌러보세요.</p>
+                <p className="text-lg font-bold">{copy.emptyTitle}</p>
+                <p className="mt-2 text-sm text-muted">{copy.emptyBody}</p>
               </div>
             ) : activeTab === "guide" ? (
               <div className="space-y-5">
                 <div className="rounded-lg border border-border bg-background p-5">
-                  <p className="text-xs font-bold uppercase text-accent">Generated Guide</p>
+                  <p className="text-xs font-bold uppercase text-accent">{copy.generatedGuide}</p>
                   <div className="mt-3 space-y-3">
                     <p className="text-base leading-8 text-muted">{guide.intro.ko}</p>
                     <p className="border-l-2 border-accent/40 pl-3 text-sm leading-7 text-muted">
@@ -295,14 +366,14 @@ export default function ArteCompanionPage() {
                       onClick={() => setSelectedQuestion(question.ko)}
                       className={`rounded-lg border p-4 text-left transition ${selectedQuestion === question.ko ? "border-accent bg-accent/10" : "border-border bg-background hover:border-accent"}`}
                     >
-                      <p className="text-xs font-bold uppercase text-accent">Question</p>
+                      <p className="text-xs font-bold uppercase text-accent">{copy.question}</p>
                       <p className="mt-2 text-sm leading-6 text-muted">{question.ko}</p>
                       <p className="mt-3 border-t border-border pt-3 text-xs leading-5 text-muted">{question.en}</p>
                     </button>
                   ))}
                 </div>
                 <button type="button" onClick={save} className="rounded-md bg-accent px-4 py-3 text-sm font-bold text-white">
-                  선택 질문 저장하고 운영자 화면 보기
+                  {copy.saveButton}
                 </button>
               </div>
             ) : activeTab === "route" ? (
@@ -311,22 +382,22 @@ export default function ArteCompanionPage() {
                   <div key={route} className="rounded-lg border border-border bg-background p-5">
                     <span className="flex h-8 w-8 items-center justify-center rounded-full bg-accent text-sm font-bold text-white">{index + 1}</span>
                     <h3 className="mt-4 text-lg font-bold">{route}</h3>
-                    <p className="mt-2 text-sm leading-6 text-muted">현재 관람객 유형에 맞춘 다음 추천 지점입니다.</p>
+                    <p className="mt-2 text-sm leading-6 text-muted">{copy.routeHelper}</p>
                   </div>
                 ))}
               </div>
             ) : (
               <div className="grid gap-5 lg:grid-cols-[0.9fr_1.1fr]">
                 <div className="rounded-lg border border-border bg-background p-5">
-                  <p className="text-xs font-bold uppercase text-accent">Operator Insight</p>
+                  <p className="text-xs font-bold uppercase text-accent">{copy.operatorInsight}</p>
                   <p className="mt-3 text-sm leading-7 text-muted">{guide.ops}</p>
                   <div className="mt-5 h-3 overflow-hidden rounded-full bg-border">
                     <div className="h-full rounded-full bg-accent" style={{ width: `${Math.min(95, artwork.dwell * 9)}%` }} />
                   </div>
-                  <p className="mt-2 text-xs font-bold text-muted">예상 관심도 {Math.min(95, artwork.dwell * 9)}%</p>
+                  <p className="mt-2 text-xs font-bold text-muted">{copy.interestLabel} {Math.min(95, artwork.dwell * 9)}%</p>
                 </div>
                 <div className="rounded-lg border border-border bg-background p-5">
-                  <h3 className="text-lg font-bold">실시간 저장 로그</h3>
+                  <h3 className="text-lg font-bold">{copy.liveLogTitle}</h3>
                   {logs.length ? (
                     <ul className="mt-4 space-y-2">
                       {logs.map((log) => (
@@ -334,7 +405,7 @@ export default function ArteCompanionPage() {
                       ))}
                     </ul>
                   ) : (
-                    <p className="mt-4 text-sm text-muted">관람객 질문 저장 후 로그가 표시됩니다.</p>
+                    <p className="mt-4 text-sm text-muted">{copy.liveLogEmpty}</p>
                   )}
                 </div>
               </div>

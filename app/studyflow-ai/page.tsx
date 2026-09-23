@@ -524,40 +524,55 @@ export default function StudyFlowPage() {
             </span>
             <div>
               <p className="text-sm font-black">StudyFlow AI</p>
-              <p className="text-xs text-[#777481]">배운 것을 다시 꺼내 쓰는 학습 노트</p>
+              <p className="text-xs text-[#777481]">{t.headerTagline}</p>
             </div>
           </div>
-          <Link
-            href="/"
-            className="flex items-center gap-2 rounded-lg border border-[#D4D2DA] bg-white px-3 py-2 text-xs font-bold text-[#5E5A68] transition hover:border-[#9585C7] hover:text-[#27262D]"
-          >
-            <ArrowLeft className="h-4 w-4" aria-hidden="true" />
-            포트폴리오
-          </Link>
+          <div className="flex items-center gap-3">
+            <Link
+              href="/"
+              className="flex items-center gap-2 rounded-lg border border-[#D4D2DA] bg-white px-3 py-2 text-xs font-bold text-[#5E5A68] transition hover:border-[#9585C7] hover:text-[#27262D]"
+            >
+              <ArrowLeft className="h-4 w-4" aria-hidden="true" />
+              {t.backToPortfolio}
+            </Link>
+            <div className="flex overflow-hidden rounded-lg border border-[#D4D2DA] text-xs font-black">
+              {(["kr", "en"] as const).map((item) => (
+                <button
+                  key={item}
+                  type="button"
+                  onClick={() => setLanguage(item)}
+                  className={`min-w-9 px-2.5 py-2 transition ${language === item ? "bg-[#312D3B] text-white" : "text-[#5E5A68] hover:text-[#27262D]"}`}
+                  aria-pressed={language === item}
+                >
+                  {item === "kr" ? "KR" : "EN"}
+                </button>
+              ))}
+            </div>
+          </div>
         </div>
       </header>
 
       <section className="mx-auto grid max-w-[1440px] gap-0 px-0 py-0 lg:min-h-[calc(100vh-65px)] lg:grid-cols-[minmax(360px,0.43fr)_minmax(0,0.57fr)] lg:px-8 lg:py-8">
         <aside className="border-b border-[#DDDCE3] bg-[#FBFBFC] px-5 py-7 sm:px-8 lg:rounded-l-lg lg:border-b-0 lg:border-r lg:px-9 lg:py-9">
           <div className="mx-auto max-w-xl lg:mx-0">
-            <p className="text-xs font-black uppercase text-[#765EBA]">Today&apos;s learning</p>
-            <h1 className="mt-3 text-3xl font-black leading-tight sm:text-4xl">오늘 무엇을 배웠나요?</h1>
+            <p className="text-xs font-black uppercase text-[#765EBA]">{t.heroKicker}</p>
+            <h1 className="mt-3 text-3xl font-black leading-tight sm:text-4xl">{t.heroTitle}</h1>
             <p className="mt-3 text-sm leading-6 text-[#716E79]">
-              완벽하게 정리하지 않아도 괜찮아요. 기억나는 말부터 편하게 적어보세요.
+              {t.heroBody}
             </p>
 
             <div className="mt-7">
               <div className="mb-2 flex items-center justify-between gap-3">
                 <label htmlFor="study-log" className="flex items-center gap-2 text-sm font-black">
                   <NotebookPen className="h-4 w-4 text-[#765EBA]" aria-hidden="true" />
-                  학습 기록
+                  {t.logLabel}
                 </label>
-                <span className="text-xs font-bold text-[#8B8793]">{log.length}자</span>
+                <span className="text-xs font-bold text-[#8B8793]">{log.length}{t.charSuffix}</span>
               </div>
               <textarea
                 id="study-log"
                 value={log}
-                placeholder="예: FastAPI로 예측 API를 만들었는데 요청과 응답 구조가 아직 헷갈렸다."
+                placeholder={t.placeholder}
                 onChange={(event) => {
                   setLog(event.target.value);
                   setAnalyzed(false);
@@ -569,7 +584,7 @@ export default function StudyFlowPage() {
             </div>
 
             {!log && (
-              <div className="mt-3 flex flex-wrap gap-2" aria-label="학습 기록 예시">
+              <div className="mt-3 flex flex-wrap gap-2" aria-label={t.samplesAriaLabel}>
                 {samples.slice(0, 3).map((sample, index) => (
                   <button
                     key={sample}
@@ -580,15 +595,15 @@ export default function StudyFlowPage() {
                     }}
                     className="rounded-lg border border-[#D9D6E0] bg-white px-3 py-2 text-xs font-bold text-[#676370] transition hover:border-[#9585C7] hover:bg-[#F5F1FF]"
                   >
-                    예시 {index + 1}
+                    {t.sampleButton} {index + 1}
                   </button>
                 ))}
               </div>
             )}
 
             <div className="mt-7">
-              <p className="text-sm font-black">어디에 활용할까요?</p>
-              <div className="mt-3 grid grid-cols-3 gap-2" role="group" aria-label="정리 목적">
+              <p className="text-sm font-black">{t.focusTitle}</p>
+              <div className="mt-3 grid grid-cols-3 gap-2" role="group" aria-label={t.focusTitle}>
                 {(Object.keys(focusOptions) as Focus[]).map((key) => {
                   const Icon = key === "portfolio" ? FileText : key === "interview" ? BriefcaseBusiness : FolderKanban;
                   return (
@@ -608,7 +623,7 @@ export default function StudyFlowPage() {
                       aria-pressed={focus === key}
                     >
                       <Icon className="h-5 w-5" aria-hidden="true" />
-                      <span className="text-xs font-black leading-5">{focusOptions[key].label.replace("로 정리", "")}</span>
+                      <span className="text-xs font-black leading-5">{focusOptions[key].short[language]}</span>
                     </button>
                   );
                 })}
@@ -622,12 +637,12 @@ export default function StudyFlowPage() {
               className="mt-6 flex w-full items-center justify-center gap-2 rounded-lg bg-[#312D3B] px-5 py-4 text-sm font-black text-white transition hover:bg-[#494255] disabled:cursor-not-allowed disabled:bg-[#C9C6CE]"
             >
               <Sparkles className="h-4 w-4" aria-hidden="true" />
-              내 기록 정리하기
+              {t.runButton}
             </button>
 
             <p className="mt-4 flex items-center gap-2 text-xs leading-5 text-[#85818D]">
               <BookOpen className="h-4 w-4 shrink-0 text-[#5B927A]" aria-hidden="true" />
-              한글 발음으로 적어도 기술 단어를 찾아요. 입력 내용은 현재 브라우저 안에서만 처리합니다.
+              {t.footnote}
             </p>
           </div>
         </aside>
@@ -636,23 +651,23 @@ export default function StudyFlowPage() {
           <div className="mx-auto max-w-3xl">
             <div className="flex flex-wrap items-end justify-between gap-4 border-b border-[#E1DFE5] pb-5">
               <div>
-                <p className="text-xs font-black uppercase text-[#5B927A]">Your flow</p>
-                <h2 className="mt-2 text-2xl font-black">정리 결과</h2>
+                <p className="text-xs font-black uppercase text-[#5B927A]">{t.flowKicker}</p>
+                <h2 className="mt-2 text-2xl font-black">{t.resultTitle}</h2>
               </div>
               {analyzed && (
                 <div className="flex items-center gap-2 text-xs font-bold text-[#5F5B67]">
                   <span className="rounded-md bg-[#DDF1E7] px-2.5 py-1.5 text-[#37654F]">{result.intentLabel}</span>
-                  <span>기술 {result.skills.length}개</span>
+                  <span>{t.skillsCount(result.skills.length)}</span>
                 </div>
               )}
             </div>
 
-            <nav className="flex gap-1 overflow-x-auto border-b border-[#E1DFE5] py-3" aria-label="정리 결과 메뉴">
+            <nav className="flex gap-1 overflow-x-auto border-b border-[#E1DFE5] py-3" aria-label={t.resultTitle}>
               {[
-                ["coach", "한눈에 보기"],
-                ["match", "프로젝트 연결"],
-                ["questions", "면접 질문"],
-                ["library", `저장함 ${saved.length}`]
+                ["coach", t.tabs.coach],
+                ["match", t.tabs.match],
+                ["questions", t.tabs.questions],
+                ["library", t.tabs.library(saved.length)]
               ].map(([key, label]) => (
                 <button
                   key={key}
@@ -673,15 +688,15 @@ export default function StudyFlowPage() {
                 <span className="mx-auto flex h-16 w-16 items-center justify-center rounded-lg bg-[#EEE8FF] text-[#6F59AF]">
                   <NotebookPen className="h-8 w-8" aria-hidden="true" />
                 </span>
-                <p className="mt-5 text-xl font-black">기록 한 줄이면 충분해요.</p>
+                <p className="mt-5 text-xl font-black">{t.emptyTitle}</p>
                 <p className="mx-auto mt-2 max-w-md text-sm leading-6 text-[#777481]">
-                  왼쪽에 오늘 배운 내용이나 막혔던 부분을 적으면 필요한 형태로 나눠드릴게요.
+                  {t.emptyBody}
                 </p>
                 <div className="mx-auto mt-8 grid max-w-xl gap-3 text-left sm:grid-cols-3">
                   {tutorialSteps.map((step, index) => (
-                    <div key={step.title} className="border-t-2 border-[#D8CAFF] pt-3">
+                    <div key={step.title.kr} className="border-t-2 border-[#D8CAFF] pt-3">
                       <p className="text-xs font-black text-[#765EBA]">0{index + 1}</p>
-                      <p className="mt-1 text-sm font-black">{step.title.replace(/^\d\.\s/, "")}</p>
+                      <p className="mt-1 text-sm font-black">{step.title[language].replace(/^\d+\.\s/, "")}</p>
                     </div>
                   ))}
                 </div>
@@ -692,13 +707,13 @@ export default function StudyFlowPage() {
                   <div className="flex flex-wrap items-center justify-between gap-3">
                     <p className="flex items-center gap-2 text-sm font-black text-[#4B3D70]">
                       <Sparkles className="h-4 w-4" aria-hidden="true" />
-                      먼저 이렇게 이해했어요
+                      {t.coach.firstUnderstanding}
                     </p>
                   </div>
                   <p className="mt-3 text-base leading-8 text-[#595264]">{result.summary}</p>
                 </section>
                 <section>
-                  <h3 className="text-base font-black">쉽게 다시 보기</h3>
+                  <h3 className="text-base font-black">{t.coach.easyReview}</h3>
                   <div className="mt-3 divide-y divide-[#E5E3E8] border-y border-[#E5E3E8]">
                     {result.guide.map((item, index) => (
                       <div key={item} className="flex gap-3 py-4 text-sm leading-6 text-[#676370]">
@@ -710,19 +725,19 @@ export default function StudyFlowPage() {
                 </section>
                 <div className="grid gap-4 md:grid-cols-[0.75fr_1.25fr]">
                   <section className="rounded-lg bg-[#EAF5F0] p-5">
-                    <h3 className="text-sm font-black">찾은 기술</h3>
+                    <h3 className="text-sm font-black">{t.coach.skillsFound}</h3>
                     <div className="mt-3 flex flex-wrap gap-2">
                       {result.skills.length ? result.skills.map((skill) => (
                         <span key={skill} className="rounded-md bg-white px-2.5 py-1.5 text-xs font-black text-[#37654F]">{skill}</span>
-                      )) : <p className="text-sm text-[#676370]">기술 단어를 조금 더 구체적으로 적어보세요.</p>}
+                      )) : <p className="text-sm text-[#676370]">{t.coach.skillsEmpty}</p>}
                     </div>
                   </section>
                   <section className="rounded-lg bg-[#FFF0E8] p-5">
-                    <h3 className="text-sm font-black">활용 문장</h3>
+                    <h3 className="text-sm font-black">{t.coach.sentenceTitle}</h3>
                     <p className="mt-3 text-sm leading-7 text-[#625A57]">{result.sentence}</p>
                     <button type="button" onClick={save} className="mt-4 flex items-center gap-2 rounded-md bg-[#E98361] px-3 py-2 text-xs font-black text-white transition hover:bg-[#D9704F]">
                       <Save className="h-4 w-4" aria-hidden="true" />
-                      저장하기
+                      {t.coach.saveButton}
                     </button>
                     {notice && <p className="mt-3 flex items-center gap-1.5 text-xs font-bold text-[#6B5B52]"><CheckCircle2 className="h-4 w-4" />{notice}</p>}
                   </section>
@@ -732,18 +747,18 @@ export default function StudyFlowPage() {
               <div>
                 <div className="mb-5 flex items-center gap-3">
                   <FolderKanban className="h-5 w-5 text-[#765EBA]" aria-hidden="true" />
-                  <div><h3 className="font-black">연결할 수 있는 프로젝트</h3><p className="mt-1 text-xs text-[#777481]">입력한 기술과 경험이 실제로 겹칠 때만 후보로 보여줍니다.</p></div>
+                  <div><h3 className="font-black">{t.match.title}</h3><p className="mt-1 text-xs text-[#777481]">{t.match.subtitle}</p></div>
                 </div>
                 <div className="grid gap-3 md:grid-cols-2">
                 {result.projects.length ? result.projects.map((project) => (
                   <article key={project} className="rounded-lg border border-[#DED7F2] bg-[#F8F5FF] p-5">
-                    <p className="text-xs font-black text-[#765EBA]">연결 후보</p>
+                    <p className="text-xs font-black text-[#765EBA]">{t.match.candidateLabel}</p>
                     <h3 className="mt-2 text-lg font-black">{project}</h3>
-                    <p className="mt-2 text-sm leading-6 text-[#676370]">직접 만든 기능이나 맡은 역할을 더 적으면 연결 근거가 선명해져요.</p>
+                    <p className="mt-2 text-sm leading-6 text-[#676370]">{t.match.candidateBody}</p>
                   </article>
                 )) : (
                   <div className="rounded-lg border border-dashed border-[#D4D1D9] bg-[#FAFAFB] p-6 md:col-span-2">
-                    <p className="text-sm leading-6 text-[#676370]">아직 특정 프로젝트로 연결할 근거가 부족해요. 만든 기능, 사용한 기술, 확인한 결과 중 하나를 기록에 추가해보세요.</p>
+                    <p className="text-sm leading-6 text-[#676370]">{t.match.empty}</p>
                   </div>
                 )}
                 </div>
@@ -752,7 +767,7 @@ export default function StudyFlowPage() {
               <div>
                 <div className="mb-5 flex items-center gap-3">
                   <MessageCircleQuestion className="h-5 w-5 text-[#C76C4D]" aria-hidden="true" />
-                  <div><h3 className="font-black">이 기록에서 나올 질문</h3><p className="mt-1 text-xs text-[#777481]">기술 설명보다 선택과 해결 과정을 말해보세요.</p></div>
+                  <div><h3 className="font-black">{t.questions.title}</h3><p className="mt-1 text-xs text-[#777481]">{t.questions.subtitle}</p></div>
                 </div>
                 <div className="divide-y divide-[#E5E3E8] border-y border-[#E5E3E8]">
                 {result.questions.map((question, index) => (
@@ -766,7 +781,7 @@ export default function StudyFlowPage() {
             ) : (
               <div className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
                 <section className="rounded-lg bg-[#EAF5F0] p-5">
-                  <h3 className="text-base font-black">다음 학습</h3>
+                  <h3 className="text-base font-black">{t.library.nextTitle}</h3>
                   <ol className="mt-4 space-y-3">
                     {result.next.map((item, index) => (
                       <li key={item} className="flex gap-3 text-sm leading-6 text-[#5C665F]">
@@ -777,7 +792,7 @@ export default function StudyFlowPage() {
                   </ol>
                 </section>
                 <section>
-                  <h3 className="flex items-center gap-2 text-base font-black"><Save className="h-4 w-4 text-[#765EBA]" />저장한 문장</h3>
+                  <h3 className="flex items-center gap-2 text-base font-black"><Save className="h-4 w-4 text-[#765EBA]" />{t.library.savedTitle}</h3>
                   {saved.length ? (
                     <ul className="mt-4 divide-y divide-[#E5E3E8] border-y border-[#E5E3E8]">
                       {saved.map((item) => (
@@ -785,7 +800,7 @@ export default function StudyFlowPage() {
                       ))}
                     </ul>
                   ) : (
-                    <p className="mt-4 rounded-lg border border-dashed border-[#D4D1D9] p-5 text-sm text-[#777481]">저장한 문장이 아직 없어요.</p>
+                    <p className="mt-4 rounded-lg border border-dashed border-[#D4D1D9] p-5 text-sm text-[#777481]">{t.library.savedEmpty}</p>
                   )}
                 </section>
               </div>
@@ -794,7 +809,7 @@ export default function StudyFlowPage() {
             {analyzed && (
               <div className="mt-4 flex items-center justify-end border-t border-[#E1DFE5] pt-4">
                 <button type="button" onClick={() => setView(view === "library" ? "coach" : "library")} className="flex items-center gap-1 text-xs font-black text-[#62518F]">
-                  {view === "library" ? "결과로 돌아가기" : "다음 학습과 저장함 보기"}
+                  {view === "library" ? t.toggleToResult : t.toggleToLibrary}
                   <ChevronRight className="h-4 w-4" aria-hidden="true" />
                 </button>
               </div>

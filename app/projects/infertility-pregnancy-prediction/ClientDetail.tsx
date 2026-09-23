@@ -4,6 +4,7 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { ProjectCaseStudyHeader } from "@/components/ProjectCaseStudyHeader";
+import { useLanguage } from "@/lib/language";
 
 const tabs = [
   { key: "project", label: "PROJECT" },
@@ -16,27 +17,52 @@ const tabs = [
 
 const tabKeys = tabs.map((t) => t.key) as string[];
 
+const copyByLanguage = {
+  kr: {
+    role: "데이터 분석 · 모델링",
+    resultLabel: "Result",
+    eyebrow: "Healthcare ML · Award Case Study",
+    project: { eyebrow: "Project Overview", title: "프로젝트 핵심 내용" },
+    sections: {
+      problem: "문제 정의",
+      dataUnderstanding: "데이터 이해",
+      preprocessing: "전처리 방향",
+      featureEngineering: "Feature Engineering",
+      modelingStrategy: "모델링 전략",
+      validation: "검증 방식"
+    },
+    modeling: { eyebrow: "Modeling Process", title: "모델링 전략과 타임라인", strategy: "Modeling Strategy", console: "Modeling Console", timelineTitle: "모델링 타임라인", step: "Step" },
+    validationTab: { eyebrow: "Validation", title: "검증 방식과 성능 안정화", method: "검증 방식", leakage: "Validation / Leakage Check", improvementEyebrow: "Performance Improvement", improvementTitle: "성능 개선 과정" },
+    team: { eyebrow: "Additional Projects", title: "추가 프로젝트 보드", body: "새로 추가한 4조 팀 프로젝트는 협업형 헬스케어 AI 프로젝트로 정리했고, 기존 보조 프로젝트도 한 레일에서 비교할 수 있게 배치했습니다." },
+    award: { eyebrow: "Award", teamNote: "이거조", teamNoteFull: "팀명 이거조로 참가해 Public Leaderboard 0.74236을 기록했습니다.", imageAlt: "이거조가 Public Leaderboard 0.74236으로 3위를 기록한 결과 화면", imageCaption: "팀명 이거조 · Public Leaderboard 0.74236 · 최종 3위" },
+    lessons: { eyebrow: "Key Lessons", title: "배운 점", techStack: "Tech Stack", disclosure: "Project Disclosure Scope" }
+  },
+  en: {
+    role: "Data Analysis · Modeling",
+    resultLabel: "Result",
+    eyebrow: "Healthcare ML · Award Case Study",
+    project: { eyebrow: "Project Overview", title: "Project Highlights" },
+    sections: {
+      problem: "Problem Framing",
+      dataUnderstanding: "Data Understanding",
+      preprocessing: "Preprocessing Approach",
+      featureEngineering: "Feature Engineering",
+      modelingStrategy: "Modeling Strategy",
+      validation: "Validation Method"
+    },
+    modeling: { eyebrow: "Modeling Process", title: "Modeling Strategy & Timeline", strategy: "Modeling Strategy", console: "Modeling Console", timelineTitle: "Modeling Timeline", step: "Step" },
+    validationTab: { eyebrow: "Validation", title: "Validation Method & Stability", method: "Validation Method", leakage: "Validation / Leakage Check", improvementEyebrow: "Performance Improvement", improvementTitle: "Performance Improvement Process" },
+    team: { eyebrow: "Additional Projects", title: "More Project Board", body: "The newly added Team 4 project is framed as a collaborative healthcare AI project, laid out alongside the other supporting projects on one rail for comparison." },
+    award: { eyebrow: "Award", teamNote: "Igeojo", teamNoteFull: "Entered as team 'Igeojo', recording 0.74236 on the Public Leaderboard.", imageAlt: "Result screen showing team Igeojo placing 3rd with a Public Leaderboard score of 0.74236", imageCaption: "Team Igeojo · Public Leaderboard 0.74236 · Final rank 3rd" },
+    lessons: { eyebrow: "Key Lessons", title: "Lessons Learned", techStack: "Tech Stack", disclosure: "Project Disclosure Scope" }
+  }
+};
+
 export default function ClientDetail({ featuredProject, projects }: any) {
+  const { language } = useLanguage();
+  const copy = copyByLanguage[language];
   const safeFeatured = featuredProject ?? {};
-  const detail = safeFeatured.detail ?? {
-    problem: "",
-    dataUnderstanding: "",
-    preprocessing: "",
-    featureEngineering: "",
-    modelingStrategy: "",
-    validation: "",
-    oneLine: "",
-    nature: [],
-    timeline: [],
-    modelingFlow: [],
-    performanceCards: [],
-    results: [],
-    lessons: [],
-    techStack: [],
-    disclosure: "",
-    award: "",
-    leakageNote: ""
-  } as any;
+  const detail = safeFeatured.detail;
 
   const supportingProjects = (projects || []).filter((project: any) => project.slug !== safeFeatured.slug);
 
@@ -45,12 +71,10 @@ export default function ClientDetail({ featuredProject, projects }: any) {
   const d = detail;
 
   const caseStudySections = [
-    { title: "문제 정의", body: d.problem },
-    { title: "데이터 이해", body: d.dataUnderstanding },
-    { title: "전처리 방향", body: d.preprocessing },
-    { title: "Feature Engineering", body: d.featureEngineering },
-    { title: "모델링 전략", body: d.modelingStrategy },
-    { title: "검증 방식", body: d.validation }
+    { key: "problem", title: copy.sections.problem, body: d.problem[language] },
+    { key: "dataUnderstanding", title: copy.sections.dataUnderstanding, body: d.dataUnderstanding[language] },
+    { key: "preprocessing", title: copy.sections.preprocessing, body: d.preprocessing[language] },
+    { key: "featureEngineering", title: copy.sections.featureEngineering, body: d.featureEngineering[language] }
   ];
 
   const consoleLines = [
@@ -87,14 +111,14 @@ export default function ClientDetail({ featuredProject, projects }: any) {
     <main className="portfolio-detail min-h-screen bg-background text-foreground">
       <ProjectCaseStudyHeader
         theme="infertility"
-        eyebrow="Healthcare ML · Award Case Study"
-        title={featuredProject.title}
-        summary={detail.oneLine}
+        eyebrow={copy.eyebrow}
+        title={featuredProject.title[language]}
+        summary={detail.oneLine[language]}
         tags={detail.techStack.slice(0, 6)}
         facts={[
-          { label: "Role", value: "데이터 분석 · 모델링" },
+          { label: "Role", value: copy.role },
           { label: "Public LB", value: "0.74236" },
-          { label: "Result", value: detail.award }
+          { label: copy.resultLabel, value: detail.award[language] }
         ]}
         navigation={tabs.map((tab) => (
           <button
@@ -114,12 +138,12 @@ export default function ClientDetail({ featuredProject, projects }: any) {
         {selectedTab === "project" && (
           <div className="grid gap-6 lg:grid-cols-[0.78fr_1.22fr]">
             <div>
-              <p className="text-sm font-semibold uppercase tracking-normal text-accent">Project Overview</p>
-              <h2 className="mt-3 text-3xl font-semibold text-foreground">프로젝트 핵심 내용</h2>
+              <p className="text-sm font-semibold uppercase tracking-normal text-accent">{copy.project.eyebrow}</p>
+              <h2 className="mt-3 text-3xl font-semibold text-foreground">{copy.project.title}</h2>
             </div>
             <div className="grid gap-4">
-              {caseStudySections.filter((section) => section.title !== "모델링 전략" && section.title !== "검증 방식").map((section) => (
-                <article key={section.title} className="glass-panel rounded-lg p-5">
+              {caseStudySections.filter((section) => section.key !== "modelingStrategy" && section.key !== "validation").map((section) => (
+                <article key={section.key} className="glass-panel rounded-lg p-5">
                   <h3 className="text-lg font-semibold text-foreground">{section.title}</h3>
                   <p className="mt-3 text-sm leading-7 text-muted">{section.body}</p>
                 </article>
@@ -132,14 +156,14 @@ export default function ClientDetail({ featuredProject, projects }: any) {
         {selectedTab === "modeling" && (
           <div className="grid gap-8 lg:grid-cols-[0.78fr_1.22fr]">
             <div>
-              <p className="text-sm font-semibold uppercase tracking-normal text-accent">Modeling Process</p>
-              <h2 className="mt-3 text-3xl font-semibold text-foreground">모델링 전략과 타임라인</h2>
+              <p className="text-sm font-semibold uppercase tracking-normal text-accent">{copy.modeling.eyebrow}</p>
+              <h2 className="mt-3 text-3xl font-semibold text-foreground">{copy.modeling.title}</h2>
               <article className="mt-6 rounded-lg border border-border bg-surface p-4">
-                <p className="text-[11px] font-semibold uppercase tracking-normal text-accent">Modeling Strategy</p>
-                <p className="mt-3 text-sm leading-7 text-muted">{detail.modelingStrategy}</p>
+                <p className="text-[11px] font-semibold uppercase tracking-normal text-accent">{copy.modeling.strategy}</p>
+                <p className="mt-3 text-sm leading-7 text-muted">{detail.modelingStrategy[language]}</p>
               </article>
               <article className="mt-6 rounded-lg border border-border bg-surface p-4">
-                <p className="text-[11px] font-semibold uppercase tracking-normal text-accent">Modeling Console</p>
+                <p className="text-[11px] font-semibold uppercase tracking-normal text-accent">{copy.modeling.console}</p>
                 <div className="mt-3 space-y-2 font-mono text-xs leading-5 text-muted">
                   {consoleLines.map((line) => (
                     <p key={line}>{line}</p>
@@ -149,23 +173,23 @@ export default function ClientDetail({ featuredProject, projects }: any) {
             </div>
             <div className="space-y-5">
               <article className="glass-panel rounded-lg p-5">
-                <h3 className="text-lg font-semibold text-foreground">모델링 타임라인</h3>
+                <h3 className="text-lg font-semibold text-foreground">{copy.modeling.timelineTitle}</h3>
                 <ol className="mt-4 grid gap-4">
                   {detail.timeline.map((item: any, index: number) => (
-                    <li key={item.title} className="rounded-lg border border-border bg-background p-4">
-                      <p className="text-xs font-semibold uppercase tracking-normal text-accent">Step {String(index + 1).padStart(2, "0")}</p>
-                      <h4 className="mt-2 text-lg font-semibold text-foreground">{item.title}</h4>
-                      <p className="mt-2 text-sm leading-6 text-muted">{item.description}</p>
+                    <li key={item.title.kr} className="rounded-lg border border-border bg-background p-4">
+                      <p className="text-xs font-semibold uppercase tracking-normal text-accent">{copy.modeling.step} {String(index + 1).padStart(2, "0")}</p>
+                      <h4 className="mt-2 text-lg font-semibold text-foreground">{item.title[language]}</h4>
+                      <p className="mt-2 text-sm leading-6 text-muted">{item.description[language]}</p>
                     </li>
                   ))}
                 </ol>
               </article>
 
               <div className="grid gap-3 sm:grid-cols-2">
-                {detail.modelingFlow.map((step: string, index: number) => (
-                  <div key={step} className="glass-panel rounded-lg p-4">
+                {detail.modelingFlow.map((step: any, index: number) => (
+                  <div key={step.kr} className="glass-panel rounded-lg p-4">
                     <span className="text-xs font-semibold text-accent">Flow {String(index + 1).padStart(2, "0")}</span>
-                    <p className="mt-2 text-base font-semibold text-foreground">{step}</p>
+                    <p className="mt-2 text-base font-semibold text-foreground">{step[language]}</p>
                   </div>
                 ))}
               </div>
@@ -177,23 +201,23 @@ export default function ClientDetail({ featuredProject, projects }: any) {
         {selectedTab === "validation" && (
           <div className="grid gap-6 lg:grid-cols-[0.78fr_1.22fr]">
             <div>
-              <p className="text-sm font-semibold uppercase tracking-normal text-accent">Validation</p>
-              <h2 className="mt-3 text-3xl font-semibold text-foreground">검증 방식과 성능 안정화</h2>
+              <p className="text-sm font-semibold uppercase tracking-normal text-accent">{copy.validationTab.eyebrow}</p>
+              <h2 className="mt-3 text-3xl font-semibold text-foreground">{copy.validationTab.title}</h2>
               <article className="mt-6 rounded-lg border border-border bg-surface p-5">
-                <h3 className="text-lg font-semibold text-foreground">검증 방식</h3>
-                <p className="mt-3 text-sm leading-7 text-muted">{detail.validation}</p>
+                <h3 className="text-lg font-semibold text-foreground">{copy.validationTab.method}</h3>
+                <p className="mt-3 text-sm leading-7 text-muted">{detail.validation[language]}</p>
               </article>
             </div>
             <div className="grid gap-4">
               <div className="rounded-lg border border-warning/35 bg-warning/10 px-5 py-4">
-                <p className="text-sm font-semibold text-warning">Validation / Leakage Check</p>
-                <p className="mt-2 text-sm leading-7 text-muted">{detail.leakageNote}</p>
+                <p className="text-sm font-semibold text-warning">{copy.validationTab.leakage}</p>
+                <p className="mt-2 text-sm leading-7 text-muted">{detail.leakageNote[language]}</p>
               </div>
               <div>
                 <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
                   <div>
-                    <p className="text-sm font-semibold uppercase tracking-normal text-accent">Performance Improvement</p>
-                    <h2 className="mt-3 text-3xl font-semibold text-foreground">성능 개선 과정</h2>
+                    <p className="text-sm font-semibold uppercase tracking-normal text-accent">{copy.validationTab.improvementEyebrow}</p>
+                    <h2 className="mt-3 text-3xl font-semibold text-foreground">{copy.validationTab.improvementTitle}</h2>
                   </div>
                 </div>
                 <div className="mt-7 grid gap-3">
@@ -201,7 +225,7 @@ export default function ClientDetail({ featuredProject, projects }: any) {
                     <article key={card.title} className="glass-panel rounded-lg p-4 sm:p-5">
                       <div className="grid gap-2 sm:grid-cols-[12rem_1fr] sm:items-start">
                         <h3 className="text-base font-semibold leading-6 text-foreground">{card.title}</h3>
-                        <p className="text-sm leading-7 text-muted">{card.description}</p>
+                        <p className="text-sm leading-7 text-muted">{card.description[language]}</p>
                       </div>
                     </article>
                   ))}
@@ -215,9 +239,9 @@ export default function ClientDetail({ featuredProject, projects }: any) {
         {selectedTab === "team" && (
           <div className="grid gap-6">
             <div>
-              <p className="text-sm font-semibold uppercase tracking-normal text-accent">Additional Projects</p>
-              <h2 className="mt-3 text-3xl font-semibold text-foreground">추가 프로젝트 보드</h2>
-              <p className="mt-4 text-sm leading-7 text-muted">새로 추가한 4조 팀 프로젝트는 협업형 헬스케어 AI 프로젝트로 정리했고, 기존 보조 프로젝트도 한 레일에서 비교할 수 있게 배치했습니다.</p>
+              <p className="text-sm font-semibold uppercase tracking-normal text-accent">{copy.team.eyebrow}</p>
+              <h2 className="mt-3 text-3xl font-semibold text-foreground">{copy.team.title}</h2>
+              <p className="mt-4 text-sm leading-7 text-muted">{copy.team.body}</p>
             </div>
             <div className="horizontal-rail flex snap-x snap-mandatory gap-4 overflow-x-auto pb-3">
               {supportingProjects.map((project: any) => (
@@ -226,9 +250,9 @@ export default function ClientDetail({ featuredProject, projects }: any) {
                     <p className="text-xs font-semibold uppercase tracking-normal text-accent">{project.year}</p>
                     <span className="border border-border bg-background px-2.5 py-1 text-[11px] font-semibold text-muted">{project.category}</span>
                   </div>
-                  <h3 className="mt-4 text-xl font-semibold leading-7 text-foreground">{project.title}</h3>
-                  <p className="mt-3 text-sm leading-7 text-muted">{project.description}</p>
-                  <p className="mt-4 border-l-2 border-success bg-success/5 px-4 py-3 text-sm leading-6 text-muted">{project.outcome}</p>
+                  <h3 className="mt-4 text-xl font-semibold leading-7 text-foreground">{project.title[language]}</h3>
+                  <p className="mt-3 text-sm leading-7 text-muted">{project.description[language]}</p>
+                  <p className="mt-4 border-l-2 border-success bg-success/5 px-4 py-3 text-sm leading-6 text-muted">{project.outcome[language]}</p>
                   <div className="mt-4 flex flex-wrap gap-2">
                     {project.tags.map((tag: string) => (
                       <span key={tag} className="border border-border bg-background px-2.5 py-1 text-xs font-semibold text-muted">{tag}</span>
@@ -244,24 +268,24 @@ export default function ClientDetail({ featuredProject, projects }: any) {
         {selectedTab === "award" && (
           <div className="grid gap-6 lg:grid-cols-[0.78fr_1.22fr]">
             <div>
-              <p className="text-sm font-semibold uppercase tracking-normal text-accent">Award</p>
-              <h2 className="mt-3 text-3xl font-semibold text-foreground">{detail.award}</h2>
-              <p className="mt-4 text-sm leading-7 text-muted">팀명 <strong className="text-foreground">이거조</strong>로 참가해 Public Leaderboard 0.74236을 기록했습니다.</p>
+              <p className="text-sm font-semibold uppercase tracking-normal text-accent">{copy.award.eyebrow}</p>
+              <h2 className="mt-3 text-3xl font-semibold text-foreground">{detail.award[language]}</h2>
+              <p className="mt-4 text-sm leading-7 text-muted">{copy.award.teamNoteFull}</p>
             </div>
             <div className="space-y-4">
               <figure className="overflow-hidden rounded-lg border border-border bg-surface">
                 <Image
                   src="/infertility-leaderboard.png"
-                  alt="이거조가 Public Leaderboard 0.74236으로 3위를 기록한 결과 화면"
+                  alt={copy.award.imageAlt}
                   width={936}
                   height={520}
                   className="h-auto w-full"
                 />
-                <figcaption className="border-t border-border px-4 py-3 text-xs leading-6 text-muted">팀명 이거조 · Public Leaderboard 0.74236 · 최종 3위</figcaption>
+                <figcaption className="border-t border-border px-4 py-3 text-xs leading-6 text-muted">{copy.award.imageCaption}</figcaption>
               </figure>
-              {detail.results.map((result: string) => (
-                <div key={result} className="border-l-2 border-success bg-success/5 px-4 py-3">
-                  <p className="text-sm leading-6 text-muted">{result}</p>
+              {detail.results.map((result: any) => (
+                <div key={result.kr} className="border-l-2 border-success bg-success/5 px-4 py-3">
+                  <p className="text-sm leading-6 text-muted">{result[language]}</p>
                 </div>
               ))}
             </div>
@@ -272,19 +296,19 @@ export default function ClientDetail({ featuredProject, projects }: any) {
         {selectedTab === "lessons" && (
           <div className="grid gap-6 lg:grid-cols-[0.78fr_1.22fr]">
             <div>
-              <p className="text-sm font-semibold uppercase tracking-normal text-accent">Key Lessons</p>
-              <h2 className="mt-3 text-3xl font-semibold text-foreground">배운 점</h2>
+              <p className="text-sm font-semibold uppercase tracking-normal text-accent">{copy.lessons.eyebrow}</p>
+              <h2 className="mt-3 text-3xl font-semibold text-foreground">{copy.lessons.title}</h2>
             </div>
             <div className="grid gap-4">
               <div className="grid gap-3">
-                {detail.lessons.map((lesson: string) => (
-                  <div key={lesson} className="glass-panel rounded-lg px-4 py-3">
-                    <p className="text-sm leading-6 text-muted">{lesson}</p>
+                {detail.lessons.map((lesson: any) => (
+                  <div key={lesson.kr} className="glass-panel rounded-lg px-4 py-3">
+                    <p className="text-sm leading-6 text-muted">{lesson[language]}</p>
                   </div>
                 ))}
               </div>
               <div className="glass-panel rounded-lg p-5">
-                <p className="text-sm font-semibold uppercase tracking-normal text-accent">Tech Stack</p>
+                <p className="text-sm font-semibold uppercase tracking-normal text-accent">{copy.lessons.techStack}</p>
                 <div className="mt-5 flex flex-wrap gap-2">
                   {detail.techStack.map((tech: string) => (
                     <span key={tech} className="border border-border bg-surface px-3 py-2 text-sm text-muted">{tech}</span>
@@ -292,8 +316,8 @@ export default function ClientDetail({ featuredProject, projects }: any) {
                 </div>
               </div>
               <div className="glass-panel rounded-lg p-5">
-                <p className="text-sm font-semibold uppercase tracking-normal text-accent">Project Disclosure Scope</p>
-                <p className="mt-4 text-sm leading-7 text-muted">{detail.disclosure}</p>
+                <p className="text-sm font-semibold uppercase tracking-normal text-accent">{copy.lessons.disclosure}</p>
+                <p className="mt-4 text-sm leading-7 text-muted">{detail.disclosure[language]}</p>
               </div>
             </div>
           </div>
