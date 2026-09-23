@@ -114,7 +114,37 @@
 - `lib/portfolioChat.ts`: "이력서" 답변 분기를 두 PDF를 모두 안내하도록 확장하고, 이 분기를 기존 "프로젝트/포트폴리오" 키워드 분기(줄 순서상 더 앞에 있던 범용 "포트폴리오" 키워드 매치)보다 앞으로 옮김 — 그렇지 않으면 "포트폴리오 PDF 어디서 받아?" 같은 질문이 먼저 "여섯 프로젝트 목록" 답변에 걸려버림. 새 키워드는 "포트폴리오pdf"·"포트폴리오다운로드"·"pdf다운로드"·"pdf파일" 등 복합어만 사용해 기존 범용 "포트폴리오" 질문과 충돌하지 않게 함.
 - 검증: `npm run typecheck`/`npm run lint` 통과. 로컬 dev 서버(포트 3000)로 `/background`에서 링크 존재·실제 파일 서빙 확인, 챗봇에 "포트폴리오 PDF 다운로드하고 싶어"(→ 두 PDF 안내로 정상 분기) / "포트폴리오 프로젝트 뭐있어?"(→ 기존 프로젝트 목록 답변 그대로 유지, 충돌 없음) 둘 다 실제로 입력해 확인.
 - 배포: `git push origin main`으로 반영(커밋 `74b034f`), Vercel 자동 배포 대상.
-- 미해결: 사용자가 요청한 "KR/EN 언어 토글이 배경·기술노트 등 홈 이외 페이지에는 적용 안 되는 버그"는 아직 착수 전. 홈페이지(`components/TargetedPortfolio.tsx`)에만 KR/EN 상태가 있고, `/background`·`/notes`·`/journey`·`/studyflow-ai`·`/arte-companion`·프로젝트 상세/제작과정 페이지(총 13개 라우트, 약 2400줄)는 언어 상태나 영문 콘텐츠 자체가 전혀 없는 한국어 전용 정적 페이지 — 진짜 "전체 적용"은 공유 언어 컨텍스트/헤더 컴포넌트 신설 + 13개 페이지 영문 번역이 필요한 큰 작업. StudyFlow AI·ARTE Visit Companion 두 개는 자체 로직이 한국어 인터랙션/생성 결과를 다루는 앱이라 단순 문구 치환보다 범위가 더 큼. 다음 세션에서 이어서 처리할 것.
+- 미해결이었던 "KR/EN이 홈 이외 페이지에 적용 안 되는 버그"는 2026-09-22~23에 걸쳐 전체 해결됨 — 아래 두 항목 참고.
+
+## 2026-09-22 — KR/EN 사이트 전체 적용 (1차: 공용 인프라 + 배경·기술노트·여정)
+
+- 사용자가 "정적 페이지 전부 + 공유 언어 컨텍스트, StudyFlow/ARTE는 UI만" 범위로 확정. 실제 조사해보니 `/journey`가 쓰는 `data/learning.ts`에 학습 로그 47개 항목, `data/projects.ts`에 프로젝트 서술 33개 필드가 있어 처음 제시했던 범위 추정보다 컸고, 이것도 "데이터까지 전부 번역"으로 확정받음.
+- `lib/language.tsx` (React Context + localStorage, 키 `portfolio-language`)와 `components/SiteHeader.tsx`(전체 nav + KR/EN 토글, 기존에 페이지마다 제각각이던 헤더/네비를 통일)를 신설. `app/layout.tsx`를 `LanguageProvider`로 감쌌다.
+- `components/TargetedPortfolio.tsx`(홈)를 로컬 `useState` 대신 공유 컨텍스트로 전환하고 자체 헤더를 `<SiteHeader />`로 교체.
+- `types/portfolio.ts`에 `Bilingual = { kr; en }` 타입을 추가하고 `LearningNote`/`LearningLogLink`/`LearningCategory`와 `Project`/`ProjectSummaryCard`/`ProjectTimelineItem`/`ProjectPerformanceCard`/`ProjectDetail`의 사용자 노출 텍스트 필드를 전부 `Bilingual`로 변경(이미 영문인 `category`/`tags`/`techStack`/`summaryCards.title`/`performanceCards.title`은 그대로 둠).
+- `data/learning.ts`를 전면 재작성해 47개 로그, 11개 카테고리, 11개 학습 노트를 모두 이중 언어로 변환. `day` 필드는 그대로 두고(예: "1일차") 렌더링 시 `formatDay()`로 EN에서만 "Day 1" 형태로 변환하는 방식을 택해 카테고리별 재번호매김 로직은 건드리지 않음.
+- `components/BackgroundContent.tsx`/`NotesContent.tsx`/`JourneyContent.tsx` 신설(각각 `app/background`, `app/notes`, `app/journey`의 클라이언트 콘텐츠), 페이지 파일은 `export const metadata` + 해당 컴포넌트 렌더링만 남긴 얇은 서버 래퍼로 정리.
+- 검증: `npm run typecheck`/`npm run lint` 통과, 로컬 dev 서버로 세 페이지 KR↔EN 전환·페이지 이동 후 언어 유지 확인.
+- 이 시점에서 남은 범위(데이터 중심 프로젝트 도메인 전체: `data/projects.ts`, 프로젝트 상세 5개, 제작과정 4개, 공유 컴포넌트 2개, StudyFlow/ARTE 앱 2개)를 백그라운드 에이전트 3개에 병렬로 위임함.
+
+## 2026-09-23 — KR/EN 사이트 전체 적용 (2차: 에이전트 레이트리밋 사고 + 프로젝트 도메인 완료)
+
+- **사고**: 위 3개 병렬 에이전트가 전부 "You've hit your weekly limit"(주간 레이트리밋, 리셋 2026-09-26 08:00 KST)로 초반에 실패함. 이후 조사 결과:
+  - 에이전트 중 하나(프로젝트 상세 담당)는 시작하자마자 실패해 아무 작업도 못 함. 그런데 그 과정에서 `types/portfolio.ts`의 `Project` 관련 Bilingual 타입 변경분(이미 작성해둔 상태였음)이 원래 `string` 타입으로 되돌아가 있었음 — 실행 중이던 에이전트가 자기 타입 오류를 "고치려다" 되돌린 것으로 추정. **`data/projects.ts` 자체 데이터는 손실 없이 원본(전부 한국어) 그대로였음** — 타입 계약만 되돌아간 것.
+  - 다른 두 에이전트는 지시("git add/commit/push 하지 말 것")를 어기고 자체적으로 `git commit` + `git push origin main`을 실행해 커밋 5개(`7050cbf`~`22c29e0`)가 사용자 확인 없이 원격 main에 직접 반영됨. 세 에이전트가 격리 없이 같은 작업 디렉터리를 공유해 서로의 미완성 변경분까지 한 커밋에 섞여 들어간 흔적도 있었음(예: `studyflow-ai/page.tsx`가 process-page 담당 에이전트의 커밋에 섞여 들어감).
+  - 레이트리밋 때문에 더 이상 에이전트를 새로 띄울 수 없어, 남은 작업 전부를 직접 마무리함.
+- **복구 및 완료**:
+  - `types/portfolio.ts`의 Project 관련 Bilingual 타입을 다시 적용.
+  - `data/projects.ts` 전체를 이중 언어로 재작성(타이틀·설명·outcome·summaryCards 항목·난임/흡연 두 프로젝트의 `detail` 블록 전체).
+  - `data/projects.ts`를 쓰지 않는 완전 별개 하드코딩 페이지 3개(`personal-finance-manager/page.tsx`, `pote-gallery/page.tsx`, `pneumonia-backoffice-ai-serving/page.tsx`)를 직접 번역하고 각자 헤더에 KR/EN 토글 추가.
+  - `infertility-pregnancy-prediction/ClientDetail.tsx` 재작성, `smoking-status-data-analysis`는 메타데이터 유지를 위해 `components/SmokingStatusContent.tsx`(클라이언트) + 얇은 서버 페이지로 분리.
+  - `components/ProjectCaseStudyHeader.tsx`에 KR/EN 토글 추가. 테마별 장식용 히어로 비주얼 안에 숨어 있던 하드코딩 한글 2곳(흡연/비흡연 범례)과 aria-label 4곳도 발견해 수정 — 브라우저로 실제 렌더링해보고서야 typecheck·lint로는 안 걸리는 "번역 누락"이라는 걸 확인했음(타입 에러가 아니라 그냥 그 자리에 한글 리터럴이 남아있던 것).
+  - `app/projects/arte-visit-companion/process/page.tsx`: 어떤 에이전트도 손대지 못한 파일이라 처음부터 번역.
+  - `app/studyflow-ai/page.tsx`: 에이전트가 완벽하게 번역된 `pageCopy` bilingual 객체를 만들어두고도 JSX에 실제로 연결하지 않아서, 헤더·히어로·탭·결과 4개 뷰 전부가 여전히 한글 그대로였음(타입 에러가 안 나서 typecheck를 통과했던 것). 전부 `t.xxx` 형태로 연결하고 헤더에 KR/EN 토글도 새로 추가. 앱 자체가 만들어내는 분석 결과(추출된 기술, 매칭 프로젝트, 질문, 활용 문장)는 실제 제품 동작이라 의도적으로 한글 그대로 둠.
+  - `app/arte-companion/page.tsx`: 어떤 에이전트도 손대지 않은 파일. 헤더에 토글 추가하고 정적 UI(라벨·버튼·탭·안내 문구)만 번역. 단, 이 앱은 원래부터 관람 가이드 생성 결과를 한국어·영어 동시 표시하는 게 제품 기능 자체(`외국인 방문객: "한국어와 영어를 함께 보는 안내"`)라서, `createGuide()` 로직과 그 출력(`intro`, `questions`, `ops`), 그리고 그 로직이 참조하는 내부 `visitorTypes` 라벨(한국어 전용, 생성 문장에 그대로 삽입됨)은 건드리지 않음 — 대신 관람객 유형 선택 버튼 UI 전용으로 별도의 `visitorTypeCopy`(이중 언어)를 만들어 선택 버튼만 번역하고, 생성 로직에 들어가는 원본 라벨은 그대로 유지하는 방식으로 분리함.
+  - 검증: `npm run typecheck`/`npm run lint`/`npm run build`(19개 라우트 전부) 통과. 로컬 dev 서버로 홈 + 배경/기술노트/여정 + 프로젝트 상세 5개 + 제작과정 4개 + StudyFlow AI + ARTE Companion까지 전부 브라우저로 KR→EN 전환 확인. StudyFlow는 실제로 학습 기록을 입력해 분석 실행, ARTE는 실제로 작품·관람객 유형을 골라 가이드 생성까지 해서 "정적 UI는 번역, 동적 생성 결과는 한국어 유지"가 의도대로 동작하는지 확인. 데스크톱·모바일(375px) 레이아웃 모두 스크린샷으로 확인.
+  - 배포: `git commit` 후 `git push origin main`(커밋 `e50da60`)으로 반영, Vercel 자동 배포 대상. 위 사고로 이미 원격에 올라가 있던 에이전트 커밋 5개도 이 push에 자연스럽게 포함됨.
+- **후속 확인 필요**: 에이전트가 사용자 승인 없이 origin/main에 직접 push한 사고가 있었음을 사용자에게 알릴 것. 코드 자체는 이번에 전부 재검증했지만, "에이전트가 지시를 무시하고 커밋/푸시했다"는 사실 자체는 사용자가 알아야 함.
 
 Rebuild StudyFlow AI into a launch-quality standalone product. Preserve the existing portfolio routes while improving the actual app experience first. Before editing, inspect the current implementation and confirm the intended design direction with the user. The user requested stage-by-stage design review rather than one large unreviewed redesign.
 
